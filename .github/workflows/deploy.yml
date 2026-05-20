@@ -26,7 +26,6 @@ jobs:
           # Folder tujuan di FTP server Anda (biasanya /public_html/ atau /htdocs/)
           # Pastikan berakhiran dengan slash (/)
           server-dir: ./ukm.satta.web.id/
-          
           # Menghindari upload file sampah/development ke server
           exclude: |
             **/.git*
