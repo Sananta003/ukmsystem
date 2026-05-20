@@ -1,36 +1,27 @@
-name: Deploy to FTP
-
+name: Deploy ke Freehostia
 on:
   push:
     branches:
-      - main # Ubah ke nama branch yang Anda gunakan (contoh: main atau master)
-
+      - main
 jobs:
   deploy:
-    name: Deploy to FTP Server
     runs-on: ubuntu-latest
-    
     steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v4
+      - name: 1. Ambil File dari GitHub
+        uses: actions/checkout@v3
+
+      - name: 2. Siapkan Mesin PHP 8.2
+        uses: shivammathur/setup-php@v2
         with:
-          fetch-depth: 0
-      
-      - name: 🚀 Sync files to FTP
+          php-version: '8.2'
+
+      - name: 3. Bikin Folder Vendor (Ini yang bikin nyala!)
+        run: composer install --no-dev --no-interaction --prefer-dist
+
+      - name: 4. Kirim Semua File ke Freehostia
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          
-          server-dir: ./ukm.satta.web.id/
-          # Menghindari upload file sampah/development ke server
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            **/tests/**
-            **/.github/**
-            README.md
-            .env.example
-            phpunit.xml
+          server: 162.210.102.233
+          username: ${{ secrets.ftp_username }}
+          password: ${{ secrets.ftp_password }}
+          server-dir: /www/ukm.satta.web.id/
