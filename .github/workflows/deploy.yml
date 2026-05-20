@@ -23,8 +23,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           
-          # Folder tujuan di FTP server Anda (biasanya /public_html/ atau /htdocs/)
-          # Pastikan berakhiran dengan slash (/)
           server-dir: ./ukm.satta.web.id/
           # Menghindari upload file sampah/development ke server
           exclude: |
