@@ -65,17 +65,34 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function () { return redirect()->route('member.dashboard'); });
         Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('dashboard');
         Route::get('/kegiatan', [MemberController::class, 'kegiatan'])->name('kegiatan');
+    });
+
+    Route::prefix('inisiator')->name('inisiator.')->group(function () {
+        Route::get('/', function () { return redirect()->route('inisiator.dashboard'); });
+        Route::get('/dashboard', [MemberController::class, 'inisiatorDashboard'])->name('dashboard');
         Route::get('/pengajuan-ukm/buat', [MemberController::class, 'buatPengajuan'])->name('pengajuan.create');
         Route::post('/pengajuan-ukm', [MemberController::class, 'storePengajuan'])->name('pengajuan.store');
+        Route::get('/pengajuan-ukm/{id}/edit', [MemberController::class, 'editPengajuan'])->name('pengajuan.edit');
+        Route::put('/pengajuan-ukm/{id}', [MemberController::class, 'updatePengajuan'])->name('pengajuan.update');
     });
 
     Route::prefix('superadmin')->name('superadmin.')->middleware('can:is_super_admin')->group(function () {
         Route::get('/', function () { return redirect()->route('superadmin.dashboard'); });
         Route::get('/dashboard', [SuperAdminController::class, 'index'])->name('dashboard');    
-        Route::post('/generate-kode', [SuperAdminController::class, 'generateKode'])->name('generate_kode');
+        Route::get('/pengajuan/{id}', [SuperAdminController::class, 'showPengajuan'])->name('pengajuan.show');
         Route::get('/ukm/{id}/pantau', [SuperAdminController::class, 'show'])->name('ukm.show');
+        Route::post('/ukm/{id}/approve', [SuperAdminController::class, 'approvePengajuan'])->name('ukm.approve');
+        Route::post('/ukm/{id}/reject', [SuperAdminController::class, 'rejectPengajuan'])->name('ukm.reject');
         Route::get('/ukm/tambah', [SuperAdminController::class, 'create'])->name('ukm.create');
         Route::post('/ukm', [SuperAdminController::class, 'store'])->name('ukm.store');
         Route::delete('/ukm/{id}', [SuperAdminController::class, 'destroy'])->name('ukm.destroy');
+    });
+
+    Route::prefix('birokrasi')->name('birokrasi.')->middleware(['auth', 'can:is_bem_or_bpm'])->group(function () {
+        Route::get('/', function () { return redirect()->route('birokrasi.dashboard'); });
+        Route::get('/dashboard', [\App\Http\Controllers\BpmBemController::class, 'index'])->name('dashboard');
+        Route::get('/pengajuan/{id}', [\App\Http\Controllers\BpmBemController::class, 'show'])->name('pengajuan.show');
+        Route::post('/pengajuan/{id}/acc', [\App\Http\Controllers\BpmBemController::class, 'acc'])->name('pengajuan.acc');
+        Route::post('/pengajuan/{id}/revisi', [\App\Http\Controllers\BpmBemController::class, 'storeRevisi'])->name('pengajuan.revisi');
     });
 });

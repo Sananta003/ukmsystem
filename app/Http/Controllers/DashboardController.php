@@ -15,6 +15,7 @@ class DashboardController extends Controller
   public function admin()
     {
         $user = Auth::user();
+        $ukm = \App\Models\Ukm::find($user->ukm_id);
         
         // 1. Variabel untuk Kotak Statistik (Ini yang bikin error tadi)
         $totalAnggota = User::where('ukm_id', $user->ukm_id)->where('role', 'member')->count();
@@ -48,7 +49,7 @@ class DashboardController extends Controller
         }
 
         return view('admin_ukm.dashboard', compact(
-            'totalAnggota', 'kegiatanAktif', 'saldoKas', // <-- Variabel lama dimasukkan kembali
+            'ukm', 'totalAnggota', 'kegiatanAktif', 'saldoKas', 'pemasukan', 'pengeluaran',
             'labelBulan', 'dataPemasukan', 'dataPengeluaran'
         ));
     }

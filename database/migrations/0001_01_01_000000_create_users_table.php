@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             
             // --- INI TAMBAHAN KITA ---
-            $table->enum('role', ['super_admin', 'admin_ukm', 'member'])->default('member');
+            $table->enum('role', ['super_admin', 'admin_ukm', 'member', 'bem', 'bpm'])->default('member');
             $table->foreignId('ukm_id')->nullable(); 
             // -------------------------
 

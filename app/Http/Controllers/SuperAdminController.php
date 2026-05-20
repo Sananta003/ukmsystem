@@ -26,7 +26,7 @@ class SuperAdminController extends Controller
         $totalMahasiswa = User::where('role', 'member')->count();
 
         $kodeTersedia = KodePengajuan::where('status', 'tersedia')->latest()->get();
-        $pengajuans = PengajuanUkm::where('status', 'pending')->with('user')->latest()->get();
+        $pengajuans = PengajuanUkm::where('status', 'pending_superadmin')->with('user')->latest()->get();
 
         return view('superadmin.dashboard', compact('ukms', 'totalUkm', 'totalMahasiswa', 'kodeTersedia', 'pengajuans'));
     }
@@ -112,17 +112,6 @@ class SuperAdminController extends Controller
         return view('superadmin.show_ukm', compact('ukm', 'anggota', 'kegiatan', 'keuangan', 'pemasukan', 'pengeluaran', 'saldo', 'grafikPengeluaran'));
     }
 
-    public function generateKode()
-    {
-        $kodeBaru = strtoupper(Str::random(8));
-
-        \App\Models\KodePengajuan::create([
-            'kode' => $kodeBaru,
-            'status' => 'tersedia'
-        ]);
-
-        return redirect()->back()->with('success', 'Kode unik baru berhasil di-generate!');
-    }
     public function showPengajuan($id)
     {
         $pengajuan = PengajuanUkm::with('user')->findOrFail($id);
@@ -144,7 +133,7 @@ class SuperAdminController extends Controller
             'ukm_id' => $ukm->id
         ]);
 
-        $pengajuan->update(['status' => 'disetujui']);
+        $pengajuan->update(['status' => 'approved']);
 
         return redirect()->route('superadmin.dashboard')->with('success', 'Proposal disetujui! UKM resmi didirikan dan mahasiswa pengaju otomatis menjadi Admin UKM tersebut.');
     }
@@ -152,10 +141,8 @@ class SuperAdminController extends Controller
     public function rejectPengajuan($id)
     {
         $pengajuan = PengajuanUkm::findOrFail($id);
-        $pengajuan->update(['status' => 'ditolak']);
+        $pengajuan->update(['status' => 'rejected']);
 
         return redirect()->route('superadmin.dashboard')->with('success', 'Proposal pengajuan UKM ditolak.');
     }
-
-    
 }

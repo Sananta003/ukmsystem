@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'role', 'ukm_id'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
+    protected $guarded = ['id'];
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
@@ -32,5 +33,10 @@ class User extends Authenticatable
     public function ukm()
     {
         return $this->belongsTo(Ukm::class);
+    }
+
+    public function revisis()
+    {
+        return $this->hasMany(RevisiPengajuan::class);
     }
 }

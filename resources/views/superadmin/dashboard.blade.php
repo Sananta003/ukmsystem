@@ -17,35 +17,6 @@
     <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl mb-6">{{ session('success') }}</div>
 @endif
 
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-8 border-l-4 border-l-indigo-500">
-    <div class="flex justify-between items-start">
-        <div>
-            <h2 class="text-xl font-bold text-gray-800 mb-1">Kode Otorisasi Pendaftaran</h2>
-            <p class="text-sm text-gray-500 mb-4">Berikan kode ini kepada mahasiswa yang ingin mengajukan proposal UKM baru. Satu kode hanya berlaku untuk satu pengajuan.</p>
-            
-            @if(isset($kodeTersedia) && $kodeTersedia->count() > 0)
-                <div class="flex flex-wrap gap-2 mt-2">
-                    <span class="text-sm text-gray-600 font-medium mr-2 flex items-center">Kode Tersedia:</span>
-                    @foreach($kodeTersedia as $item)
-                        <span class="bg-indigo-50 border border-indigo-200 text-indigo-700 px-3 py-1 rounded-md font-mono text-sm font-bold tracking-widest cursor-default">
-                            {{ $item->kode }}
-                        </span>
-                    @endforeach
-                </div>
-            @else
-                <p class="text-sm text-red-500 italic">Belum ada kode tersedia. Silakan generate kode baru.</p>
-            @endif
-        </div>
-        
-        <form action="{{ route('superadmin.generate_kode') }}" method="POST" class="shrink-0">
-            @csrf
-            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm flex items-center">
-                <i class="fa-solid fa-key mr-2"></i> Buat Kode Baru
-            </button>
-        </form>
-    </div>
-</div>
-
 @if(isset($pengajuans) && $pengajuans->count() > 0)
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-8 border-l-4 border-l-yellow-400">
     <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">

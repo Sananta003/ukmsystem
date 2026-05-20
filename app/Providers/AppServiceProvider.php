@@ -24,5 +24,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('is_admin', function (User $user) {
             return $user->role === 'admin_ukm';
         });
+
+        // Gerbang keamanan untuk Birokrasi (BEM & BPM)
+        Gate::define('is_bem_or_bpm', function (User $user) {
+            return in_array($user->role, ['bem', 'bpm']);
+        });
     }
 }

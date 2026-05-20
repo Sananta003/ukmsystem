@@ -41,5 +41,28 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin_ukm',
             'ukm_id' => $ukm2->id
         ]);
+
+        // 4. Buat Akun BEM & BPM
+        User::create([
+            'name' => 'BEM Kampus',
+            'email' => 'bem@kampus.com',
+            'password' => Hash::make('password'),
+            'role' => 'bem',
+        ]);
+
+        User::create([
+            'name' => 'BPM Kampus',
+            'email' => 'bpm@kampus.com',
+            'password' => Hash::make('password'),
+            'role' => 'bpm',
+        ]);
+
+        // 5. Buat Akun Member (Inisiator)
+        User::create([
+            'name' => 'Mahasiswa Inisiator',
+            'email' => 'member@kampus.com',
+            'password' => Hash::make('password'),
+            'role' => 'member',
+        ]);
     }
 }

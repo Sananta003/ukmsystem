@@ -30,25 +30,22 @@
                 <p class="text-gray-600 mb-4">Ini adalah ruang khusus untuk anggota {{ $ukm->nama_ukm }}. Anda bisa memantau kegiatan terbaru dan pengumuman dari pengurus di sini.</p>
             </div>
             
-            <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl shadow-md p-6 text-white text-center">
+            <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl shadow-md p-6 text-white text-center flex flex-col justify-center h-full">
                 <i class="fa-solid fa-calendar-check text-4xl mb-4 opacity-80"></i>
                 <h3 class="text-lg font-bold mb-2">Jadwal Terdekat</h3>
-                <p class="text-blue-100 text-sm">Belum ada kegiatan yang dijadwalkan dalam waktu dekat.</p>
+                @if($kegiatanTerdekat)
+                    <p class="text-white font-bold text-lg mb-1">{{ $kegiatanTerdekat->nama }}</p>
+                    <p class="text-blue-100 text-sm mb-3">
+                        <i class="fa-solid fa-clock mr-1"></i> {{ \Carbon\Carbon::parse($kegiatanTerdekat->tanggal)->format('d M Y') }}
+                        @if($kegiatanTerdekat->lokasi) <br><i class="fa-solid fa-location-dot mt-2 mr-1"></i> {{ $kegiatanTerdekat->lokasi }} @endif
+                    </p>
+                    <a href="{{ route('member.kegiatan') }}" class="inline-block px-4 py-2 bg-white text-blue-700 font-bold text-sm rounded-lg hover:bg-blue-50 transition-colors">Lihat Semua</a>
+                @else
+                    <p class="text-blue-100 text-sm">Belum ada kegiatan yang dijadwalkan dalam waktu dekat.</p>
+                @endif
             </div>
         </div>
 
-    @else
-        <div class="bg-indigo-50 border border-indigo-200 rounded-3xl p-10 text-center max-w-3xl mx-auto mt-10 shadow-sm relative overflow-hidden">
-            <div class="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-6 shadow-inner">
-                <i class="fa-solid fa-file-signature"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-gray-900 mb-3">Langkah Selanjutnya: Ajukan Proposal</h2>
-            <p class="text-gray-600 mb-8 text-lg">Anda terdaftar sebagai calon Inisiator UKM. Lengkapi formulir pengajuan Visi, Misi, dan Logo UKM baru Anda agar dapat ditinjau oleh pihak Kampus.</p>
-            
-            <a href="{{ route('member.pengajuan.create') }}" class="inline-flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-lg shadow-indigo-200 hover:-translate-y-0.5">
-                Mulai Isi Formulir Pengajuan <i class="fa-solid fa-arrow-right ml-2"></i>
-            </a>
-        </div>
     @endif
 
 </div>

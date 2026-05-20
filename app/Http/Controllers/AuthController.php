@@ -31,7 +31,12 @@ class AuthController extends Controller
             } elseif ($role === 'admin_ukm') {
                 return redirect()->route('admin-ukm.dashboard');
             } elseif ($role === 'member') {
+                if (is_null(Auth::user()->ukm_id)) {
+                    return redirect()->route('inisiator.dashboard');
+                }
                 return redirect()->route('member.dashboard');
+            } elseif (in_array($role, ['bem', 'bpm'])) {
+                return redirect()->route('birokrasi.dashboard');
             }
             
             return redirect('/');
@@ -82,12 +87,11 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('member.dashboard');
-      if (is_null($request->ukm_id)) {
-            return redirect()->route('member.pengajuan.create');
+        if (is_null($request->ukm_id)) {
+            return redirect()->route('inisiator.pengajuan.create');
         }
 
         return redirect()->route('member.dashboard');    
-        }
+    }
     
 }
