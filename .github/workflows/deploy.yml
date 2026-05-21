@@ -18,13 +18,6 @@ jobs:
       - name: 3. Bikin Folder Vendor (Ini yang bikin nyala!)
         run: composer install --no-dev --no-interaction --prefer-dist
 
-      - name: 3.5. Setup Node & Build Tailwind CSS
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - run: npm ci || npm install
-      - run: npm run build
-
       - name: 4. Kirim Semua File ke Freehostia
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
