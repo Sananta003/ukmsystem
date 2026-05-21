@@ -74,9 +74,13 @@
                 <i class="fa-solid fa-users w-5"></i>
                 <span class="text-sm font-medium">Anggota</span>
             </a>
-            <a href="{{ route('admin-ukm.laporan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.laporan.*') ? 'bg-brand-accent text-white shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+            <a href="{{ route('admin-ukm.laporan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.laporan.index') ? 'bg-brand-accent text-white shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                 <i class="fa-solid fa-file-lines w-5"></i>
                 <span class="text-sm font-medium">Laporan</span>
+            </a>
+            <a href="{{ route('admin-ukm.laporan.proposal') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.laporan.proposal') ? 'bg-brand-accent text-white shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                <i class="fa-solid fa-file-signature w-5 ml-4"></i>
+                <span class="text-sm font-medium">Cek Proposal</span>
             </a>
             <a href="{{ route('admin-ukm.pengaturan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.pengaturan.*') ? 'bg-brand-accent text-white shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                 <i class="fa-solid fa-gear w-5"></i>

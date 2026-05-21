@@ -42,4 +42,9 @@ class LaporanController extends Controller
         
         return $pdf->download('Laporan_Keuangan_' . str_replace(' ', '_', $ukm->nama_ukm) . '.pdf');
     }
+
+    public function proposal()
+    {
+        return view('admin_ukm.laporan.proposal');
+    }
 }
