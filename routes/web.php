@@ -19,6 +19,22 @@ Route::get('/', function () {
     return view('welcome', compact('ukms'));
 })->name('home');
 
+// Utility routes for cPanel / Shared Hosting users
+Route::get('/artisan/clear', function() {
+    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+    return 'Application cache cleared!';
+});
+
+Route::get('/artisan/migrate', function() {
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    return 'Database migrated successfully!';
+});
+
+Route::get('/artisan/storage-link', function() {
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    return 'Storage linked successfully!';
+});
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'authenticate']);
