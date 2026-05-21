@@ -40,12 +40,6 @@ class KegiatanController extends Controller
 
         return redirect()->route('admin-ukm.kegiatan.index');
     }
-    public function show($id)
-    {
-        $kegiatan = Kegiatan::where('ukm_id', Auth::user()->ukm_id)->findOrFail($id);
-        return view('admin_ukm.kegiatan.show', compact('kegiatan'));
-    }
-
     public function edit($id)
     {
         // Cari kegiatan berdasarkan ID dan pastikan itu milik UKM yang sedang login

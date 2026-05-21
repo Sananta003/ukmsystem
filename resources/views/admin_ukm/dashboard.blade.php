@@ -1,254 +1,205 @@
 @extends('layouts.admin_ukm')
-@section('title', 'Dashboard Admin UKM')
 
 @section('content')
-<div class="max-w-6xl mx-auto space-y-6 pb-8">
+<div class="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
     
-    <!-- Header -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">Dashboard {{ $ukm->nama_ukm ?? 'UKM' }}</h1>
-            <p class="text-gray-500 text-sm">Ringkasan aktivitas dan laporan organisasi Anda.</p>
-        </div>
-    </div>
+    @if(Auth::user()->ukm_id && $ukm)
+        <div class="bg-gradient-to-r from-brand-primary to-slate-800 rounded-3xl shadow-lg p-8 mb-8 relative overflow-hidden text-white">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-brand-accent rounded-full mix-blend-multiply filter blur-3xl opacity-50 -mr-20 -mt-20"></div>
 
-    <!-- Statistik Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- Card 1 -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <p class="text-gray-500 text-xs font-medium uppercase tracking-wider mb-1">Total Anggota</p>
-                    <h3 class="text-2xl font-bold text-gray-900">{{ $totalAnggota ?? 249 }}</h3>
+            <div class="relative flex flex-col md:flex-row items-center md:items-start gap-8">
+                <div class="w-28 h-28 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center overflow-hidden shadow-2xl flex-shrink-0 p-2">
+                    @if($ukm->logo)
+                        <img src="{{ asset('storage/'.$ukm->logo) }}" alt="{{ $ukm->nama_ukm }}" class="w-full h-full object-cover rounded-xl">
+                    @else
+                        <i class="fa-solid fa-users text-5xl text-white/50"></i>
+                    @endif
                 </div>
-                <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
-                    <i class="fa-solid fa-users"></i>
-                </div>
-            </div>
-            <p class="text-xs text-green-600 font-medium"><i class="fa-solid fa-arrow-up mr-1"></i> +5.2% bulan ini</p>
-        </div>
 
-        <!-- Card 2 -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <p class="text-gray-500 text-xs font-medium uppercase tracking-wider mb-1">Total Kegiatan</p>
-                    <h3 class="text-2xl font-bold text-gray-900">{{ $kegiatanAktif ?? 22 }}</h3>
-                </div>
-                <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
-                    <i class="fa-solid fa-calendar-check"></i>
-                </div>
-            </div>
-            <p class="text-xs text-green-600 font-medium"><i class="fa-solid fa-arrow-up mr-1"></i> +12% bulan ini</p>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <p class="text-gray-500 text-xs font-medium uppercase tracking-wider mb-1">Total Pemasukan</p>
-                    <h3 class="text-2xl font-bold text-gray-900">Rp {{ isset($pemasukan) ? number_format($pemasukan, 0, ',', '.') : '45.2M' }}</h3>
-                </div>
-                <div class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center text-green-600">
-                    <i class="fa-solid fa-arrow-trend-up"></i>
-                </div>
-            </div>
-            <p class="text-xs text-green-600 font-medium"><i class="fa-solid fa-arrow-up mr-1"></i> +2.4% bulan ini</p>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <p class="text-gray-500 text-xs font-medium uppercase tracking-wider mb-1">Total Pengeluaran</p>
-                    <h3 class="text-2xl font-bold text-gray-900">Rp {{ isset($pengeluaran) ? number_format($pengeluaran, 0, ',', '.') : '28.5M' }}</h3>
-                </div>
-                <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-red-600">
-                    <i class="fa-solid fa-arrow-trend-down"></i>
-                </div>
-            </div>
-            <p class="text-xs text-red-600 font-medium"><i class="fa-solid fa-arrow-down mr-1"></i> -4% bulan ini</p>
-        </div>
-    </div>
-
-    <!-- Charts Row -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h3 class="text-sm font-bold text-gray-800 mb-1">Grafik Keuangan</h3>
-            <p class="text-xs text-gray-500 mb-6">Pemasukan dan pengeluaran 6 bulan terakhir</p>
-            <div class="h-64">
-                <canvas id="keuanganChart"></canvas>
-            </div>
-        </div>
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h3 class="text-sm font-bold text-gray-800 mb-1">Partisipasi Kegiatan</h3>
-            <p class="text-xs text-gray-500 mb-6">Jumlah peserta per jenis kegiatan</p>
-            <div class="h-64">
-                <canvas id="partisipasiChart"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bottom Row: Notifications & Upcoming -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Notifikasi -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h3 class="text-sm font-bold text-gray-800">Notifikasi Terbaru</h3>
-                    <p class="text-xs text-gray-500">Aktivitas terbaru sistem</p>
-                </div>
-                <a href="#" class="text-xs font-medium text-blue-600 hover:text-blue-800">Lihat Semua</a>
-            </div>
-            <div class="space-y-4">
-                <div class="flex gap-4">
-                    <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
-                        <i class="fa-solid fa-user-plus text-sm"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-semibold text-gray-800">3 Anggota baru bergabung</p>
-                        <p class="text-xs text-gray-500 mt-1">10 menit yang lalu</p>
-                    </div>
-                </div>
-                <div class="flex gap-4">
-                    <div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 shrink-0">
-                        <i class="fa-solid fa-calendar text-sm"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-semibold text-gray-800">Kegiatan "Workshop Design" Selesai</p>
-                        <p class="text-xs text-gray-500 mt-1">1 hari yang lalu</p>
-                    </div>
-                </div>
-                <div class="flex gap-4">
-                    <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600 shrink-0">
-                        <i class="fa-solid fa-money-bill-wave text-sm"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-semibold text-gray-800">Pemasukan dana Rp 2.000.000</p>
-                        <p class="text-xs text-gray-500 mt-1">2 hari yang lalu</p>
-                    </div>
-                </div>
-                <div class="flex gap-4">
-                    <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-600 shrink-0">
-                        <i class="fa-solid fa-file-invoice text-sm"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-semibold text-gray-800">Laporan kegiatan ditolak BEM</p>
-                        <p class="text-xs text-gray-500 mt-1">3 hari yang lalu</p>
-                    </div>
+                <div class="text-center md:text-left mt-2">
+                    <span class="bg-brand-accent/20 border border-brand-accent/30 text-blue-200 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider mb-3 inline-block shadow-sm">UKM Aktif</span>
+                    <h1 class="text-3xl font-extrabold mb-3">Dashboard {{ $ukm->nama_ukm }}</h1>
+                    <p class="text-slate-300 leading-relaxed max-w-2xl text-sm">{{ $ukm->deskripsi }}</p>
                 </div>
             </div>
         </div>
 
-        <!-- Kegiatan Mendatang -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h3 class="text-sm font-bold text-gray-800">Kegiatan Mendatang</h3>
-                    <p class="text-xs text-gray-500">Jadwal kegiatan dalam waktu dekat</p>
+        <!-- Statistik Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-blue-50 rounded-full -mr-8 -mt-8"></div>
+                <div class="relative">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-500 text-sm font-medium">Total Anggota</span>
+                        <i class="fa-solid fa-users text-blue-600 text-lg"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-gray-900">{{ $totalAnggota }}</p>
+                    <p class="text-xs text-gray-400 mt-1">Anggota aktif</p>
                 </div>
-                <a href="#" class="text-xs font-medium text-blue-600 hover:text-blue-800">Lihat Semua</a>
             </div>
-            <div class="space-y-3">
-                <div class="border border-blue-100 bg-blue-50/30 rounded-lg p-4 flex justify-between items-center">
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-800">Workshop UI/UX Design</h4>
-                        <div class="flex items-center gap-3 mt-2 text-xs text-gray-500">
-                            <span><i class="fa-regular fa-calendar mr-1"></i> 28 Feb 2026</span>
-                            <span><i class="fa-regular fa-clock mr-1"></i> 13:00 - Selesai</span>
-                        </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-green-50 rounded-full -mr-8 -mt-8"></div>
+                <div class="relative">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-500 text-sm font-medium">Kegiatan Aktif</span>
+                        <i class="fa-solid fa-calendar-check text-green-600 text-lg"></i>
                     </div>
-                    <span class="px-2.5 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded">H-7</span>
+                    <p class="text-3xl font-bold text-gray-900">{{ $kegiatanAktif }}</p>
+                    <p class="text-xs text-gray-400 mt-1">Kegiatan berjalan</p>
                 </div>
-                <div class="border border-purple-100 bg-purple-50/30 rounded-lg p-4 flex justify-between items-center">
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-800">Pelatihan Public Speaking</h4>
-                        <div class="flex items-center gap-3 mt-2 text-xs text-gray-500">
-                            <span><i class="fa-regular fa-calendar mr-1"></i> 1 Mar 2026</span>
-                            <span><i class="fa-regular fa-clock mr-1"></i> 09:00 - 12:00</span>
-                        </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-purple-50 rounded-full -mr-8 -mt-8"></div>
+                <div class="relative">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-500 text-sm font-medium">Pemasukan</span>
+                        <i class="fa-solid fa-arrow-trend-up text-purple-600 text-lg"></i>
                     </div>
-                    <span class="px-2.5 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded">H-8</span>
+                    <p class="text-3xl font-bold text-gray-900">Rp {{ number_format($pemasukan ?? 0, 0, ',', '.') }}</p>
+                    <p class="text-xs text-gray-400 mt-1">Total pemasukan</p>
                 </div>
-                <div class="border border-green-100 bg-green-50/30 rounded-lg p-4 flex justify-between items-center">
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-800">Seminar Kewirausahaan</h4>
-                        <div class="flex items-center gap-3 mt-2 text-xs text-gray-500">
-                            <span><i class="fa-regular fa-calendar mr-1"></i> 15 Mar 2026</span>
-                            <span><i class="fa-regular fa-clock mr-1"></i> 10:00 - 15:00</span>
-                        </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-orange-50 rounded-full -mr-8 -mt-8"></div>
+                <div class="relative">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-500 text-sm font-medium">Saldo Kas</span>
+                        <i class="fa-solid fa-wallet text-orange-600 text-lg"></i>
                     </div>
-                    <span class="px-2.5 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded">H-22</span>
+                    <p class="text-3xl font-bold text-gray-900">Rp {{ number_format($saldoKas ?? 0, 0, ',', '.') }}</p>
+                    <p class="text-xs text-gray-400 mt-1">Saldo tersedia</p>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Grafik Keuangan -->
+        @if(count($labelBulan) > 0)
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+                <h2 class="text-lg font-bold text-gray-800 mb-6">Laporan Keuangan Bulanan</h2>
+                <div style="height: 300px;">
+                    <canvas id="finansialChart"></canvas>
+                </div>
+            </div>
+        @endif
+
+        <!-- Welcome Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="col-span-1 md:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Selamat datang, {{ Auth::user()->name }}! 👋</h2>
+                <p class="text-gray-600 mb-4">Anda adalah Admin dari {{ $ukm->nama_ukm }}. Dashboard ini menampilkan ringkasan data UKM Anda termasuk anggota, kegiatan, dan laporan keuangan.</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-green-600 to-green-800 rounded-2xl shadow-md p-6 text-white text-center">
+                <i class="fa-solid fa-chart-line text-4xl mb-4 opacity-80"></i>
+                <h3 class="text-lg font-bold mb-2">Manajemen UKM</h3>
+                <p class="text-green-100 text-sm mb-4">Kelola semua aspek organisasi Anda</p>
+                <a href="{{ route('admin-ukm.kegiatan.index') }}" class="inline-block bg-white text-green-600 font-semibold px-4 py-2 rounded-lg hover:bg-green-50 transition-colors">
+                    Kelola Data
+                </a>
+            </div>
+        </div>
+
+    @else
+        <div class="bg-indigo-50 border border-indigo-200 rounded-3xl p-10 text-center max-w-3xl mx-auto mt-10 shadow-sm relative overflow-hidden">
+            <div class="w-20 h-20 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-6 shadow-inner">
+                <i class="fa-solid fa-file-signature"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-3">Langkah Selanjutnya: Ajukan Proposal</h2>
+            <p class="text-gray-600 mb-8 text-lg">Anda terdaftar sebagai calon Inisiator UKM. Lengkapi formulir pengajuan Visi, Misi, dan Logo UKM baru Anda agar dapat ditinjau oleh pihak Kampus.</p>
+            
+            <a href="{{ route('member.pengajuan.create') }}" class="inline-flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-lg shadow-indigo-200 hover:-translate-y-0.5">
+                Mulai Isi Formulir Pengajuan <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+        </div>
+    @endif
+
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@if(count($labelBulan) > 0)
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const ctxKeuangan = document.getElementById('keuanganChart').getContext('2d');
-        new Chart(ctxKeuangan, {
+        const ctx = document.getElementById('finansialChart').getContext('2d');
+        
+        new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'],
+                labels: {!! json_encode($labelBulan) !!},
                 datasets: [
                     {
                         label: 'Pemasukan',
-                        data: [35000, 38000, 32000, 41000, 39000, 45200],
+                        data: {!! json_encode($dataPemasukan) !!},
                         borderColor: '#10b981',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.4,
+                        borderWidth: 3,
                         fill: true,
-                        pointRadius: 4
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointBackgroundColor: '#10b981',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 8
                     },
                     {
                         label: 'Pengeluaran',
-                        data: [25000, 28000, 22000, 29000, 27000, 28500],
+                        data: {!! json_encode($dataPengeluaran) !!},
                         borderColor: '#ef4444',
                         backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.4,
+                        borderWidth: 3,
                         fill: true,
-                        pointRadius: 4
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointBackgroundColor: '#ef4444',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 8
                     }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true } } },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: { size: 14, weight: '600' },
+                            padding: 15,
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
+                    }
+                },
                 scales: {
-                    y: { beginAtZero: true, grid: { borderDash: [2, 4] }, ticks: { callback: function(val) { return val / 1000 + 'k'; } } },
-                    x: { grid: { display: false } }
-                }
-            }
-        });
-
-        const ctxPartisipasi = document.getElementById('partisipasiChart').getContext('2d');
-        new Chart(ctxPartisipasi, {
-            type: 'bar',
-            data: {
-                labels: ['Seminar', 'Workshop', 'Pelatihan', 'Pengabdian', 'Bakti Sosial', 'Study Tour'],
-                datasets: [{
-                    label: 'Peserta',
-                    data: [65, 45, 80, 35, 55, 40],
-                    backgroundColor: '#3b82f6',
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true } } },
-                scales: {
-                    y: { beginAtZero: true, grid: { borderDash: [2, 4] } },
-                    x: { grid: { display: false } }
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'Rp ' + value.toLocaleString('id-ID');
+                            },
+                            font: { size: 12 }
+                        },
+                        grid: {
+                            drawBorder: false,
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: { size: 12 }
+                        }
+                    }
                 }
             }
         });
     });
 </script>
+@endif
+
 @endsection

@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
         
         Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
         Route::get('/laporan/cetak-pdf', [LaporanController::class, 'cetakPdf'])->name('laporan.cetak-pdf');
+        Route::get('/laporan/proposal', [LaporanController::class, 'proposal'])->name('laporan.proposal');
         Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
         Route::put('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
     });

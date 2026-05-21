@@ -1,31 +1,21 @@
 @extends('layouts.admin_ukm')
-@section('title', 'Tambah Anggota Baru')
+@section('title', 'Tambah Anggota')
 
 @section('content')
-<div class="max-w-4xl mx-auto space-y-6 pb-8">
-    <div class="mb-4">
-        <a href="{{ route('admin-ukm.anggota.index') }}" class="text-sm text-gray-500 hover:text-blue-600 transition-colors">
-            <i class="fa-solid fa-arrow-left mr-1"></i> Kembali ke Manajemen Anggota
+<div class="max-w-3xl mx-auto">
+    <div class="mb-8 flex justify-between items-end">
+        <div>
+            <h1 class="text-3xl font-extrabold text-gray-900">Daftarkan Anggota Baru</h1>
+            <p class="text-gray-500 mt-2">Buat akun untuk anggota agar mereka bisa login ke sistem.</p>
+        </div>
+        <a href="{{ route('admin-ukm.anggota.index') }}" class="text-sm font-semibold text-gray-500 hover:text-brand-accent transition-colors flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i> Kembali
         </a>
     </div>
 
-    <!-- Header Banner -->
-    <div class="bg-blue-600 rounded-xl p-6 text-white relative overflow-hidden shadow-sm">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full mix-blend-overlay filter blur-xl -mr-10 -mt-10"></div>
-        <div class="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-10 rounded-full mix-blend-overlay filter blur-xl -ml-10 -mb-10"></div>
-        <div class="relative flex items-center gap-4">
-            <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center text-xl backdrop-blur-sm border border-white/10">
-                <i class="fa-solid fa-user-plus"></i>
-            </div>
-            <div>
-                <h1 class="text-2xl font-bold">Tambah Anggota Baru</h1>
-                <p class="text-blue-100 text-sm mt-1">Lengkapi form di bawah untuk mendaftarkan anggota ke dalam UKM Anda</p>
-            </div>
-        </div>
-    </div>
-
     @if($errors->any())
-        <div class="bg-red-50 text-red-500 text-sm p-4 rounded-lg border border-red-100">
+        <div class="bg-red-50 text-red-500 text-sm p-4 rounded-lg mb-6 border border-red-100 shadow-sm flex items-start gap-3">
+            <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
             <ul class="list-disc list-inside">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -34,56 +24,42 @@
         </div>
     @endif
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <form action="{{ route('admin-ukm.anggota.store') }}" method="POST">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden relative">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-brand-accent/5 rounded-full filter blur-3xl -mr-20 -mt-20"></div>
+        <form action="{{ route('admin-ukm.anggota.store') }}" method="POST" class="p-8 relative">
             @csrf
-            
-            <div class="p-8 space-y-8">
-                <!-- Section 1 -->
+            <div class="space-y-6">
                 <div>
-                    <h3 class="text-base font-bold text-gray-800 mb-4 pb-2 border-b border-gray-100">Informasi Dasar</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap <span class="text-red-500">*</span></label>
-                            <div class="relative">
-                                <i class="fa-regular fa-user absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                                <input type="text" name="name" value="{{ old('name') }}" required placeholder="Contoh: Ahmad Hidayat" class="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition-all bg-gray-50 focus:bg-white">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Alamat Email <span class="text-red-500">*</span></label>
-                            <div class="relative">
-                                <i class="fa-regular fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                                <input type="email" name="email" value="{{ old('email') }}" required placeholder="Contoh: ahmad@kampus.ac.id" class="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition-all bg-gray-50 focus:bg-white">
-                            </div>
-                            <p class="text-[11px] text-gray-400 mt-1">Email ini akan digunakan untuk login.</p>
-                        </div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <i class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" name="name" value="{{ old('name') }}" required class="w-full border border-gray-200 rounded-xl pl-11 pr-4 py-3 focus:ring-2 focus:ring-brand-accent focus:border-brand-accent outline-none transition-all shadow-sm bg-gray-50/50 hover:bg-white focus:bg-white" placeholder="Masukkan nama lengkap">
                     </div>
                 </div>
-
-                <!-- Section 2 -->
+                
                 <div>
-                    <h3 class="text-base font-bold text-gray-800 mb-4 pb-2 border-b border-gray-100">Keamanan</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Password Sementara <span class="text-red-500">*</span></label>
-                            <div class="relative">
-                                <i class="fa-solid fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                                <input type="password" name="password" required minlength="6" placeholder="Minimal 6 karakter" class="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition-all bg-gray-50 focus:bg-white">
-                            </div>
-                            <p class="text-[11px] text-gray-400 mt-1">Anggota dapat menggantinya setelah berhasil login pertama kali.</p>
-                        </div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Alamat Email <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="email" name="email" value="{{ old('email') }}" required class="w-full border border-gray-200 rounded-xl pl-11 pr-4 py-3 focus:ring-2 focus:ring-brand-accent focus:border-brand-accent outline-none transition-all shadow-sm bg-gray-50/50 hover:bg-white focus:bg-white" placeholder="email@mahasiswa.com">
                     </div>
+                    <p class="text-xs text-gray-500 mt-2 flex items-center gap-1"><i class="fa-solid fa-circle-info text-blue-500"></i> Email ini akan digunakan anggota untuk login.</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password Sementara <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="password" name="password" required minlength="6" class="w-full border border-gray-200 rounded-xl pl-11 pr-4 py-3 focus:ring-2 focus:ring-brand-accent focus:border-brand-accent outline-none transition-all shadow-sm bg-gray-50/50 hover:bg-white focus:bg-white" placeholder="••••••••">
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2 flex items-center gap-1"><i class="fa-solid fa-circle-info text-blue-500"></i> Minimal 6 karakter. Anggota dapat menggantinya nanti.</p>
                 </div>
             </div>
 
-            <!-- Footer Action -->
-            <div class="bg-gray-50 px-8 py-5 border-t border-gray-100 flex items-center justify-between">
-                <button type="button" onclick="window.history.back()" class="px-5 py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors shadow-sm">
-                    <i class="fa-solid fa-xmark mr-1"></i> Batal
-                </button>
-                <button type="submit" class="px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-md shadow-blue-500/30 flex items-center">
-                    <i class="fa-solid fa-save mr-2"></i> Simpan Anggota
+            <div class="mt-10 flex justify-end gap-4 border-t border-gray-50 pt-6">
+                <a href="{{ route('admin-ukm.anggota.index') }}" class="px-6 py-3 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-xl font-bold transition-colors">Batal</a>
+                <button type="submit" class="px-6 py-3 bg-brand-accent hover:bg-blue-700 text-white rounded-xl font-bold transition-all shadow-lg shadow-brand-accent/30 flex items-center gap-2">
+                    <i class="fa-solid fa-user-plus"></i> Daftarkan Anggota
                 </button>
             </div>
         </form>
