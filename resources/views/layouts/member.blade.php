@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Portal Anggota')</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -69,6 +70,30 @@
     </header>
 
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        @if (session('success'))
+            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show" x-transition.duration.500ms class="relative flex items-center justify-between p-4 mb-6 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 shadow-sm" role="alert">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-circle-check mr-2"></i>
+                    <span class="font-medium">{{ session('success') }}</span>
+                </div>
+                <button @click="show = false" class="text-green-500 hover:text-green-700 ml-4">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show" x-transition.duration.500ms class="relative flex items-center justify-between p-4 mb-6 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 shadow-sm" role="alert">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                    <span class="font-medium">{{ session('error') }}</span>
+                </div>
+                <button @click="show = false" class="text-red-500 hover:text-red-700 ml-4">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        @endif
+
         @yield('content')
     </main>
 

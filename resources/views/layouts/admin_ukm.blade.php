@@ -11,6 +11,7 @@
     
     @vite('resources/css/app.css')
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     <script>
         tailwind.config = {
@@ -113,19 +114,34 @@
         </header>
 
         <div class="flex-1 overflow-y-auto p-6">
+            @if (session('success'))
+                <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show" x-transition.duration.500ms class="relative flex items-center justify-between p-4 mb-6 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 shadow-sm" role="alert">
+                    <div class="flex items-center">
+                        <i class="fa-solid fa-circle-check mr-2"></i>
+                        <span class="font-medium">{{ session('success') }}</span>
+                    </div>
+                    <button @click="show = false" class="text-green-500 hover:text-green-700 ml-4">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show" x-transition.duration.500ms class="relative flex items-center justify-between p-4 mb-6 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 shadow-sm" role="alert">
+                    <div class="flex items-center">
+                        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                        <span class="font-medium">{{ session('error') }}</span>
+                    </div>
+                    <button @click="show = false" class="text-red-500 hover:text-red-700 ml-4">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            @endif
+
             @yield('content')
         </div>
     </main>
 
     @stack('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        @if(session('success'))
-            Swal.fire({ icon: 'success', title: 'Berhasil!', text: '{{ session('success') }}', showConfirmButton: false, timer: 2500 });
-        @endif
-        @if(session('error'))
-            Swal.fire({ icon: 'error', title: 'Oops...', text: '{{ session('error') }}' });
-        @endif
-    </script>
 </body>
 </html>

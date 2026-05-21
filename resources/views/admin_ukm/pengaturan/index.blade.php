@@ -8,11 +8,7 @@
         <p class="text-sm text-gray-500">Perbarui profil dan informasi UKM Anda.</p>
     </div>
 
-    @if(session('success'))
-        <div class="bg-green-50 text-green-600 p-4 rounded-lg mb-6 text-sm border border-green-100">
-            {{ session('success') }}
-        </div>
-    @endif
+
 
     <form action="{{ route('admin-ukm.pengaturan.update') }}" method="POST" enctype="multipart/form-data">
         @csrf

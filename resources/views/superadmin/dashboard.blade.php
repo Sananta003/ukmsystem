@@ -13,9 +13,7 @@
     </div>
 </div>
 
-@if(session('success'))
-    <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl mb-6">{{ session('success') }}</div>
-@endif
+
 
 @if(isset($pengajuans) && $pengajuans->count() > 0)
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 mb-8 border-l-4 border-l-yellow-400">

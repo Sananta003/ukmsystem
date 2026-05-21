@@ -11,11 +11,7 @@
         </span>
     </div>
 
-    @if(session('success'))
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg mb-6 shadow-sm">
-            {{ session('success') }}
-        </div>
-    @endif
+
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Kolom Kiri: Detail Proposal -->
@@ -52,21 +48,83 @@
 
             <!-- Approval Actions -->
             @if($pengajuan->status === 'pending_superadmin')
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+            <div x-data="{ modalApprove: false, modalReject: false }" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
                 <h2 class="text-xl font-bold text-gray-900 mb-4 border-b border-gray-100 pb-4"><i class="fa-solid fa-gavel text-indigo-500 mr-2"></i> Keputusan Super Admin</h2>
                 <div class="flex gap-4">
-                    <form action="{{ route('superadmin.ukm.approve', $pengajuan->id) }}" method="POST" class="flex-1">
-                        @csrf
-                        <button type="submit" onclick="return confirm('Anda yakin ingin menyetujui proposal ini dan membuat UKM secara resmi?')" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold transition-colors shadow-lg shadow-emerald-200">
-                            <i class="fa-solid fa-check-circle mr-2"></i> Setujui & Buat UKM
-                        </button>
-                    </form>
-                    <form action="{{ route('superadmin.ukm.reject', $pengajuan->id) }}" method="POST" class="flex-1">
-                        @csrf
-                        <button type="submit" onclick="return confirm('Anda yakin ingin menolak proposal ini secara permanen?')" class="w-full py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold transition-colors shadow-lg shadow-red-200">
-                            <i class="fa-solid fa-times-circle mr-2"></i> Tolak Proposal
-                        </button>
-                    </form>
+                    <button @click="modalApprove = true" type="button" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold transition-colors shadow-lg shadow-emerald-200 flex items-center justify-center">
+                        <i class="fa-solid fa-check-circle mr-2"></i> Setujui & Buat UKM
+                    </button>
+                    <button @click="modalReject = true" type="button" class="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold transition-colors shadow-lg shadow-red-200 flex items-center justify-center">
+                        <i class="fa-solid fa-times-circle mr-2"></i> Tolak Proposal
+                    </button>
+                </div>
+
+                <!-- Modal Confirm Approve -->
+                <div x-show="modalApprove" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                        <div x-show="modalApprove" x-transition.opacity class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                        <div x-show="modalApprove" x-transition @click.away="modalApprove = false" class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-emerald-100 sm:mx-0 sm:h-10 sm:w-10">
+                                        <i class="fa-solid fa-check text-emerald-600"></i>
+                                    </div>
+                                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900">Konfirmasi Setujui & Buat UKM</h3>
+                                        <div class="mt-2">
+                                            <p class="text-sm text-gray-500">Anda yakin ingin menyetujui proposal ini dan membuat UKM secara resmi? Tindakan ini tidak dapat dibatalkan.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <form action="{{ route('superadmin.ukm.approve', $pengajuan->id) }}" method="POST" class="inline-block w-full sm:w-auto">
+                                    @csrf
+                                    <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                                        Ya, Setujui
+                                    </button>
+                                </form>
+                                <button @click="modalApprove = false" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                    Batal
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Confirm Reject -->
+                <div x-show="modalReject" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                        <div x-show="modalReject" x-transition.opacity class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                        <div x-show="modalReject" x-transition @click.away="modalReject = false" class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                        <i class="fa-solid fa-times text-red-600"></i>
+                                    </div>
+                                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900">Konfirmasi Tolak Proposal</h3>
+                                        <div class="mt-2">
+                                            <p class="text-sm text-gray-500">Anda yakin ingin menolak proposal ini secara permanen?</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <form action="{{ route('superadmin.ukm.reject', $pengajuan->id) }}" method="POST" class="inline-block w-full sm:w-auto">
+                                    @csrf
+                                    <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                                        Ya, Tolak
+                                    </button>
+                                </form>
+                                <button @click="modalReject = false" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                    Batal
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             @endif
