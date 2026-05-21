@@ -16,5 +16,12 @@ require __DIR__.'/../vendor/autoload.php';
 // Bootstrap Laravel and handle the request...
 /** @var Application $app */
 $app = require_once __DIR__.'/../bootstrap/app.php';
+// FORCE CLEAR CACHE TEMPORARY
+if (isset($_GET['force_clear'])) {
+    $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+    $kernel->call('optimize:clear');
+    $kernel->call('migrate', ['--force' => true]);
+    die("<h1>Sukses!</h1><p>Cache berhasil dibersihkan dan Database berhasil di-migrate.</p>");
+}
 
 $app->handleRequest(Request::capture());
