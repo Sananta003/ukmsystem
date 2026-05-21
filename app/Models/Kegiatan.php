@@ -20,4 +20,9 @@ class Kegiatan extends Model
     {
         return $this->hasMany(Keuangan::class);
     }
+
+    public function evaluasis()
+    {
+        return $this->hasMany(Evaluasi::class);
+    }
 }

@@ -48,34 +48,23 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::prefix('admin-ukm')->name('admin-ukm.')->middleware('can:is_admin')->group(function () {
+    Route::prefix('admin-ukm')->name('admin-ukm.')->middleware(['auth', 'can:is_admin_ukm'])->group(function () {
         Route::get('/', function () { return redirect()->route('admin-ukm.dashboard'); });
-        Route::get('/dashboard', [DashboardController::class, 'admin'])->name('dashboard');
+        Route::get('/dashboard', [\App\Http\Controllers\AdminUkmController::class, 'dashboard'])->name('dashboard');
         
-        Route::get('/anggota', [AnggotaController::class, 'index'])->name('anggota.index');
-        Route::get('/anggota/tambah', [AnggotaController::class, 'create'])->name('anggota.create');
-        Route::post('/anggota', [AnggotaController::class, 'store'])->name('anggota.store');
-        Route::delete('/anggota/{id}', [AnggotaController::class, 'destroy'])->name('anggota.destroy');
+        Route::get('/anggota', [\App\Http\Controllers\AnggotaController::class, 'index'])->name('anggota.index');
+        Route::get('/anggota/tambah', [\App\Http\Controllers\AnggotaController::class, 'create'])->name('anggota.create');
+        Route::post('/anggota', [\App\Http\Controllers\AnggotaController::class, 'store'])->name('anggota.store');
         
-        Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
-        Route::get('/kegiatan/tambah', [KegiatanController::class, 'create'])->name('kegiatan.create');
-        Route::post('/kegiatan', [KegiatanController::class, 'store'])->name('kegiatan.store');
-        Route::get('/kegiatan/{id}/edit', [KegiatanController::class, 'edit'])->name('kegiatan.edit');
-        Route::put('/kegiatan/{id}', [KegiatanController::class, 'update'])->name('kegiatan.update');
-        Route::delete('/kegiatan/{id}', [KegiatanController::class, 'destroy'])->name('kegiatan.destroy');
+        Route::get('/kegiatan', [\App\Http\Controllers\KegiatanController::class, 'index'])->name('kegiatan.index');
+        Route::get('/kegiatan/tambah', [\App\Http\Controllers\KegiatanController::class, 'create'])->name('kegiatan.create');
+        Route::post('/kegiatan', [\App\Http\Controllers\KegiatanController::class, 'store'])->name('kegiatan.store');
+        Route::get('/kegiatan/{id}', [\App\Http\Controllers\KegiatanController::class, 'show'])->name('kegiatan.show');
         
-        Route::get('/keuangan', [KeuanganController::class, 'index'])->name('keuangan.index');
-        Route::get('/keuangan/tambah', [KeuanganController::class, 'create'])->name('keuangan.create');
-        Route::post('/keuangan', [KeuanganController::class, 'store'])->name('keuangan.store');
-        Route::get('/keuangan/{id}/edit', [KeuanganController::class, 'edit'])->name('keuangan.edit');
-        Route::put('/keuangan/{id}', [KeuanganController::class, 'update'])->name('keuangan.update');
-        Route::delete('/keuangan/{id}', [KeuanganController::class, 'destroy'])->name('keuangan.destroy');
-        
-        Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-        Route::get('/laporan/cetak-pdf', [LaporanController::class, 'cetakPdf'])->name('laporan.cetak-pdf');
-        Route::get('/laporan/proposal', [LaporanController::class, 'proposal'])->name('laporan.proposal');
-        Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
-        Route::put('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
+        Route::get('/keuangan', [\App\Http\Controllers\KeuanganController::class, 'index'])->name('keuangan.index');
+        Route::post('/keuangan', [\App\Http\Controllers\KeuanganController::class, 'store'])->name('keuangan.store');
+
+        Route::get('/evaluasi', [\App\Http\Controllers\EvaluasiController::class, 'index'])->name('evaluasi.index');
     });
 
     Route::prefix('member')->name('member.')->group(function () {
