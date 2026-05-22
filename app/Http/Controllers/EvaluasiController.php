@@ -2,43 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Evaluasi;
-use App\Models\Kegiatan;
 use Illuminate\Http\Request;
+use App\Models\Evaluasi;
 use Illuminate\Support\Facades\Auth;
 
 class EvaluasiController extends Controller
 {
     public function index()
     {
-        $ukm_id = Auth::user()->ukm_id;
-
-        $kegiatanIds = Kegiatan::where('ukm_id', $ukm_id)->pluck('id');
-
-        $evaluasis = Evaluasi::with(['user', 'kegiatan'])
-            ->whereIn('kegiatan_id', $kegiatanIds)
+        $ukmId = Auth::user()->ukm_id;
+        
+        $evaluasis = Evaluasi::with(['kegiatan', 'user'])
+            ->whereHas('kegiatan', function ($query) use ($ukmId) {
+                $query->where('ukm_id', $ukmId);
+            })
             ->latest()
-            ->get();
+            ->paginate(15);
 
-        $rataRata = $evaluasis->avg('rating') ?? 0;
+        $rataRata = Evaluasi::whereHas('kegiatan', function ($query) use ($ukmId) {
+            $query->where('ukm_id', $ukmId);
+        })->avg('rating');
 
-        $distribusi = [
-            5 => $evaluasis->where('rating', 5)->count(),
-            4 => $evaluasis->where('rating', 4)->count(),
-            3 => $evaluasis->where('rating', 3)->count(),
-            2 => $evaluasis->where('rating', 2)->count(),
-            1 => $evaluasis->where('rating', 1)->count(),
+        $rataRata = $rataRata ? number_format($rataRata, 1) : 0;
+
+        // Distribusi Rating
+        $distribusi = Evaluasi::selectRaw('rating, COUNT(*) as total')
+            ->whereHas('kegiatan', function ($query) use ($ukmId) {
+                $query->where('ukm_id', $ukmId);
+            })
+            ->groupBy('rating')
+            ->pluck('total', 'rating')
+            ->toArray();
+
+        $ratingLabels = ['Bintang 5', 'Bintang 4', 'Bintang 3', 'Bintang 2', 'Bintang 1'];
+        $ratingData = [
+            $distribusi[5] ?? 0,
+            $distribusi[4] ?? 0,
+            $distribusi[3] ?? 0,
+            $distribusi[2] ?? 0,
+            $distribusi[1] ?? 0,
         ];
 
-        $chartLabels = ['5 Bintang', '4 Bintang', '3 Bintang', '2 Bintang', '1 Bintang'];
-        $chartData = [
-            $distribusi[5],
-            $distribusi[4],
-            $distribusi[3],
-            $distribusi[2],
-            $distribusi[1],
-        ];
-
-        return view('admin_ukm.evaluasi.index', compact('evaluasis', 'rataRata', 'chartLabels', 'chartData'));
+        return view('admin_ukm.evaluasi.index', compact('evaluasis', 'rataRata', 'ratingLabels', 'ratingData'));
     }
 }

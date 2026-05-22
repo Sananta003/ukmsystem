@@ -1,189 +1,172 @@
-@extends('layouts.admin')
-
+@extends('layouts.app')
 @section('title', 'Dashboard Admin UKM')
 
 @section('content')
-<div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-    <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Admin UKM</h1>
-        <p class="text-sm text-gray-500 mt-1">Ringkasan statistik dan aktivitas UKM Anda.</p>
-    </div>
+<div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Dashboard UKM</h1>
+    <p class="text-gray-500">Ringkasan aktivitas dan keuangan UKM Anda.</p>
 </div>
 
-<!-- Grid 4 Card -->
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
-        <div>
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Anggota</p>
-            <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">{{ $totalAnggota }}</p>
+<!-- 4 Card Statistik -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+        <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-2xl">
+            <i class="fa-solid fa-users"></i>
         </div>
-        <div class="p-4 bg-blue-50 text-blue-600 rounded-xl dark:bg-blue-900/30 dark:text-blue-400">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        <div>
+            <p class="text-gray-500 text-sm font-medium">Total Anggota</p>
+            <h3 class="text-2xl font-black text-gray-800">{{ $totalAnggota }}</h3>
         </div>
     </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
-        <div>
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Kegiatan</p>
-            <p class="text-3xl font-bold text-gray-900 dark:text-white mt-1">{{ $totalKegiatan }}</p>
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+        <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-2xl">
+            <i class="fa-solid fa-calendar-check"></i>
         </div>
-        <div class="p-4 bg-indigo-50 text-indigo-600 rounded-xl dark:bg-indigo-900/30 dark:text-indigo-400">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        <div>
+            <p class="text-gray-500 text-sm font-medium">Total Kegiatan</p>
+            <h3 class="text-2xl font-black text-gray-800">{{ $totalKegiatan }}</h3>
         </div>
     </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
-        <div>
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Pemasukan</p>
-            <p class="text-2xl font-bold text-green-600 dark:text-green-400 mt-1">Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</p>
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+        <div class="w-14 h-14 bg-green-50 text-green-600 rounded-xl flex items-center justify-center text-2xl">
+            <i class="fa-solid fa-arrow-trend-up"></i>
         </div>
-        <div class="p-4 bg-green-50 text-green-600 rounded-xl dark:bg-green-900/30 dark:text-green-400">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>
+        <div>
+            <p class="text-gray-500 text-sm font-medium">Total Pemasukan</p>
+            <h3 class="text-xl font-black text-gray-800">Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</h3>
         </div>
     </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-100 dark:border-gray-700 shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
-        <div>
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Pengeluaran</p>
-            <p class="text-2xl font-bold text-red-600 dark:text-red-400 mt-1">Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</p>
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+        <div class="w-14 h-14 bg-red-50 text-red-600 rounded-xl flex items-center justify-center text-2xl">
+            <i class="fa-solid fa-arrow-trend-down"></i>
         </div>
-        <div class="p-4 bg-red-50 text-red-600 rounded-xl dark:bg-red-900/30 dark:text-red-400">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"></path></svg>
+        <div>
+            <p class="text-gray-500 text-sm font-medium">Total Pengeluaran</p>
+            <h3 class="text-xl font-black text-gray-800">Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</h3>
         </div>
     </div>
 </div>
 
-<!-- Charts Grid -->
-<div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-8">
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-100 dark:border-gray-700">
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Tren Keuangan 6 Bulan Terakhir</h3>
-        <div class="relative h-72 w-full">
-            <canvas id="keuanganChart"></canvas>
-        </div>
+<!-- Grid Chart -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <!-- Chart Keuangan -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">Tren Keuangan (6 Bulan Terakhir)</h3>
+        <canvas id="keuanganChart" height="250"></canvas>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-100 dark:border-gray-700">
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Partisipasi Peserta 6 Kegiatan Terakhir</h3>
-        <div class="relative h-72 w-full">
-            <canvas id="partisipasiChart"></canvas>
-        </div>
+    <!-- Chart Partisipasi -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">Partisipasi Kegiatan Terakhir</h3>
+        <canvas id="partisipasiChart" height="250"></canvas>
     </div>
 </div>
 
 <!-- Kegiatan Mendatang -->
-<div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden mb-8">
-    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-900/50">
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white">Kegiatan Mendatang</h3>
-        <a href="{{ route('admin-ukm.kegiatan.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-900 dark:text-indigo-400">Lihat Semua</a>
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+    <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
+        <h2 class="text-xl font-bold text-gray-800">Kegiatan Mendatang</h2>
+        <a href="{{ route('admin-ukm.kegiatan.index') }}" class="text-indigo-600 hover:text-indigo-800 font-medium text-sm transition-colors">
+            Lihat Semua <i class="fa-solid fa-arrow-right ml-1"></i>
+        </a>
     </div>
-    <div class="p-6">
-        @if($kegiatanMendatang->isEmpty())
-            <div class="text-center py-6">
-                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">Tidak ada kegiatan</h3>
-                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Belum ada agenda kegiatan mendatang.</p>
-            </div>
-        @else
-            <div class="space-y-4">
-                @foreach($kegiatanMendatang as $keg)
-                <div class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                    <div class="flex-shrink-0 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 w-12 h-12 rounded-lg flex flex-col items-center justify-center font-bold">
-                        <span class="text-sm leading-none">{{ \Carbon\Carbon::parse($keg->tanggal)->format('d') }}</span>
-                        <span class="text-xs leading-none uppercase">{{ \Carbon\Carbon::parse($keg->tanggal)->format('M') }}</span>
-                    </div>
-                    <div class="ml-4 flex-1">
-                        <h4 class="text-base font-semibold text-gray-900 dark:text-white">{{ $keg->nama_kegiatan }}</h4>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                            {{ $keg->lokasi ?? 'Lokasi belum ditentukan' }}
-                        </p>
-                    </div>
-                    <div>
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
-                            {{ $keg->status }}
-                        </span>
-                    </div>
+
+    @if($kegiatanMendatang->count() > 0)
+    <div class="space-y-4">
+        @foreach($kegiatanMendatang as $kegiatan)
+        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex flex-col items-center justify-center shrink-0">
+                    <span class="text-xs font-bold">{{ \Carbon\Carbon::parse($kegiatan->tanggal)->format('M') }}</span>
+                    <span class="text-lg font-black leading-none">{{ \Carbon\Carbon::parse($kegiatan->tanggal)->format('d') }}</span>
                 </div>
-                @endforeach
+                <div>
+                    <h4 class="font-bold text-gray-800">{{ $kegiatan->nama_kegiatan }}</h4>
+                    <p class="text-sm text-gray-500"><i class="fa-solid fa-location-dot mr-1"></i> {{ $kegiatan->lokasi ?? 'Lokasi belum ditentukan' }}</p>
+                </div>
             </div>
-        @endif
+            <span class="px-3 py-1 text-xs font-bold rounded-full {{ $kegiatan->status == 'Direncanakan' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800' }}">
+                {{ $kegiatan->status ?? 'Direncanakan' }}
+            </span>
+        </div>
+        @endforeach
     </div>
+    @else
+    <div class="text-center py-8 text-gray-500">
+        <i class="fa-regular fa-calendar-xmark text-4xl mb-3 text-gray-300"></i>
+        <p>Belum ada kegiatan mendatang.</p>
+    </div>
+    @endif
 </div>
 
-@push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Line Chart: Keuangan
-        const ctxKeuangan = document.getElementById('keuanganChart').getContext('2d');
-        new Chart(ctxKeuangan, {
-            type: 'line',
-            data: {
-                labels: @json($bulanLabels),
-                datasets: [
-                    {
-                        label: 'Pemasukan',
-                        data: @json($pemasukanData),
-                        borderColor: '#10B981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.4,
-                        fill: true
-                    },
-                    {
-                        label: 'Pengeluaran',
-                        data: @json($pengeluaranData),
-                        borderColor: '#EF4444',
-                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.4,
-                        fill: true
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                plugins: {
-                    legend: { position: 'bottom' }
-                },
-                scales: {
-                    y: { beginAtZero: true }
-                }
-            }
-        });
+    // Data dari Controller
+    const bulanLabels = @json($bulanLabels);
+    const pemasukanData = @json($pemasukanData);
+    const pengeluaranData = @json($pengeluaranData);
+    
+    const kegiatanLabels = @json($kegiatanLabels);
+    const partisipasiData = @json($partisipasiData);
 
-        // Bar Chart: Partisipasi Kegiatan
-        const ctxPartisipasi = document.getElementById('partisipasiChart').getContext('2d');
-        new Chart(ctxPartisipasi, {
-            type: 'bar',
-            data: {
-                labels: @json($kegiatanLabels),
-                datasets: [{
-                    label: 'Jumlah Peserta / Pendaftar',
-                    data: @json($partisipasiData),
-                    backgroundColor: '#6366F1',
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
+    // Render Line Chart Keuangan
+    const ctxKeuangan = document.getElementById('keuanganChart').getContext('2d');
+    new Chart(ctxKeuangan, {
+        type: 'line',
+        data: {
+            labels: bulanLabels,
+            datasets: [
+                {
+                    label: 'Pemasukan',
+                    data: pemasukanData,
+                    borderColor: '#10b981', // green-500
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3
                 },
-                scales: {
-                    y: { beginAtZero: true }
+                {
+                    label: 'Pengeluaran',
+                    data: pengeluaranData,
+                    borderColor: '#ef4444', // red-500
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3
                 }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom' } },
+            scales: {
+                y: { beginAtZero: true, ticks: { callback: function(value) { return 'Rp ' + value.toLocaleString('id-ID'); } } }
             }
-        });
+        }
+    });
+
+    // Render Bar Chart Partisipasi
+    const ctxPartisipasi = document.getElementById('partisipasiChart').getContext('2d');
+    new Chart(ctxPartisipasi, {
+        type: 'bar',
+        data: {
+            labels: kegiatanLabels,
+            datasets: [{
+                label: 'Jumlah Pendaftar/Peserta',
+                data: partisipasiData,
+                backgroundColor: '#6366f1', // indigo-500
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
     });
 </script>
-@endpush
 @endsection
