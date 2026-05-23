@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin_ukm')
 @section('title', 'Dashboard Admin UKM')
 
 @section('content')
@@ -59,6 +59,60 @@
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
         <h3 class="text-lg font-bold text-gray-800 mb-4">Partisipasi Kegiatan Terakhir</h3>
         <canvas id="partisipasiChart" height="250"></canvas>
+    </div>
+</div>
+
+<!-- Notifikasi Terbaru -->
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-lg font-bold text-gray-800">Notifikasi Terbaru</h2>
+        <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors">Lihat Semua</a>
+    </div>
+    
+    <div class="space-y-4">
+        <!-- Notif 1 -->
+        <div class="flex items-start gap-4 pb-4 border-b border-gray-50">
+            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-user-plus text-sm"></i>
+            </div>
+            <div>
+                <p class="text-sm font-bold text-gray-800">1 Anggota baru bergabung</p>
+                <p class="text-xs text-gray-400 mt-1"><i class="fa-regular fa-clock mr-1"></i> 10 menit lalu</p>
+            </div>
+        </div>
+        
+        <!-- Notif 2 -->
+        <div class="flex items-start gap-4 pb-4 border-b border-gray-50">
+            <div class="w-10 h-10 rounded-full bg-purple-50 text-purple-500 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-calendar text-sm"></i>
+            </div>
+            <div>
+                <p class="text-sm font-bold text-gray-800">Kegiatan "Workshop Design" besok</p>
+                <p class="text-xs text-gray-400 mt-1"><i class="fa-regular fa-clock mr-1"></i> 2 jam lalu</p>
+            </div>
+        </div>
+        
+        <!-- Notif 3 -->
+        <div class="flex items-start gap-4 pb-4 border-b border-gray-50">
+            <div class="w-10 h-10 rounded-full bg-green-50 text-green-500 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-money-bill-wave text-sm"></i>
+            </div>
+            <div>
+                <p class="text-sm font-bold text-gray-800">Pemasukan dana Rp 3.000.000</p>
+                <p class="text-xs text-gray-400 mt-1"><i class="fa-regular fa-clock mr-1"></i> 5 jam lalu</p>
+            </div>
+        </div>
+        
+        <!-- Notif 4 -->
+        <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                <i class="fa-regular fa-bell text-sm"></i>
+            </div>
+            <div>
+                <p class="text-sm font-bold text-gray-800">Deadline laporan hari ini</p>
+                <p class="text-xs text-gray-400 mt-1"><i class="fa-regular fa-clock mr-1"></i> 12 jam lalu</p>
+            </div>
+        </div>
     </div>
 </div>
 
