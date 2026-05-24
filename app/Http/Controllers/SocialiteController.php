@@ -12,7 +12,11 @@ class SocialiteController extends Controller
 {
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        try {
+            return Socialite::driver('google')->redirect();
+        } catch (\Throwable $th) {
+            return redirect()->route('login')->withErrors(['error' => 'Sistem SSO Google sedang offline. Harap install package laravel/socialite terlebih dahulu di server.']);
+        }
     }
 
     public function handleGoogleCallback()

@@ -10,27 +10,31 @@ class TwoFactorController extends Controller
 {
     public function setup()
     {
-        $user = Auth::user();
-        $google2fa = app('pragmarx.google2fa');
+        try {
+            $user = Auth::user();
+            $google2fa = app('pragmarx.google2fa');
 
-        if ($user->google2fa_secret) {
-            return redirect()->route('dashboard')->with('info', '2FA sudah aktif.');
+            if ($user->google2fa_secret) {
+                return redirect()->route('dashboard')->with('info', '2FA sudah aktif.');
+            }
+
+            // Generate secret
+            $secret = $google2fa->generateSecretKey();
+            
+            // Simpan secret ke session sementara sebelum diverifikasi
+            session(['2fa_secret_setup' => $secret]);
+
+            // Generate QR Code URL
+            $QR_Image = $google2fa->getQRCodeInline(
+                config('app.name'),
+                $user->email,
+                $secret
+            );
+
+            return view('auth.2fa_setup', ['QR_Image' => $QR_Image, 'secret' => $secret]);
+        } catch (\Throwable $th) {
+            return redirect()->route('dashboard')->with('error', 'Fitur 2FA belum dapat digunakan karena package pragmarx/google2fa-laravel belum terinstal di server.');
         }
-
-        // Generate secret
-        $secret = $google2fa->generateSecretKey();
-        
-        // Simpan secret ke session sementara sebelum diverifikasi
-        session(['2fa_secret_setup' => $secret]);
-
-        // Generate QR Code URL
-        $QR_Image = $google2fa->getQRCodeInline(
-            config('app.name'),
-            $user->email,
-            $secret
-        );
-
-        return view('auth.2fa_setup', ['QR_Image' => $QR_Image, 'secret' => $secret]);
     }
 
     public function verifySetup(Request $request)
