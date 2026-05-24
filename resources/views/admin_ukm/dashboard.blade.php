@@ -52,13 +52,17 @@
     <!-- Chart Keuangan -->
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
         <h3 class="text-lg font-bold text-gray-800 mb-4">Tren Keuangan (6 Bulan Terakhir)</h3>
-        <canvas id="keuanganChart" height="250"></canvas>
+        <div class="relative h-[250px] w-full">
+            <canvas id="keuanganChart"></canvas>
+        </div>
     </div>
 
     <!-- Chart Partisipasi -->
     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
         <h3 class="text-lg font-bold text-gray-800 mb-4">Partisipasi Kegiatan Terakhir</h3>
-        <canvas id="partisipasiChart" height="250"></canvas>
+        <div class="relative h-[250px] w-full">
+            <canvas id="partisipasiChart"></canvas>
+        </div>
     </div>
 </div>
 
