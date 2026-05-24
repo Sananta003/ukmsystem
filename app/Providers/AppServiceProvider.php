@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Gerbang keamanan untuk Admin UKM (Ketua)
-        Gate::define('is_admin', function (User $user) {
+        Gate::define('is_admin_ukm', function (User $user) {
             return $user->role === 'admin_ukm';
         });
 
