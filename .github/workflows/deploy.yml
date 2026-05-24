@@ -21,9 +21,9 @@ jobs:
       - name: 4. Kirim Semua File ke Freehostia
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: 162.210.102.233
-          username: ${{ secrets.ftp_username }}
-          password: ${{ secrets.ftp_password }}
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
           server-dir: ukm.satta.web.id/
           exclude: |
             **/.git*

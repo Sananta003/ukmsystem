@@ -65,6 +65,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/keuangan', [\App\Http\Controllers\KeuanganController::class, 'store'])->name('keuangan.store');
 
         Route::get('/evaluasi', [\App\Http\Controllers\EvaluasiController::class, 'index'])->name('evaluasi.index');
+
+        Route::get('/laporan', [\App\Http\Controllers\LaporanController::class, 'index'])->name('laporan.index');
+        Route::get('/laporan/cetak-pdf', [\App\Http\Controllers\LaporanController::class, 'cetakPdf'])->name('laporan.pdf');
+        Route::get('/laporan/proposal', [\App\Http\Controllers\LaporanController::class, 'proposal'])->name('laporan.proposal');
+
+        Route::get('/pengaturan', [\App\Http\Controllers\PengaturanController::class, 'index'])->name('pengaturan.index');
+        Route::put('/pengaturan', [\App\Http\Controllers\PengaturanController::class, 'update'])->name('pengaturan.update');
     });
 
     Route::prefix('member')->name('member.')->group(function () {
