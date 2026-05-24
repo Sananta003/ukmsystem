@@ -43,7 +43,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
-                    @forelse($kegiatan as $item)
+                    @forelse($kegiatans as $item)
                     <tr class="hover:bg-blue-50/30 transition-colors group">
                         <td class="p-5">
                             <div class="flex items-center gap-4">
@@ -51,7 +51,7 @@
                                     <i class="fa-solid fa-calendar-day"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 group-hover:text-brand-accent transition-colors">{{ $item->nama }}</h4>
+                                    <h4 class="font-bold text-gray-900 group-hover:text-brand-accent transition-colors">{{ $item->nama_kegiatan }}</h4>
                                     <p class="text-xs text-gray-500 mt-0.5"><i class="fa-solid fa-location-dot text-gray-400 mr-1"></i> {{ $item->lokasi ?? 'Lokasi tidak ditentukan' }}</p>
                                 </div>
                             </div>
@@ -99,9 +99,9 @@
         </div>
     </div>
     
-    @if($kegiatan->hasPages())
+    @if($kegiatans->hasPages())
     <div class="mt-6">
-        {{ $kegiatan->links() }}
+        {{ $kegiatans->links() }}
     </div>
     @endif
 </div>

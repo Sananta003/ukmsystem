@@ -55,10 +55,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/anggota', [\App\Http\Controllers\AnggotaController::class, 'index'])->name('anggota.index');
         Route::get('/anggota/tambah', [\App\Http\Controllers\AnggotaController::class, 'create'])->name('anggota.create');
         Route::post('/anggota', [\App\Http\Controllers\AnggotaController::class, 'store'])->name('anggota.store');
+        Route::delete('/anggota/{id}', [\App\Http\Controllers\AnggotaController::class, 'destroy'])->name('anggota.destroy');
         
         Route::get('/kegiatan', [\App\Http\Controllers\KegiatanController::class, 'index'])->name('kegiatan.index');
         Route::get('/kegiatan/tambah', [\App\Http\Controllers\KegiatanController::class, 'create'])->name('kegiatan.create');
         Route::post('/kegiatan', [\App\Http\Controllers\KegiatanController::class, 'store'])->name('kegiatan.store');
+        Route::get('/kegiatan/{id}/edit', [\App\Http\Controllers\KegiatanController::class, 'edit'])->name('kegiatan.edit');
+        Route::put('/kegiatan/{id}', [\App\Http\Controllers\KegiatanController::class, 'update'])->name('kegiatan.update');
+        Route::delete('/kegiatan/{id}', [\App\Http\Controllers\KegiatanController::class, 'destroy'])->name('kegiatan.destroy');
         Route::get('/kegiatan/{id}', [\App\Http\Controllers\KegiatanController::class, 'show'])->name('kegiatan.show');
         
         Route::get('/keuangan', [\App\Http\Controllers\KeuanganController::class, 'index'])->name('keuangan.index');
@@ -67,7 +71,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/evaluasi', [\App\Http\Controllers\EvaluasiController::class, 'index'])->name('evaluasi.index');
 
         Route::get('/laporan', [\App\Http\Controllers\LaporanController::class, 'index'])->name('laporan.index');
-        Route::get('/laporan/cetak-pdf', [\App\Http\Controllers\LaporanController::class, 'cetakPdf'])->name('laporan.pdf');
+        Route::get('/laporan/cetak-pdf', [\App\Http\Controllers\LaporanController::class, 'cetakPdf'])->name('laporan.cetak-pdf');
         Route::get('/laporan/proposal', [\App\Http\Controllers\LaporanController::class, 'proposal'])->name('laporan.proposal');
 
         Route::get('/pengaturan', [\App\Http\Controllers\PengaturanController::class, 'index'])->name('pengaturan.index');
