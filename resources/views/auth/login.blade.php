@@ -3,39 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - UKM System</title>
+    <title>Login - Portal UKM Kampus</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; }
+        
+        /* Custom animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        @keyframes float-reverse {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(20px) rotate(-5deg); }
+        }
+        
+        .animate-float { animation: float 15s ease-in-out infinite; }
+        .animate-float-reverse { animation: float-reverse 20s ease-in-out infinite; }
+    </style>
 </head>
-<body class="bg-slate-50 flex items-center justify-center h-screen">
-    <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100 w-full max-w-sm">
-        <div class="text-center mb-8">
-            <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-3">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+<body class="min-h-screen flex items-center justify-center relative overflow-hidden text-slate-100" x-data="{ loaded: false }" x-init="setTimeout(() => loaded = true, 100)">
+
+    <!-- Animated Mesh Gradient Background Elements -->
+    <div class="fixed top-[-10%] left-[-10%] w-[800px] h-[800px] bg-blue-600 rounded-full mix-blend-screen filter blur-[150px] opacity-40 animate-float"></div>
+    <div class="fixed top-[20%] right-[-10%] w-[600px] h-[600px] bg-purple-600 rounded-full mix-blend-screen filter blur-[120px] opacity-40 animate-float-reverse" style="animation-delay: -5s;"></div>
+    <div class="fixed bottom-[-10%] left-[20%] w-[700px] h-[700px] bg-pink-600 rounded-full mix-blend-screen filter blur-[150px] opacity-30 animate-float" style="animation-delay: -10s;"></div>
+
+    <!-- Login Container -->
+    <div :class="loaded ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'" class="w-full max-w-md p-4 transition-all duration-1000 ease-out z-10 relative">
+        
+        <div class="bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[2.5rem] shadow-2xl shadow-black/50 p-8 sm:p-10 relative overflow-hidden group">
+            
+            <!-- Subtle inner glow -->
+            <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+
+            <div class="text-center mb-10">
+                <a href="{{ url('/') }}" class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 border border-white/20 mb-6 shadow-inner hover:scale-110 hover:rotate-3 transition-transform duration-300">
+                    <i class="fa-solid fa-layer-group text-3xl bg-clip-text text-transparent bg-gradient-to-br from-blue-400 to-pink-400"></i>
+                </a>
+                <h2 class="text-3xl font-black text-white tracking-wide mb-2">Selamat Datang</h2>
+                <p class="text-blue-200/80 text-sm font-medium">Masuk untuk melanjutkan ke Portal UKM</p>
             </div>
-            <h2 class="text-2xl font-bold text-slate-800">UKM System</h2>
-            <p class="text-sm text-slate-500 mt-1">Silakan masuk ke akun Anda</p>
+
+            <form action="{{ route('login') }}" method="POST" class="space-y-6 relative z-10">
+                @csrf
+                
+                @if($errors->any())
+                    <div class="bg-red-500/20 border border-red-500/50 backdrop-blur-md text-red-200 text-sm p-4 rounded-2xl shadow-lg shadow-red-900/20 flex items-start gap-3">
+                        <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+                        <ul class="list-none m-0 p-0">
+                            @foreach($errors->all() as $error) <li>{{ $error }}</li> @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <div class="space-y-1.5">
+                    <label class="block text-sm font-bold text-white/90 ml-1">Alamat Email</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-white/50"></i>
+                        <input type="email" name="email" value="{{ old('email') }}" required placeholder="email@kampus.com" 
+                            class="w-full bg-white/10 border border-white/20 rounded-2xl pl-11 pr-4 py-3.5 text-white placeholder-white/40 focus:outline-none focus:ring-4 focus:ring-pink-500/40 focus:border-pink-500/60 focus:bg-white/20 transition-all duration-300">
+                    </div>
+                </div>
+
+                <div class="space-y-1.5">
+                    <div class="flex justify-between items-center ml-1">
+                        <label class="block text-sm font-bold text-white/90">Kata Sandi</label>
+                        <a href="#" class="text-xs font-semibold text-pink-300 hover:text-pink-200 transition-colors">Lupa sandi?</a>
+                    </div>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-white/50"></i>
+                        <input type="password" name="password" required placeholder="••••••••" 
+                            class="w-full bg-white/10 border border-white/20 rounded-2xl pl-11 pr-4 py-3.5 text-white placeholder-white/40 focus:outline-none focus:ring-4 focus:ring-pink-500/40 focus:border-pink-500/60 focus:bg-white/20 transition-all duration-300">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-400 hover:via-purple-400 hover:to-pink-400 text-white font-black py-4 rounded-2xl transition-all duration-300 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] hover:-translate-y-1 mt-4 relative overflow-hidden group/btn">
+                    <span class="relative z-10 flex items-center justify-center gap-2">Masuk Sekarang <i class="fa-solid fa-arrow-right text-sm"></i></span>
+                    <div class="absolute inset-0 h-full w-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1s_infinite]"></div>
+                </button>
+                
+                <p class="text-center text-sm text-white/60 mt-6 font-medium">
+                    Belum bergabung dengan UKM? <br>
+                    <a href="{{ route('ukm.explore') }}" class="text-pink-300 font-bold hover:text-pink-200 hover:underline transition-colors mt-1 inline-block">Eksplorasi & Daftar Disini</a>
+                </p>
+            </form>
         </div>
-
-        @if($errors->any())
-            <div class="bg-red-50 text-red-500 text-sm p-3 rounded-lg mb-4 text-center">
-                {{ $errors->first() }}
-            </div>
-        @endif
-
-        <form action="{{ route('login') }}" method="POST">
-            @csrf
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" required>
-            </div>
-            <div class="mb-6">
-                <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
-                <input type="password" name="password" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500" required>
-            </div>
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2.5 font-medium transition-colors">
-                Masuk
-            </button>
-        </form>
     </div>
+
+    <style>
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+    </style>
 </body>
 </html>

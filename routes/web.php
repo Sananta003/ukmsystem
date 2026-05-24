@@ -56,6 +56,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function () { return redirect()->route('admin-ukm.dashboard'); });
         Route::get('/dashboard', [\App\Http\Controllers\AdminUkmController::class, 'dashboard'])->name('dashboard');
         
+        // Pengumuman
+        Route::post('/pengumuman', [\App\Http\Controllers\AdminUkmController::class, 'storePengumuman'])->name('pengumuman.store');
+        
         Route::get('/anggota', [\App\Http\Controllers\AnggotaController::class, 'index'])->name('anggota.index');
         Route::get('/anggota/tambah', [\App\Http\Controllers\AnggotaController::class, 'create'])->name('anggota.create');
         Route::post('/anggota', [\App\Http\Controllers\AnggotaController::class, 'store'])->name('anggota.store');
@@ -90,6 +93,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function () { return redirect()->route('member.dashboard'); });
         Route::get('/dashboard', [MemberController::class, 'dashboard'])->name('dashboard');
         Route::get('/kegiatan', [MemberController::class, 'kegiatan'])->name('kegiatan');
+        Route::get('/pengumuman', [MemberController::class, 'pengumuman'])->name('pengumuman');
     });
 
     Route::prefix('inisiator')->name('inisiator.')->group(function () {

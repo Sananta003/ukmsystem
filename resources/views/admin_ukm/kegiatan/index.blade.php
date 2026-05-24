@@ -2,15 +2,60 @@
 @section('title', 'Kegiatan')
 
 @section('content')
-<div class="max-w-6xl mx-auto">
+<div class="max-w-6xl mx-auto" x-data="{ modalPengumuman: false }">
     <div class="mb-8 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
         <div>
             <h1 class="text-3xl font-extrabold text-gray-900">Jadwal & Kegiatan</h1>
             <p class="text-gray-500 mt-2">Kelola semua kegiatan dan program kerja UKM Anda.</p>
         </div>
-        <a href="{{ route('admin-ukm.kegiatan.create') }}" class="inline-flex items-center justify-center bg-brand-accent hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-brand-accent/30 gap-2 hover:-translate-y-0.5">
-            <i class="fa-solid fa-plus"></i> Tambah Kegiatan Baru
-        </a>
+        <div class="flex gap-3 flex-wrap">
+            <button @click="modalPengumuman = true" class="inline-flex items-center justify-center bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-pink-500/30 gap-2 hover:-translate-y-0.5 hover:shadow-pink-500/50">
+                <i class="fa-solid fa-bullhorn animate-pulse"></i> Buat Pengumuman
+            </button>
+            <a href="{{ route('admin-ukm.kegiatan.create') }}" class="inline-flex items-center justify-center bg-brand-accent hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-brand-accent/30 gap-2 hover:-translate-y-0.5">
+                <i class="fa-solid fa-plus"></i> Tambah Kegiatan Baru
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal Pengumuman -->
+    <div x-show="modalPengumuman" style="display: none;" class="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto overflow-x-hidden p-4">
+        <!-- Backdrop -->
+        <div x-show="modalPengumuman" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm" @click="modalPengumuman = false"></div>
+
+        <!-- Modal Content -->
+        <div x-show="modalPengumuman" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95 translate-y-4" x-transition:enter-end="opacity-100 scale-100 translate-y-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100 translate-y-0" x-transition:leave-end="opacity-0 scale-95 translate-y-4" class="relative w-full max-w-lg bg-white/80 backdrop-blur-xl border border-white/60 rounded-3xl shadow-2xl shadow-indigo-900/20 overflow-hidden">
+            
+            <div class="p-8">
+                <h3 class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-pink-600 to-orange-500 mb-2">Siarkan Pengumuman</h3>
+                <p class="text-slate-500 text-sm mb-6">Pesan ini akan otomatis terlihat oleh seluruh member di halaman dashboard mereka.</p>
+
+                <form action="{{ route('admin-ukm.pengumuman.store') }}" method="POST" class="space-y-5">
+                    @csrf
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Judul Pengumuman</label>
+                        <input type="text" name="judul" required placeholder="Cth: Jadwal Latihan Diubah" class="w-full bg-white/50 border border-slate-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-4 focus:ring-pink-500/20 focus:border-pink-500 transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Tanggal Terkait (Opsional)</label>
+                        <input type="date" name="tanggal_kegiatan" class="w-full bg-white/50 border border-slate-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-4 focus:ring-pink-500/20 focus:border-pink-500 transition-all text-slate-600">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-1">Isi Pesan</label>
+                        <textarea name="konten" required rows="4" placeholder="Tuliskan pesan Anda di sini..." class="w-full bg-white/50 border border-slate-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-4 focus:ring-pink-500/20 focus:border-pink-500 transition-all"></textarea>
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                        <button type="button" @click="modalPengumuman = false" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-2xl transition-all">
+                            Batal
+                        </button>
+                        <button type="submit" class="flex-1 bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white font-bold py-3 rounded-2xl shadow-lg shadow-pink-500/30 hover:shadow-pink-500/50 hover:-translate-y-0.5 transition-all">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Kirim
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 relative overflow-hidden mb-6">

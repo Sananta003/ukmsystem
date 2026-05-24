@@ -48,6 +48,21 @@ class MemberController extends Controller
         return view('member.kegiatan', compact('kegiatan'));
     }
 
+    public function pengumuman()
+    {
+        $user = Auth::user();
+        
+        if ($user->ukm_id) {
+            $pengumumans = \App\Models\Pengumuman::where('ukm_id', $user->ukm_id)
+                                            ->orderBy('created_at', 'desc')
+                                            ->get();
+        } else {
+            $pengumumans = collect([]);
+        }
+
+        return view('member.pengumuman', compact('pengumumans'));
+    }
+
     public function buatPengajuan()
     {
         return view('pengajuan.create');

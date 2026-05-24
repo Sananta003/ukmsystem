@@ -72,4 +72,22 @@ class AdminUkmController extends Controller
             'kegiatanMendatang'
         ));
     }
+
+    public function storePengumuman(Request $request)
+    {
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'konten' => 'required|string',
+            'tanggal_kegiatan' => 'nullable|date',
+        ]);
+
+        \App\Models\Pengumuman::create([
+            'ukm_id' => Auth::user()->ukm_id,
+            'judul' => $request->judul,
+            'konten' => $request->konten,
+            'tanggal_kegiatan' => $request->tanggal_kegiatan,
+        ]);
+
+        return back()->with('success', 'Pengumuman berhasil disiarkan ke semua member!');
+    }
 }
