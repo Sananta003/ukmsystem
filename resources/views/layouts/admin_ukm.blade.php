@@ -74,8 +74,8 @@
                 <i class="fa-solid fa-users w-5"></i>
                 <span class="text-sm font-medium">Anggota</span>
             </a>
-            <div x-data="{ open: {{ request()->routeIs('admin-ukm.laporan.*') ? 'true' : 'false' }} }">
-                <button @click="open = !open" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.laporan.*') ? 'bg-brand-accent text-white shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+            <div x-data="{ open: {{ request()->routeIs('admin-ukm.laporan.*') || request()->routeIs('admin-ukm.proposal.*') ? 'true' : 'false' }} }">
+                <button @click="open = !open" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.laporan.*') || request()->routeIs('admin-ukm.proposal.*') ? 'bg-brand-accent text-white shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                     <div class="flex items-center gap-3">
                         <i class="fa-solid fa-file-lines w-5"></i>
                         <span class="text-sm font-medium">Laporan</span>
@@ -86,7 +86,7 @@
                     <a href="{{ route('admin-ukm.laporan.index') }}" class="block px-3 py-2 rounded-lg text-sm transition-colors {{ request()->routeIs('admin-ukm.laporan.index') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">
                         Keuangan
                     </a>
-                    <a href="{{ route('admin-ukm.laporan.proposal') }}" class="block px-3 py-2 rounded-lg text-sm transition-colors {{ request()->routeIs('admin-ukm.laporan.proposal') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">
+                    <a href="{{ route('admin-ukm.proposal.index') }}" class="block px-3 py-2 rounded-lg text-sm transition-colors {{ request()->routeIs('admin-ukm.proposal.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">
                         Cek Proposal
                     </a>
                 </div>
