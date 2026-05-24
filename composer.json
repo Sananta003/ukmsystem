@@ -7,12 +7,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
-        "bacon/bacon-qr-code": "^3.0",
+        "bacon/bacon-qr-code": "*",
         "barryvdh/laravel-dompdf": "^3.1",
         "laravel/framework": "^13.0",
-        "laravel/socialite": "^5.12",
+        "laravel/socialite": "*",
         "laravel/tinker": "^3.0",
-        "pragmarx/google2fa-laravel": "^2.2"
+        "pragmarx/google2fa-laravel": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -86,6 +86,6 @@
         "disable-tls": false,
         "secure-http": true
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

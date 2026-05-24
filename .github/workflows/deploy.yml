@@ -16,7 +16,7 @@ jobs:
           php-version: '8.4'
 
       - name: 3. Bikin Folder Vendor (Ini yang bikin nyala!)
-        run: composer update --no-dev --no-interaction --prefer-dist
+        run: composer update --no-dev --no-interaction --prefer-dist --ignore-platform-reqs
 
       - name: 4. Kirim Semua File ke Freehostia
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
