@@ -25,6 +25,11 @@ Route::get('/artisan/clear', function() {
     return 'Application cache cleared!';
 });
 
+Route::get('/run-migrations', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    return 'Migrations completed: ' . \Illuminate\Support\Facades\Artisan::output();
+});
+
 Route::get('/artisan/migrate', function() {
     \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
     return 'Database migrated successfully!';
