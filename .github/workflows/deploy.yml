@@ -24,7 +24,7 @@ jobs:
           server: 162.210.102.233
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
-          server-dir: /ukm.satta.web.id/
+          server-dir: ukm.satta.web.id/
           exclude: |
             **/.git*
             **/.git*/**
