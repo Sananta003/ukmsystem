@@ -43,17 +43,19 @@
                 <input type="email" name="email" value="{{ old('email') }}" required placeholder="email@kampus.com" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition">
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Pilih UKM Tujuan</label>
-                <select name="ukm_id" required class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition bg-white">
-                    <option value="">-- Pilih Unit Kegiatan Mahasiswa --</option>
-                    @foreach($ukms as $ukm)
-                        <option value="{{ $ukm->id }}" {{ (old('ukm_id') ?? $selectedUkm) == $ukm->id ? 'selected' : '' }}>
-                            {{ $ukm->nama_ukm }}
-                        </option>
-                    @endforeach
-                </select>
+            <!-- Alert Info UKM -->
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-users text-lg"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-blue-600 font-semibold uppercase tracking-wider mb-0.5">Mendaftar untuk bergabung dengan</p>
+                    <h3 class="text-base font-bold text-slate-800">{{ $targetUkm->nama_ukm }}</h3>
+                </div>
             </div>
+
+            <!-- Hidden input untuk ukm_id -->
+            <input type="hidden" name="ukm_id" value="{{ request('ukm_id') }}">
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Buat Password</label>

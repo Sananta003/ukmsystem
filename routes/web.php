@@ -12,12 +12,11 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\SuperAdminController;
 
 Route::get('/', function () {
-    $ukms = App\Models\Ukm::withCount(['users' => function ($query) {
-        $query->where('role', 'member');
-    }])->get();
-    
-    return view('welcome', compact('ukms'));
+    $total_ukm = App\Models\Ukm::count();
+    return view('welcome', compact('total_ukm'));
 })->name('home');
+
+Route::get('/explore-ukm', [App\Http\Controllers\UkmController::class, 'explore'])->name('ukm.explore');
 
 // Utility routes for cPanel / Shared Hosting users
 Route::get('/artisan/clear', function() {

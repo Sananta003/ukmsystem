@@ -57,10 +57,14 @@ class AuthController extends Controller
     
     public function register(Request $request)
     {
-        $ukms = Ukm::all();
-        $selectedUkm = $request->query('ukm'); 
+        $ukm_id = $request->query('ukm_id'); 
+        $targetUkm = Ukm::find($ukm_id);
         
-       return view('register', compact('ukms', 'selectedUkm'));
+        if(!$targetUkm) {
+            return redirect()->route('ukm.explore')->with('error', 'Silakan pilih UKM terlebih dahulu sebelum mendaftar.');
+        }
+
+        return view('register', compact('targetUkm'));
     }
 
     public function registerFounder()
