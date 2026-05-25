@@ -535,61 +535,55 @@ if (request()->has('restore') && request('restore') == '1') {
             this.style.pointerEvents = 'none';
             setTimeout(() => this.remove(), 1000);
             
-            // Play Jamrud - Selamat Ulang Tahun via direct YouTube ID
-            // We use P24Lp_P_xGE (Jamrud Selamat Ulang Tahun)
-            document.getElementById('music-player').src = "https://www.youtube.com/embed/P24Lp_P_xGE?autoplay=1&loop=1&playlist=P24Lp_P_xGE";
+            // Play Jamrud - Selamat Ulang Tahun via direct YouTube ID (Lyric Video which allows embed)
+            document.getElementById('music-player').src = "https://www.youtube.com/embed/n4q9-DqA6O8?autoplay=1&loop=1&playlist=n4q9-DqA6O8";
             
-            // Start the infinite effects once clicked
+            // Start the effects once clicked
             startEffects();
         });
 
         // Wrap effects initialization in a function
         function startEffects() {
-            // 1. Infinite Heart-Shaped Confetti Explosion
-            var defaults = { startVelocity: 45, spread: 360, ticks: 300, zIndex: 0, gravity: 0.6, scalar: 2 };
+            // 1. One-Time Massive Heart Confetti Explosion (No Lag)
+            var defaults = { startVelocity: 55, spread: 360, ticks: 150, zIndex: 0, gravity: 0.8, scalar: 2 };
 
-        // Heart shape for confetti
-        var heart = confetti.shapeFromPath({
-            path: 'M167 72c19,-38 37,-56 75,-56 42,0 76,33 76,75 0,76 -76,151 -151,227 -76,-76 -151,-151 -151,-227 0,-42 33,-75 75,-75 38,0 57,18 76,56z',
-            matrix: [0.04, 0, 0, 0.04, -6.6, -6.6] // Made bigger
-        });
+            var heart = confetti.shapeFromPath({
+                path: 'M167 72c19,-38 37,-56 75,-56 42,0 76,33 76,75 0,76 -76,151 -151,227 -76,-76 -151,-151 -151,-227 0,-42 33,-75 75,-75 38,0 57,18 76,56z',
+                matrix: [0.04, 0, 0, 0.04, -6.6, -6.6]
+            });
 
-        function randomInRange(min, max) {
-            return Math.random() * (max - min) + min;
-        }
-
-        setInterval(function() {
-            var particleCount = 35; // Increased density
-            var colors = ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9bec7'];
-            
-            // Left burst
-            confetti(Object.assign({}, defaults, { 
-                particleCount, 
-                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-                shapes: [heart],
-                colors: colors
-            }));
-            
-            // Right burst
-            confetti(Object.assign({}, defaults, { 
-                particleCount, 
-                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-                shapes: [heart],
-                colors: colors
-            }));
-            
-            // Center pop randomly
-            if (Math.random() > 0.4) {
-                confetti(Object.assign({}, defaults, {
-                    particleCount: 50,
-                    spread: 120,
-                    startVelocity: 55,
-                    origin: { x: 0.5, y: 0.6 },
+            function fireConfetti() {
+                var particleCount = 100;
+                var colors = ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9bec7', '#ff007f', '#ffffff'];
+                
+                confetti(Object.assign({}, defaults, { 
+                    particleCount: particleCount, 
+                    origin: { x: 0.2, y: 0.5 },
                     shapes: [heart],
-                    colors: ['#ff007f', '#ff1493', '#ff69b4', '#fff']
+                    colors: colors
+                }));
+                
+                confetti(Object.assign({}, defaults, { 
+                    particleCount: particleCount, 
+                    origin: { x: 0.8, y: 0.5 },
+                    shapes: [heart],
+                    colors: colors
+                }));
+                
+                confetti(Object.assign({}, defaults, {
+                    particleCount: 150,
+                    spread: 100,
+                    startVelocity: 65,
+                    origin: { x: 0.5, y: 0.7 },
+                    shapes: [heart],
+                    colors: colors
                 }));
             }
-        }, 600);
+            
+            // Fire once immediately
+            fireConfetti();
+            // Fire one more time after 1 second, then stop forever to prevent lag.
+            setTimeout(fireConfetti, 1000);
 
         // 2. 3D Tilt Effect on Mouse Move
         const card = document.getElementById('card');
