@@ -12,8 +12,17 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
     </style>
+    <script>
+        // FOUC prevention for dark mode
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+        tailwind.config = { darkMode: 'class' };
+    </script>
 </head>
-<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-100 flex flex-col min-h-screen selection:bg-purple-200 selection:text-purple-900 relative overflow-x-hidden">
+<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-blue-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex flex-col min-h-screen selection:bg-purple-200 selection:text-purple-900 dark:selection:bg-purple-900 dark:selection:text-purple-200 relative overflow-x-hidden transition-colors duration-500" x-data="{ mobileMenuOpen: false, darkMode: document.documentElement.classList.contains('dark') }" x-init="$watch('darkMode', val => { if(val){ document.documentElement.classList.add('dark'); localStorage.theme = 'dark'; } else { document.documentElement.classList.remove('dark'); localStorage.theme = 'light'; } })">
 
     <!-- Global Background Blobs -->
     <div class="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-300 rounded-full mix-blend-multiply filter blur-[100px] opacity-30 -z-10 animate-pulse"></div>
@@ -23,7 +32,7 @@
         $userUkm = Auth::user()->ukm_id ? \App\Models\Ukm::find(Auth::user()->ukm_id) : null;
     @endphp
 
-    <header class="bg-white/70 backdrop-blur-xl border-b border-white/60 sticky top-0 z-50 shadow-sm transition-all duration-300">
+    <header class="bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border-b border-white/60 dark:border-slate-700 sticky top-0 z-50 shadow-sm transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center gap-8">
@@ -47,31 +56,56 @@
                     </a>
                     
                     <nav class="hidden md:flex space-x-2">
-                        <a href="{{ $dashboardRoute }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('*.dashboard') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 hover:text-blue-700 hover:bg-blue-50/80 hover:-translate-y-0.5' }}">Beranda</a>
+                        <a href="{{ $dashboardRoute }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('*.dashboard') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 hover:text-blue-700 dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Beranda</a>
                         
                         @if(Auth::user()->role === 'admin_ukm')
-                            <a href="{{ route('admin-ukm.anggota.index') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('admin-ukm.anggota.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 hover:text-blue-700 hover:bg-blue-50/80 hover:-translate-y-0.5' }}">Anggota</a>
-                            <a href="{{ route('admin-ukm.kegiatan.index') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('admin-ukm.kegiatan.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 hover:text-blue-700 hover:bg-blue-50/80 hover:-translate-y-0.5' }}">Kegiatan</a>
-                            <a href="{{ route('admin-ukm.keuangan.index') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('admin-ukm.keuangan.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 hover:text-blue-700 hover:bg-blue-50/80 hover:-translate-y-0.5' }}">Keuangan</a>
+                            <a href="{{ route('admin-ukm.anggota.index') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('admin-ukm.anggota.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 hover:text-blue-700 dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Anggota</a>
+                            <a href="{{ route('admin-ukm.kegiatan.index') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('admin-ukm.kegiatan.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 hover:text-blue-700 dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Kegiatan</a>
+                            <a href="{{ route('admin-ukm.keuangan.index') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('admin-ukm.keuangan.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 hover:text-blue-700 dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Keuangan</a>
                         @elseif(!in_array(Auth::user()->role, ['bem', 'bpm']) && !is_null(Auth::user()->ukm_id))
-                            <a href="{{ route('member.kegiatan') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('member.kegiatan') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 hover:text-blue-700 hover:bg-blue-50/80 hover:-translate-y-0.5' }}">Agenda Kegiatan</a>
+                            <a href="{{ route('member.kegiatan') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('member.kegiatan') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 hover:text-blue-700 dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Agenda Kegiatan</a>
                         @endif
                     </nav>
                 </div>
 
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 sm:gap-4">
+                    <!-- Dark Mode Toggle -->
+                    <button @click="darkMode = !darkMode" class="w-10 h-10 rounded-xl flex items-center justify-center bg-white dark:bg-slate-800 border border-indigo-100 dark:border-slate-700 text-indigo-500 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
+                        <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+                    </button>
+
                     <div class="text-right hidden sm:block">
-                        <p class="text-sm font-bold text-gray-800">{{ Auth::user()->name }}</p>
-                        <p class="text-xs font-medium text-violet-600">{{ Auth::user()->role === 'admin_ukm' ? 'Admin UKM' : (Auth::user()->role === 'member' ? (is_null(Auth::user()->ukm_id) ? 'Inisiator' : 'Anggota') : strtoupper(Auth::user()->role)) }}</p>
+                        <p class="text-sm font-bold text-gray-800 dark:text-slate-200">{{ Auth::user()->name }}</p>
+                        <p class="text-xs font-medium text-violet-600 dark:text-violet-400">{{ Auth::user()->role === 'admin_ukm' ? 'Admin UKM' : (Auth::user()->role === 'member' ? (is_null(Auth::user()->ukm_id) ? 'Inisiator' : 'Anggota') : strtoupper(Auth::user()->role)) }}</p>
                     </div>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="w-10 h-10 rounded-xl flex items-center justify-center bg-white border border-red-100 text-red-500 hover:bg-red-500 hover:text-white hover:border-red-500 hover:shadow-lg hover:shadow-red-500/30 hover:-translate-y-1 transition-all duration-300" title="Keluar">
+                        <button type="submit" class="w-10 h-10 rounded-xl flex items-center justify-center bg-white dark:bg-slate-800 border border-red-100 dark:border-red-900/50 text-red-500 hover:bg-red-500 hover:text-white dark:hover:text-white hover:border-red-500 hover:shadow-lg hover:shadow-red-500/30 hover:-translate-y-1 transition-all duration-300" title="Keluar">
                             <i class="fa-solid fa-power-off"></i>
                         </button>
                     </form>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden w-10 h-10 rounded-xl flex items-center justify-center bg-white dark:bg-slate-800 border border-indigo-100 dark:border-slate-700 text-indigo-500 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
+                        <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
+                    </button>
                 </div>
             </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div x-show="mobileMenuOpen" x-transition.opacity style="display: none;" class="md:hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-gray-200 dark:border-slate-800 shadow-lg">
+            <nav class="px-4 pt-2 pb-4 space-y-1">
+                <a href="{{ $dashboardRoute }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('*.dashboard') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800' }}">Beranda</a>
+                
+                @if(Auth::user()->role === 'admin_ukm')
+                    <a href="{{ route('admin-ukm.anggota.index') }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin-ukm.anggota.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800' }}">Anggota</a>
+                    <a href="{{ route('admin-ukm.kegiatan.index') }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin-ukm.kegiatan.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800' }}">Kegiatan</a>
+                    <a href="{{ route('admin-ukm.keuangan.index') }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin-ukm.keuangan.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800' }}">Keuangan</a>
+                @elseif(!in_array(Auth::user()->role, ['bem', 'bpm']) && !is_null(Auth::user()->ukm_id))
+                    <a href="{{ route('member.kegiatan') }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('member.kegiatan') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800' }}">Agenda Kegiatan</a>
+                @endif
+            </nav>
         </div>
     </header>
 
@@ -111,8 +145,8 @@
         </div>
     </main>
 
-    <footer class="bg-white/50 backdrop-blur-md border-t border-white/60 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 text-center text-sm text-slate-500 font-medium">
+    <footer class="bg-white/50 dark:bg-slate-900/50 backdrop-blur-md border-t border-white/60 dark:border-slate-800 mt-auto transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 text-center text-sm text-slate-500 dark:text-slate-400 font-medium">
             &copy; {{ date('Y') }} Sistem Manajemen UKM. Didesain dengan <i class="fa-solid fa-heart text-rose-500 mx-1 animate-pulse"></i>
         </div>
     </footer>

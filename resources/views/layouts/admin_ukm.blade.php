@@ -14,13 +14,21 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     <script>
+        // FOUC prevention for dark mode
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+        
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        'brand-primary': '#1e293b',   // Ganti dengan Hex Warna Utama Figma Anda
-                        'brand-secondary': '#8b5cf6', // Ganti dengan Hex Warna Sekunder Figma Anda
-                        'brand-accent': '#2563eb'     // Warna Aksen Biru (Default Admin UKM)
+                        'brand-primary': '#1e293b',
+                        'brand-secondary': '#8b5cf6',
+                        'brand-accent': '#2563eb'
                     },
                     fontFamily: {
                         sans: ['Poppins', 'sans-serif'],
@@ -40,8 +48,13 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
-<body class="bg-gray-50 flex h-screen overflow-hidden">
-    <aside class="w-64 bg-brand-primary text-white flex flex-col h-full shrink-0 transition-all duration-300">
+</head>
+<body class="bg-gray-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 flex h-screen overflow-hidden transition-colors duration-300" x-data="{ sidebarOpen: false, darkMode: document.documentElement.classList.contains('dark') }" x-init="$watch('darkMode', val => { if(val){ document.documentElement.classList.add('dark'); localStorage.theme = 'dark'; } else { document.documentElement.classList.remove('dark'); localStorage.theme = 'light'; } })">
+    
+    <!-- Mobile Sidebar Overlay -->
+    <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm" style="display: none;"></div>
+
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" class="fixed md:relative z-50 w-64 bg-brand-primary dark:bg-slate-950 text-white flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out">
         <div class="flex items-center gap-3 p-6 border-b border-white/10">
             @php $ukm = \App\Models\Ukm::find(Auth::user()->ukm_id); @endphp
             <div class="w-8 h-8 bg-brand-accent rounded flex items-center justify-center overflow-hidden shadow-lg shadow-brand-accent/30">
@@ -108,16 +121,27 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col h-full overflow-hidden">
-        <header class="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6 shrink-0">
-            <div class="relative w-96">
+    <main class="flex-1 flex flex-col h-full overflow-hidden w-full relative">
+        <header class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-b border-gray-200 dark:border-slate-700 h-16 flex items-center justify-between px-4 sm:px-6 shrink-0 transition-colors duration-300">
+            <div class="flex items-center gap-4">
+                <!-- Mobile Menu Button -->
+                <button @click="sidebarOpen = true" class="md:hidden text-gray-500 hover:text-brand-accent dark:text-slate-400 dark:hover:text-blue-400 focus:outline-none transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                
+                <div class="relative w-64 sm:w-96 hidden sm:block">
                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                <input type="text" placeholder="Cari..." class="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-brand-accent">
+                <input type="text" placeholder="Cari..." class="w-full pl-9 pr-4 py-2 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-brand-accent dark:text-white transition-colors">
             </div>
-            <div class="flex items-center gap-6">
-                <div class="flex items-center gap-3 pl-6 border-l border-gray-200">
-                    <div class="text-right">
-                        <p class="text-sm font-semibold text-gray-800">{{ Auth::user()->name }}</p>
+            <div class="flex items-center gap-3 sm:gap-6">
+                <!-- Dark Mode Toggle -->
+                <button @click="darkMode = !darkMode" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:text-brand-accent dark:text-slate-400 dark:hover:text-blue-400 bg-gray-100 dark:bg-slate-900 hover:bg-gray-200 dark:hover:bg-slate-950 transition-all shadow-inner">
+                    <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+                </button>
+
+                <div class="flex items-center gap-3 pl-3 sm:pl-6 border-l border-gray-200 dark:border-slate-700">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-semibold text-gray-800 dark:text-slate-200">{{ Auth::user()->name }}</p>
                     </div>
                     <div class="w-10 h-10 rounded-full bg-brand-accent/10 flex items-center justify-center text-brand-accent font-bold uppercase">
                         {{ substr(Auth::user()->name, 0, 1) }}

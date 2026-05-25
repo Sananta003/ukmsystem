@@ -13,13 +13,21 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
     <script>
+        // FOUC prevention for dark mode
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+        
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        'brand-primary': '#1e293b',   // Ganti dengan Hex Warna Utama Figma Anda
-                        'brand-secondary': '#8b5cf6', // Ganti dengan Hex Warna Sekunder Figma Anda
-                        'brand-accent': '#3b82f6'     // Ganti dengan Hex Warna Aksen Figma Anda
+                        'brand-primary': '#1e293b',
+                        'brand-secondary': '#8b5cf6',
+                        'brand-accent': '#3b82f6'
                     },
                     fontFamily: {
                         sans: ['Poppins', 'sans-serif'],
@@ -39,8 +47,13 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
     </style>
 </head>
-<body class="bg-gray-50 flex h-screen overflow-hidden">
-    <aside class="w-64 bg-brand-primary text-white flex flex-col h-full shrink-0 transition-all duration-300">
+</head>
+<body class="bg-gray-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 flex h-screen overflow-hidden transition-colors duration-300" x-data="{ sidebarOpen: false, darkMode: document.documentElement.classList.contains('dark') }" x-init="$watch('darkMode', val => { if(val){ document.documentElement.classList.add('dark'); localStorage.theme = 'dark'; } else { document.documentElement.classList.remove('dark'); localStorage.theme = 'light'; } })">
+    
+    <!-- Mobile Sidebar Overlay -->
+    <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm" style="display: none;"></div>
+
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" class="fixed md:relative z-50 w-64 bg-brand-primary dark:bg-slate-950 text-white flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out">
         <div class="flex items-center gap-3 p-6 border-b border-white/10">
             <div class="w-8 h-8 bg-brand-secondary rounded flex items-center justify-center shadow-lg shadow-brand-secondary/30">
                 <i class="fa-solid fa-building-columns text-white text-sm"></i>
@@ -67,12 +80,25 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col h-full overflow-hidden">
-        <header class="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-8 shrink-0">
-            <h2 class="font-bold text-gray-800">Administrator Kampus</h2>
-            <div class="flex items-center gap-3">
-                <span class="text-sm font-medium text-gray-600">{{ Auth::user()->name ?? 'Admin' }}</span>
-                <div class="w-9 h-9 rounded-full bg-brand-secondary/10 text-brand-secondary flex items-center justify-center font-bold">SA</div>
+    <main class="flex-1 flex flex-col h-full overflow-hidden w-full relative">
+        <header class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-b border-gray-200 dark:border-slate-700 h-16 flex items-center justify-between px-4 sm:px-8 shrink-0 transition-colors duration-300">
+            <div class="flex items-center gap-4">
+                <button @click="sidebarOpen = true" class="md:hidden text-gray-500 hover:text-brand-accent dark:text-slate-400 dark:hover:text-blue-400 focus:outline-none transition-colors">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <h2 class="font-bold text-gray-800 dark:text-slate-200 hidden sm:block">Administrator Kampus</h2>
+            </div>
+            
+            <div class="flex items-center gap-3 sm:gap-6">
+                <!-- Dark Mode Toggle -->
+                <button @click="darkMode = !darkMode" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:text-brand-accent dark:text-slate-400 dark:hover:text-blue-400 bg-gray-100 dark:bg-slate-900 hover:bg-gray-200 dark:hover:bg-slate-950 transition-all shadow-inner">
+                    <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+                </button>
+
+                <div class="flex items-center gap-3 pl-3 sm:pl-6 border-l border-gray-200 dark:border-slate-700">
+                    <span class="text-sm font-medium text-gray-600 dark:text-slate-300 hidden sm:block">{{ Auth::user()->name ?? 'Admin' }}</span>
+                    <div class="w-9 h-9 rounded-full bg-brand-secondary/10 text-brand-secondary flex items-center justify-center font-bold">SA</div>
+                </div>
             </div>
         </header>
 
