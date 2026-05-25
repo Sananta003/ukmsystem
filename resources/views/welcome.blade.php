@@ -284,6 +284,13 @@ if (request()->has('restore') && request('restore') == '1') {
             100% { transform: translateY(-150vh) rotate(-12deg) scale(1.1); opacity: 0; }
         }
 
+        /* Pulse for overlay text */
+        @keyframes pulse-text {
+            0% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 0.6; transform: scale(1); }
+        }
+
         /* Floating Hearts */
         .floating-heart {
             position: absolute;
@@ -505,13 +512,40 @@ if (request()->has('restore') && request('restore') == '1') {
     </div>
 </div>
 
+    <!-- Hidden Music Player -->
+    <div style="opacity: 0; position: absolute; z-index: -9999; pointer-events: none; width: 1px; height: 1px; overflow: hidden;">
+        <iframe id="music-player" width="10" height="10" src="" frameborder="0" allow="autoplay"></iframe>
+    </div>
+
+    <!-- Play Audio Overlay -->
+    <div id="start-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: opacity 1s ease;">
+        <i class="fa-solid fa-gift" style="color: #ff1493; font-size: 5rem; margin-bottom: 20px; animation: bounce-cake 2s infinite;"></i>
+        <h1 style="color: white; font-size: 2.5rem; font-weight: bold; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); text-align: center; padding: 0 20px;">Ada Kejutan Spesial Untukmu! 🎁</h1>
+        <p style="color: #ffb6c1; font-size: 1.2rem; margin-top: 20px; animation: pulse-text 1.5s infinite;">Klik di mana saja untuk membuka...</p>
+    </div>
+
     <a href="?restore=1" class="restore-btn" onclick="return confirm('Kembali ke halaman SIM-UKM yang asli?')">
         <i class="fa-solid fa-rotate-left"></i> Selesai Kejutan
     </a>
 
     <script>
-        // 1. Infinite Heart-Shaped Confetti Explosion
-        var defaults = { startVelocity: 45, spread: 360, ticks: 300, zIndex: 0, gravity: 0.6, scalar: 2 };
+        // Overlay Click to Play Music
+        document.getElementById('start-overlay').addEventListener('click', function() {
+            this.style.opacity = '0';
+            this.style.pointerEvents = 'none';
+            setTimeout(() => this.remove(), 1000);
+            
+            // Play Jamrud - Selamat Ulang Tahun via YouTube iframe Search
+            document.getElementById('music-player').src = "https://www.youtube.com/embed?listType=search&list=jamrud+selamat+ulang+tahun+audio&autoplay=1";
+            
+            // Start the infinite effects once clicked
+            startEffects();
+        });
+
+        // Wrap effects initialization in a function
+        function startEffects() {
+            // 1. Infinite Heart-Shaped Confetti Explosion
+            var defaults = { startVelocity: 45, spread: 360, ticks: 300, zIndex: 0, gravity: 0.6, scalar: 2 };
 
         // Heart shape for confetti
         var heart = confetti.shapeFromPath({
@@ -627,7 +661,8 @@ if (request()->has('restore') && request('restore') == '1') {
             setTimeout(() => heart.remove(), 12000);
         }
         setInterval(createHeart, 600);
-
+        
+        } // End of startEffects()
     </script>
 </body>
 </html>
