@@ -590,8 +590,8 @@ if (request()->has('restore') && request('restore') == '1') {
             // Fire immediately on click
             fireConfetti();
             
-            // Then fire every 2.5 seconds (explodes -> disappears -> wait -> explodes again)
-            setInterval(fireConfetti, 2500);
+            // Then fire every 4 seconds (explodes -> disappears -> wait -> explodes again)
+            setInterval(fireConfetti, 4000);
         } // <-- CLOSED STARTEFFECTS PROPERLY
 
         // 2. 3D Tilt Effect on Mouse Move
