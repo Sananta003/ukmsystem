@@ -193,13 +193,13 @@ if (request()->has('restore') && request('restore') == '1') {
 
         .flame {
             fill: #ff9800;
-            animation: real-flame-anim 0.3s infinite alternate ease-in-out;
+            animation: real-flame-anim 2.5s infinite alternate ease-in-out;
             transform-origin: bottom center;
         }
         
         .flame-inner {
             fill: #ffeb3b;
-            animation: real-flame-anim 0.4s infinite alternate-reverse ease-in-out;
+            animation: real-flame-anim 3s infinite alternate-reverse ease-in-out;
             transform-origin: bottom center;
         }
 
@@ -278,9 +278,10 @@ if (request()->has('restore') && request('restore') == '1') {
         }
 
         @keyframes fly-up {
-            0% { transform: translateY(0) rotate(0deg) scale(0.8); }
-            10% { transform: translateY(-10vh) rotate(5deg) scale(0.9); }
-            100% { transform: translateY(var(--ceiling)) rotate(var(--rot)) scale(1); }
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+            5% { opacity: 1; }
+            50% { transform: translateY(-70vh) rotate(12deg) scale(1); }
+            100% { transform: translateY(-150vh) rotate(-12deg) scale(1.1); opacity: 0; }
         }
 
         /* Floating Hearts */
@@ -510,12 +511,12 @@ if (request()->has('restore') && request('restore') == '1') {
 
     <script>
         // 1. Infinite Heart-Shaped Confetti Explosion
-        var defaults = { startVelocity: 35, spread: 360, ticks: 80, zIndex: 0 };
+        var defaults = { startVelocity: 45, spread: 360, ticks: 300, zIndex: 0, gravity: 0.6, scalar: 2 };
 
         // Heart shape for confetti
         var heart = confetti.shapeFromPath({
             path: 'M167 72c19,-38 37,-56 75,-56 42,0 76,33 76,75 0,76 -76,151 -151,227 -76,-76 -151,-151 -151,-227 0,-42 33,-75 75,-75 38,0 57,18 76,56z',
-            matrix: [0.03333, 0, 0, 0.03333, -5.566, -5.533]
+            matrix: [0.04, 0, 0, 0.04, -6.6, -6.6] // Made bigger
         });
 
         function randomInRange(min, max) {
@@ -523,7 +524,7 @@ if (request()->has('restore') && request('restore') == '1') {
         }
 
         setInterval(function() {
-            var particleCount = 15;
+            var particleCount = 35; // Increased density
             var colors = ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9bec7'];
             
             // Left burst
@@ -543,17 +544,17 @@ if (request()->has('restore') && request('restore') == '1') {
             }));
             
             // Center pop randomly
-            if (Math.random() > 0.6) {
-                confetti({
-                    particleCount: 25,
+            if (Math.random() > 0.4) {
+                confetti(Object.assign({}, defaults, {
+                    particleCount: 50,
                     spread: 120,
-                    startVelocity: 45,
+                    startVelocity: 55,
                     origin: { x: 0.5, y: 0.6 },
                     shapes: [heart],
                     colors: ['#ff007f', '#ff1493', '#ff69b4', '#fff']
-                });
+                }));
             }
-        }, 500);
+        }, 600);
 
         // 2. 3D Tilt Effect on Mouse Move
         const card = document.getElementById('card');
@@ -568,14 +569,8 @@ if (request()->has('restore') && request('restore') == '1') {
             card.style.transform = `rotateY(0deg) rotateX(0deg)`;
         });
 
-        // 3. Photorealistic Anti-Gravity Piling Balloons
-        let balloonCount = 0;
-        const maxBalloons = 120; // Stop after 120 balloons so browser doesn't crash
-        
+        // 3. Photorealistic Anti-Gravity Infinite Flying Balloons
         function createBalloon() {
-            if (balloonCount >= maxBalloons) return;
-            balloonCount++;
-            
             const balloon = document.createElement('div');
             balloon.classList.add('balloon');
             
@@ -584,15 +579,8 @@ if (request()->has('restore') && request('restore') == '1') {
             balloon.appendChild(highlight);
             
             const left = Math.random() * 100;
-            const duration = Math.random() * 5 + 6; // 6 to 11 seconds to fly up
+            const duration = Math.random() * 6 + 7; // 7 to 13 seconds
             const delay = Math.random() * 1;
-            
-            // Random ceiling where the balloon will stop and pile up
-            const ceilingVal = -(100 + Math.random() * 30);
-            balloon.style.setProperty('--ceiling', `${ceilingVal}vh`);
-            
-            const rotVal = (Math.random() * 30 - 15);
-            balloon.style.setProperty('--rot', `${rotVal}deg`);
             
             const colors = ['#ff007f', '#ff1493', '#ff69b4', '#ffb6c1', '#ffffff', '#e91e63', '#d50000'];
             const color = colors[Math.floor(Math.random() * colors.length)];
@@ -604,20 +592,16 @@ if (request()->has('restore') && request('restore') == '1') {
             balloon.style.borderBottomColor = color;
             
             document.body.appendChild(balloon);
-            // No remove() so they pile up!
+            
+            // Remove balloon to prevent memory leak since it goes off screen infinitely
+            setTimeout(() => { balloon.remove(); }, (duration + delay) * 1000);
         }
 
         // Initial burst
-        for(let i=0; i<40; i++) { setTimeout(createBalloon, Math.random() * 2000); }
+        for(let i=0; i<30; i++) { setTimeout(createBalloon, Math.random() * 2000); }
         
-        // Continuous generation until max is reached
-        const balloonInterval = setInterval(() => {
-            if (balloonCount >= maxBalloons) {
-                clearInterval(balloonInterval);
-            } else {
-                createBalloon();
-            }
-        }, 500);
+        // Continuous generation infinitely
+        setInterval(createBalloon, 500);
 
         // 4. Sparkles Background Generator
         const sparklesContainer = document.getElementById('sparkles-container');
