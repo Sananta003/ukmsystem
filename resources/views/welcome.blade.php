@@ -513,8 +513,8 @@ if (request()->has('restore') && request('restore') == '1') {
 </div>
 
     <!-- Hidden Music Player -->
-    <div style="opacity: 0; position: absolute; z-index: -9999; pointer-events: none; width: 1px; height: 1px; overflow: hidden;">
-        <iframe id="music-player" width="10" height="10" src="" frameborder="0" allow="autoplay"></iframe>
+    <div style="position: absolute; left: -9999px; top: -9999px; width: 300px; height: 300px;">
+        <iframe id="music-player" width="300" height="300" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
     <!-- Play Audio Overlay -->
@@ -535,8 +535,9 @@ if (request()->has('restore') && request('restore') == '1') {
             this.style.pointerEvents = 'none';
             setTimeout(() => this.remove(), 1000);
             
-            // Play Jamrud - Selamat Ulang Tahun via YouTube iframe Search
-            document.getElementById('music-player').src = "https://www.youtube.com/embed?listType=search&list=jamrud+selamat+ulang+tahun+audio&autoplay=1";
+            // Play Jamrud - Selamat Ulang Tahun via direct YouTube ID
+            // We use P24Lp_P_xGE (Jamrud Selamat Ulang Tahun)
+            document.getElementById('music-player').src = "https://www.youtube.com/embed/P24Lp_P_xGE?autoplay=1&loop=1&playlist=P24Lp_P_xGE";
             
             // Start the infinite effects once clicked
             startEffects();
