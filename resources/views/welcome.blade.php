@@ -512,8 +512,8 @@ if (request()->has('restore') && request('restore') == '1') {
     </div>
 </div>
 
-    <!-- Hidden Music Player via Native Audio -->
-    <audio id="music-player" src="https://archive.org/download/JamrudSelamatUlangTahun/Jamrud-SelamatUlangTahunnewVersion.mp3" preload="auto" loop></audio>
+    <!-- Hidden Music Player via Native Audio (Local File for 100% Reliability) -->
+    <audio id="music-player" src="{{ asset('jamrud.mp3') }}" preload="auto" loop></audio>
 
     <!-- Play Audio Overlay -->
     <div id="start-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: opacity 1s ease;">
@@ -590,8 +590,9 @@ if (request()->has('restore') && request('restore') == '1') {
             // Fire immediately on click
             fireConfetti();
             
-            // Then fire every 4 seconds (explodes -> disappears -> wait -> explodes again)
-            setInterval(fireConfetti, 4000);
+            // Then fire every 2.5 seconds (explodes -> disappears -> wait -> explodes again)
+            setInterval(fireConfetti, 2500);
+        } // <-- CLOSED STARTEFFECTS PROPERLY
 
         // 2. 3D Tilt Effect on Mouse Move
         const card = document.getElementById('card');
@@ -664,8 +665,6 @@ if (request()->has('restore') && request('restore') == '1') {
             setTimeout(() => heart.remove(), 12000);
         }
         setInterval(createHeart, 600);
-        
-        } // End of startEffects()
     </script>
 </body>
 </html>
