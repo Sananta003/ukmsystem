@@ -10,15 +10,21 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MasukanController;
 
 Route::get('/', function () {
     $total_ukm = App\Models\Ukm::count();
     return view('welcome', compact('total_ukm'));
 })->name('home');
 
+// Masukan Routes
+Route::get('/beri-masukan', [MasukanController::class, 'create'])->name('masukan.create');
+Route::post('/beri-masukan', [MasukanController::class, 'store'])->name('masukan.store');
+
 Route::get('/explore-ukm', [App\Http\Controllers\UkmController::class, 'explore'])->name('ukm.explore');
 
-// Utility routes for cPanel / Shared Hosting users
+
 Route::get('/artisan/clear', function() {
     \Illuminate\Support\Facades\Artisan::call('optimize:clear');
     return 'Application cache cleared!';
@@ -49,11 +55,11 @@ Route::middleware('guest')->group(function () {
     Route::get('/pengajuan-ukm', [AuthController::class, 'registerFounder'])->name('pengajuan.create');
 });
 
-// Google SSO
+
 Route::get('/auth/google', [\App\Http\Controllers\SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [\App\Http\Controllers\SocialiteController::class, 'handleGoogleCallback']);
 
-// Forgot & Reset Password (Views added below)
+
 Route::get('/forgot-password', function () { return view('auth.passwords.email'); })->name('password.request');
 Route::post('/forgot-password', [\App\Http\Controllers\AuthController::class, 'forgotPassword'])->name('password.email');
 Route::get('/reset-password/{token}', function ($token) { return view('auth.passwords.reset', ['token' => $token]); })->name('password.reset');
