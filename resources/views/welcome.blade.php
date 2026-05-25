@@ -512,9 +512,9 @@ if (request()->has('restore') && request('restore') == '1') {
     </div>
 </div>
 
-    <!-- Hidden Music Player -->
-    <div style="position: absolute; left: -9999px; top: -9999px; width: 300px; height: 300px;">
-        <iframe id="music-player" width="300" height="300" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <!-- Hidden Music Player via YouTube API -->
+    <div style="position: absolute; left: -9999px; top: -9999px; width: 300px; height: 300px; opacity: 0; pointer-events: none;">
+        <div id="player"></div>
     </div>
 
     <!-- Play Audio Overlay -->
@@ -528,15 +528,34 @@ if (request()->has('restore') && request('restore') == '1') {
         <i class="fa-solid fa-rotate-left"></i> Selesai Kejutan
     </a>
 
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
+        var ytPlayer;
+        function onYouTubeIframeAPIReady() {
+            ytPlayer = new YT.Player('player', {
+                height: '300',
+                width: '300',
+                videoId: 'n4q9-DqA6O8', // Jamrud - Selamat Ulang Tahun (Lyric Video)
+                playerVars: {
+                    'autoplay': 0, // Wait for overlay click
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': 'n4q9-DqA6O8'
+                }
+            });
+        }
+
         // Overlay Click to Play Music
         document.getElementById('start-overlay').addEventListener('click', function() {
             this.style.opacity = '0';
             this.style.pointerEvents = 'none';
             setTimeout(() => this.remove(), 1000);
             
-            // Play Jamrud - Selamat Ulang Tahun via direct YouTube ID (Lyric Video which allows embed)
-            document.getElementById('music-player').src = "https://www.youtube.com/embed/n4q9-DqA6O8?autoplay=1&loop=1&playlist=n4q9-DqA6O8";
+            // Play using API
+            if (ytPlayer && ytPlayer.playVideo) {
+                ytPlayer.playVideo();
+            }
             
             // Start the effects once clicked
             startEffects();
@@ -544,8 +563,8 @@ if (request()->has('restore') && request('restore') == '1') {
 
         // Wrap effects initialization in a function
         function startEffects() {
-            // 1. One-Time Massive Heart Confetti Explosion (No Lag)
-            var defaults = { startVelocity: 55, spread: 360, ticks: 150, zIndex: 0, gravity: 0.8, scalar: 2 };
+            // 1. Intermittent Massive Heart Confetti Explosion
+            var defaults = { spread: 360, ticks: 120, zIndex: 0, gravity: 0.9, scalar: 2 };
 
             var heart = confetti.shapeFromPath({
                 path: 'M167 72c19,-38 37,-56 75,-56 42,0 76,33 76,75 0,76 -76,151 -151,227 -76,-76 -151,-151 -151,-227 0,-42 33,-75 75,-75 38,0 57,18 76,56z',
@@ -553,37 +572,42 @@ if (request()->has('restore') && request('restore') == '1') {
             });
 
             function fireConfetti() {
-                var particleCount = 100;
                 var colors = ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9bec7', '#ff007f', '#ffffff'];
                 
+                // Left Massive Burst
                 confetti(Object.assign({}, defaults, { 
-                    particleCount: particleCount, 
-                    origin: { x: 0.2, y: 0.5 },
+                    particleCount: 150, 
+                    startVelocity: 55,
+                    origin: { x: 0.1, y: 0.7 },
                     shapes: [heart],
                     colors: colors
                 }));
                 
+                // Right Massive Burst
                 confetti(Object.assign({}, defaults, { 
-                    particleCount: particleCount, 
-                    origin: { x: 0.8, y: 0.5 },
+                    particleCount: 150, 
+                    startVelocity: 55,
+                    origin: { x: 0.9, y: 0.7 },
                     shapes: [heart],
                     colors: colors
                 }));
                 
+                // Center Super Burst
                 confetti(Object.assign({}, defaults, {
-                    particleCount: 150,
-                    spread: 100,
-                    startVelocity: 65,
-                    origin: { x: 0.5, y: 0.7 },
+                    particleCount: 250,
+                    spread: 140,
+                    startVelocity: 75,
+                    origin: { x: 0.5, y: 0.8 },
                     shapes: [heart],
                     colors: colors
                 }));
             }
             
-            // Fire once immediately
+            // Fire immediately on click
             fireConfetti();
-            // Fire one more time after 1 second, then stop forever to prevent lag.
-            setTimeout(fireConfetti, 1000);
+            
+            // Then fire every 4 seconds (explodes -> disappears -> wait -> explodes again)
+            setInterval(fireConfetti, 4000);
 
         // 2. 3D Tilt Effect on Mouse Move
         const card = document.getElementById('card');
