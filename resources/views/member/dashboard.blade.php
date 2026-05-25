@@ -56,8 +56,8 @@
                         </div>
                     </a>
                     
-                    <!-- Dummy Action untuk Estetika -->
-                    <a href="#" class="group bg-gradient-to-br from-white to-purple-50 border border-purple-100 rounded-2xl p-5 flex items-center gap-4 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300 hover:-translate-y-1">
+                    <!-- Link Pengumuman -->
+                    <a href="{{ route('member.pengumuman') }}" class="group bg-gradient-to-br from-white to-purple-50 border border-purple-100 rounded-2xl p-5 flex items-center gap-4 hover:shadow-lg hover:shadow-purple-500/10 transition-all duration-300 hover:-translate-y-1">
                         <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300 shadow-inner">
                             <i class="fa-solid fa-bullhorn text-xl"></i>
                         </div>
