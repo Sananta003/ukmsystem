@@ -191,6 +191,27 @@ if (request()->has('restore') && request('restore') == '1') {
             100% { transform: scale(1.3) translateY(-10px); opacity: 1; filter: drop-shadow(0 0 10px #ff1493); }
         }
 
+        .flame {
+            fill: #ff9800;
+            animation: flicker 0.3s infinite alternate ease-in-out;
+            transform-origin: bottom center;
+        }
+        
+        .flame-inner {
+            fill: #ffeb3b;
+            animation: flicker 0.4s infinite alternate-reverse ease-in-out;
+            transform-origin: bottom center;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) skewX(10deg) rotate(-5deg); opacity: 0.9; }
+            20% { transform: scale(1.05) skewX(15deg) rotate(-8deg); opacity: 1; }
+            40% { transform: scale(0.95) skewX(5deg) rotate(-2deg); opacity: 0.8; }
+            60% { transform: scale(1.1) skewX(20deg) rotate(-10deg); opacity: 1; }
+            80% { transform: scale(0.9) skewX(8deg) rotate(-3deg); opacity: 0.9; }
+            100% { transform: scale(1.02) skewX(12deg) rotate(-6deg); opacity: 1; }
+        }
+
         /* Sparkles/Stars */
         .sparkle {
             position: absolute;
@@ -490,26 +511,51 @@ if (request()->has('restore') && request('restore') == '1') {
     </a>
 
     <script>
-        // 1. Confetti Explosion on Load
-        var duration = 12 * 1000;
-        var animationEnd = Date.now() + duration;
-        var defaults = { startVelocity: 35, spread: 360, ticks: 60, zIndex: 0 };
+        // 1. Infinite Heart-Shaped Confetti Explosion
+        var defaults = { startVelocity: 35, spread: 360, ticks: 80, zIndex: 0 };
+
+        // Heart shape for confetti
+        var heart = confetti.shapeFromPath({
+            path: 'M167 72c19,-38 37,-56 75,-56 42,0 76,33 76,75 0,76 -76,151 -151,227 -76,-76 -151,-151 -151,-227 0,-42 33,-75 75,-75 38,0 57,18 76,56z',
+            matrix: [0.03333, 0, 0, 0.03333, -5.566, -5.533]
+        });
 
         function randomInRange(min, max) {
             return Math.random() * (max - min) + min;
         }
 
-        var interval = setInterval(function() {
-            var timeLeft = animationEnd - Date.now();
-
-            if (timeLeft <= 0) {
-                return clearInterval(interval);
+        setInterval(function() {
+            var particleCount = 15;
+            var colors = ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9bec7'];
+            
+            // Left burst
+            confetti(Object.assign({}, defaults, { 
+                particleCount, 
+                origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                shapes: [heart],
+                colors: colors
+            }));
+            
+            // Right burst
+            confetti(Object.assign({}, defaults, { 
+                particleCount, 
+                origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                shapes: [heart],
+                colors: colors
+            }));
+            
+            // Center pop randomly
+            if (Math.random() > 0.6) {
+                confetti({
+                    particleCount: 25,
+                    spread: 120,
+                    startVelocity: 45,
+                    origin: { x: 0.5, y: 0.6 },
+                    shapes: [heart],
+                    colors: ['#ff007f', '#ff1493', '#ff69b4', '#fff']
+                });
             }
-
-            var particleCount = 50 * (timeLeft / duration);
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-            confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-        }, 250);
+        }, 500);
 
         // 2. 3D Tilt Effect on Mouse Move
         const card = document.getElementById('card');
