@@ -24,7 +24,7 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 flex flex-col min-h-screen transition-colors duration-500" x-data="{ mobileMenuOpen: false, darkMode: document.documentElement.classList.contains('dark') }" x-init="$watch('darkMode', val => { if(val){ document.documentElement.classList.add('dark'); localStorage.theme = 'dark'; } else { document.documentElement.classList.remove('dark'); localStorage.theme = 'light'; } })">
 
-    <div class="bg-blue-600 text-white text-xs sm:text-sm py-2 px-4 text-center fixed w-full z-[60] font-medium tracking-wide shadow-sm">
+    <div class="bg-blue-600 dark:bg-indigo-950 text-white text-xs sm:text-sm py-2 px-4 text-center fixed w-full z-[60] font-medium tracking-wide shadow-sm transition-colors duration-300">
         <i class="fa-solid fa-bullhorn mr-2"></i> Pusat Informasi dan Pendaftaran Unit Kegiatan Mahasiswa (UKM) Resmi Kampus
     </div>
 
@@ -63,7 +63,7 @@
                             </form>
                         @else
                             <a href="{{ route('login') }}" class="text-gray-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium mr-6 transition">Login</a>
-                            <a href="{{ route('register') }}" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 transition shadow-sm">Daftar Anggota</a>
+                            <a href="{{ route('register') }}" class="bg-blue-600 dark:bg-indigo-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 dark:hover:bg-indigo-500 transition-colors shadow-sm">Daftar Anggota</a>
                         @endauth
                     </div>
 
@@ -92,7 +92,7 @@
                     </form>
                 @else
                     <a href="{{ route('login') }}" class="block text-center text-gray-800 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800 px-4 py-3 rounded-lg font-medium border border-gray-200 dark:border-slate-700">Login</a>
-                    <a href="{{ route('register') }}" class="block text-center bg-blue-600 text-white px-4 py-3 rounded-lg font-medium shadow-sm">Daftar Anggota</a>
+                    <a href="{{ route('register') }}" class="block text-center bg-blue-600 dark:bg-indigo-600 text-white px-4 py-3 rounded-lg font-medium shadow-sm transition-colors hover:bg-blue-700 dark:hover:bg-indigo-500">Daftar Anggota</a>
                 @endauth
             </div>
         </div>
