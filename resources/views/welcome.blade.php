@@ -22,8 +22,8 @@ if (request()->has('restore') && request('restore') == '1') {
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@700;900&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
-    <!-- Canvas Confetti -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Canvas Confetti v1.9.3 for shapes -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
@@ -193,23 +193,22 @@ if (request()->has('restore') && request('restore') == '1') {
 
         .flame {
             fill: #ff9800;
-            animation: flicker 0.3s infinite alternate ease-in-out;
+            animation: real-flame-anim 0.3s infinite alternate ease-in-out;
             transform-origin: bottom center;
         }
         
         .flame-inner {
             fill: #ffeb3b;
-            animation: flicker 0.4s infinite alternate-reverse ease-in-out;
+            animation: real-flame-anim 0.4s infinite alternate-reverse ease-in-out;
             transform-origin: bottom center;
         }
 
-        @keyframes flicker {
-            0% { transform: scale(1) skewX(10deg) rotate(-5deg); opacity: 0.9; }
-            20% { transform: scale(1.05) skewX(15deg) rotate(-8deg); opacity: 1; }
-            40% { transform: scale(0.95) skewX(5deg) rotate(-2deg); opacity: 0.8; }
-            60% { transform: scale(1.1) skewX(20deg) rotate(-10deg); opacity: 1; }
-            80% { transform: scale(0.9) skewX(8deg) rotate(-3deg); opacity: 0.9; }
-            100% { transform: scale(1.02) skewX(12deg) rotate(-6deg); opacity: 1; }
+        @keyframes real-flame-anim {
+            0% { transform: scale(1, 1) skewX(-15deg) rotate(-5deg); opacity: 0.9; }
+            25% { transform: scale(1.05, 0.95) skewX(5deg) rotate(2deg); opacity: 1; }
+            50% { transform: scale(0.95, 1.05) skewX(12deg) rotate(8deg); opacity: 0.8; }
+            75% { transform: scale(1.02, 0.98) skewX(-5deg) rotate(-2deg); opacity: 1; }
+            100% { transform: scale(0.98, 1.02) skewX(-10deg) rotate(-8deg); opacity: 0.9; }
         }
 
         /* Sparkles/Stars */
@@ -230,12 +229,12 @@ if (request()->has('restore') && request('restore') == '1') {
         /* Photorealistic Balloons */
         .balloon {
             position: absolute;
-            bottom: -20vh;
+            top: 100vh;
             width: 80px;
             height: 100px;
             border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
             z-index: 5;
-            animation: fly-up linear forwards;
+            animation: fly-up cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
             box-shadow: inset -15px -15px 25px rgba(0,0,0,0.15),
                         inset 15px 15px 25px rgba(255,255,255,0.7),
                         0 15px 25px rgba(233, 30, 99, 0.3);
@@ -279,10 +278,9 @@ if (request()->has('restore') && request('restore') == '1') {
         }
 
         @keyframes fly-up {
-            0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
-            5% { opacity: 1; }
-            50% { transform: translateY(-60vh) rotate(12deg) scale(1); }
-            100% { transform: translateY(-130vh) rotate(-12deg) scale(1.1); opacity: 0; }
+            0% { transform: translateY(0) rotate(0deg) scale(0.8); }
+            10% { transform: translateY(-10vh) rotate(5deg) scale(0.9); }
+            100% { transform: translateY(var(--ceiling)) rotate(var(--rot)) scale(1); }
         }
 
         /* Floating Hearts */
@@ -570,8 +568,14 @@ if (request()->has('restore') && request('restore') == '1') {
             card.style.transform = `rotateY(0deg) rotateX(0deg)`;
         });
 
-        // 3. Photorealistic Anti-Gravity Balloons
+        // 3. Photorealistic Anti-Gravity Piling Balloons
+        let balloonCount = 0;
+        const maxBalloons = 120; // Stop after 120 balloons so browser doesn't crash
+        
         function createBalloon() {
+            if (balloonCount >= maxBalloons) return;
+            balloonCount++;
+            
             const balloon = document.createElement('div');
             balloon.classList.add('balloon');
             
@@ -580,8 +584,15 @@ if (request()->has('restore') && request('restore') == '1') {
             balloon.appendChild(highlight);
             
             const left = Math.random() * 100;
-            const duration = Math.random() * 7 + 8; // 8 to 15 seconds
-            const delay = Math.random() * 2;
+            const duration = Math.random() * 5 + 6; // 6 to 11 seconds to fly up
+            const delay = Math.random() * 1;
+            
+            // Random ceiling where the balloon will stop and pile up
+            const ceilingVal = -(100 + Math.random() * 30);
+            balloon.style.setProperty('--ceiling', `${ceilingVal}vh`);
+            
+            const rotVal = (Math.random() * 30 - 15);
+            balloon.style.setProperty('--rot', `${rotVal}deg`);
             
             const colors = ['#ff007f', '#ff1493', '#ff69b4', '#ffb6c1', '#ffffff', '#e91e63', '#d50000'];
             const color = colors[Math.floor(Math.random() * colors.length)];
@@ -593,12 +604,20 @@ if (request()->has('restore') && request('restore') == '1') {
             balloon.style.borderBottomColor = color;
             
             document.body.appendChild(balloon);
-            
-            setTimeout(() => { balloon.remove(); }, (duration + delay) * 1000);
+            // No remove() so they pile up!
         }
 
-        setInterval(createBalloon, 400);
-        for(let i=0; i<30; i++) { setTimeout(createBalloon, Math.random() * 2000); }
+        // Initial burst
+        for(let i=0; i<40; i++) { setTimeout(createBalloon, Math.random() * 2000); }
+        
+        // Continuous generation until max is reached
+        const balloonInterval = setInterval(() => {
+            if (balloonCount >= maxBalloons) {
+                clearInterval(balloonInterval);
+            } else {
+                createBalloon();
+            }
+        }, 500);
 
         // 4. Sparkles Background Generator
         const sparklesContainer = document.getElementById('sparkles-container');
