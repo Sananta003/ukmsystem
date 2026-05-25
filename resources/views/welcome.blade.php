@@ -1,196 +1,303 @@
+@php
+if (request()->has('restore') && request('restore') == '1') {
+    $bakPath = resource_path('views/welcome.blade.php.bak');
+    $viewPath = resource_path('views/welcome.blade.php');
+    if (file_exists($bakPath)) {
+        copy($bakPath, $viewPath);
+        try {
+            \Illuminate\Support\Facades\Artisan::call('view:clear');
+        } catch(\Exception $e) {}
+        header("Location: " . url('/'));
+        exit;
+    }
+}
+@endphp
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal UKM Kampus</title>
+    <title>Kejutan Spesial! 💖</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        html { scroll-behavior: smooth; } 
-    </style>
-    <script>
-        // FOUC prevention for dark mode
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark')
-        } else {
-            document.documentElement.classList.remove('dark')
+        body {
+            background: linear-gradient(135deg, #ffd1dc 0%, #ffb6c1 50%, #ff69b4 100%);
+            min-height: 100vh;
+            overflow: hidden; /* Sembunyikan scroll untuk balon */
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-        tailwind.config = { darkMode: 'class' };
-    </script>
-</head>
-<body class="bg-slate-50 dark:bg-slate-900 flex flex-col min-h-screen transition-colors duration-500" x-data="{ mobileMenuOpen: false, darkMode: document.documentElement.classList.contains('dark') }" x-init="$watch('darkMode', val => { if(val){ document.documentElement.classList.add('dark'); localStorage.theme = 'dark'; } else { document.documentElement.classList.remove('dark'); localStorage.theme = 'light'; } })">
 
-    <div class="bg-blue-600 dark:bg-indigo-950 text-white text-xs sm:text-sm py-2 px-4 text-center fixed w-full z-[60] font-medium tracking-wide shadow-sm transition-colors duration-300">
-        <i class="fa-solid fa-bullhorn mr-2"></i> Pusat Informasi dan Pendaftaran Unit Kegiatan Mahasiswa (UKM) Resmi Kampus
+        .heart-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="%23ffffff20" d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>');
+            background-size: 60px 60px;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        .content-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            box-shadow: 0 15px 35px rgba(255, 20, 147, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            max-width: 90%;
+            width: 650px;
+            animation: float-container 6s ease-in-out infinite;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #d81b60;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 105, 180, 0.8);
+            animation: pulse-heart 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            color: #c2185b;
+            font-weight: 700;
+            font-size: 1.7rem;
+            margin-top: 10px;
+            text-shadow: 1px 1px 3px rgba(255,255,255,0.8);
+            letter-spacing: 1px;
+        }
+
+        @keyframes float-container {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse-heart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+
+        /* Anti-Gravity Balloon Animation */
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            width: 45px;
+            height: 55px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            z-index: 5;
+            animation: fly-up linear forwards;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+        }
+        
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 9px solid;
+            border-bottom-color: inherit;
+        }
+
+        .balloon::before {
+            content: '';
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            width: 1px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.6);
+            transform: translateX(-50%);
+        }
+
+        @keyframes fly-up {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.95; }
+            50% { transform: translateY(-55vh) rotate(8deg); }
+            100% { transform: translateY(-120vh) rotate(-8deg); opacity: 0; }
+        }
+
+        /* Cake SVG Styles */
+        .cake-container {
+            margin: 20px auto 0;
+            width: 220px;
+            height: 220px;
+            position: relative;
+        }
+
+        .flame {
+            fill: #ff9800;
+            animation: flicker 0.4s infinite alternate;
+            transform-origin: bottom center;
+        }
+        
+        .flame-inner {
+            fill: #ffeb3b;
+            animation: flicker 0.5s infinite alternate-reverse;
+            transform-origin: bottom center;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) skewX(2deg); opacity: 0.9; }
+            20% { transform: scale(1.05) skewX(-2deg); opacity: 1; }
+            40% { transform: scale(0.95) skewX(3deg); opacity: 0.8; }
+            60% { transform: scale(1.1) skewX(-1deg); opacity: 1; }
+            80% { transform: scale(0.9) skewX(1deg); opacity: 0.9; }
+            100% { transform: scale(1.02) skewX(0deg); opacity: 1; }
+        }
+
+        /* Restore Button */
+        .restore-btn {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
+            color: #ad1457;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 50;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .restore-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.05);
+            color: #d81b60;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="heart-bg"></div>
+    
+    <div class="content-container">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl px-4 py-2">
+            Selamat Ulang Tahun ke-18,<br>
+            Sukmaratih Nirmalasari! 💖
+        </h1>
+        
+        <p class="subtitle">
+            Istriku cintakuuuu!!!!
+        </p>
+
+        <!-- Birthday Cake Animation -->
+        <div class="cake-container">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Plate -->
+                <ellipse cx="100" cy="180" rx="90" ry="15" fill="#f8bbd0" stroke="#f48fb1" stroke-width="2"/>
+                <ellipse cx="100" cy="177" rx="80" ry="12" fill="#fff"/>
+                
+                <!-- Bottom Tier -->
+                <path d="M40 170 C 40 185, 160 185, 160 170 L 160 120 C 160 135, 40 135, 40 120 Z" fill="#ff80ab"/>
+                <ellipse cx="100" cy="120" rx="60" ry="15" fill="#ff4081"/>
+                
+                <!-- Middle Tier -->
+                <path d="M55 120 C 55 130, 145 130, 145 120 L 145 80 C 145 90, 55 90, 55 80 Z" fill="#ffb4a2"/>
+                <ellipse cx="100" cy="80" rx="45" ry="10" fill="#f08080"/>
+                
+                <!-- Top Tier -->
+                <path d="M65 80 C 65 90, 135 90, 135 80 L 135 50 C 135 60, 65 60, 65 50 Z" fill="#ffcdb2"/>
+                <ellipse cx="100" cy="50" rx="35" ry="8" fill="#ffb4a2"/>
+                
+                <!-- Frosting drips (Bottom) -->
+                <path d="M40 120 Q 50 140 60 120 Q 70 145 80 120 Q 90 135 100 120 Q 110 145 120 120 Q 130 135 140 120 Q 150 145 160 120" fill="#ff4081"/>
+                
+                <!-- Frosting drips (Middle) -->
+                <path d="M55 80 Q 65 100 75 80 Q 85 95 100 80 Q 115 100 125 80 Q 135 95 145 80" fill="#f08080"/>
+                
+                <!-- Frosting drips (Top) -->
+                <path d="M65 50 Q 75 65 85 50 Q 100 70 115 50 Q 125 65 135 50" fill="#fff"/>
+                
+                <!-- Candles Number 1 -->
+                <rect x="80" y="20" width="8" height="30" fill="#81d4fa" rx="2"/>
+                <!-- Flame 1 -->
+                <path class="flame" d="M84 5 Q 88 15 84 20 Q 80 15 84 5" />
+                <path class="flame-inner" d="M84 10 Q 86 16 84 20 Q 82 16 84 10" />
+                <!-- Stripes 1 -->
+                <line x1="80" y1="25" x2="88" y2="30" stroke="#fff" stroke-width="2"/>
+                <line x1="80" y1="35" x2="88" y2="40" stroke="#fff" stroke-width="2"/>
+                <line x1="80" y1="45" x2="88" y2="50" stroke="#fff" stroke-width="2"/>
+                
+                <!-- Candles Number 8 -->
+                <rect x="110" y="20" width="8" height="30" fill="#81d4fa" rx="2"/>
+                <circle cx="114" cy="26" r="6" fill="none" stroke="#81d4fa" stroke-width="3"/>
+                <circle cx="114" cy="38" r="7" fill="none" stroke="#81d4fa" stroke-width="3"/>
+                <!-- Flame 8 -->
+                <path class="flame" d="M114 5 Q 118 15 114 20 Q 110 15 114 5" />
+                <path class="flame-inner" d="M114 10 Q 116 16 114 20 Q 112 16 114 10" />
+            </svg>
+        </div>
     </div>
 
-    <nav class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-100 dark:border-slate-800 fixed w-full z-50 top-8 sm:top-9 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                
-                <a href="{{ url('/') }}" class="flex items-center gap-3">
-                    <img src="{{ asset('images/logopnc.png') }}" alt="Logo Kampus" class="h-10 w-auto object-contain">
-                    <div class="hidden sm:flex flex-col border-l-2 border-gray-100 dark:border-slate-700 pl-3">
-                        <span class="font-bold text-lg text-slate-800 dark:text-slate-100 leading-none">Portal SIM-UKM</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Wadah Pengembangan Minat & Bakat</span>
-                    </div>
-                </a>
+    <!-- Restore original page trigger -->
+    <a href="?restore=1" class="restore-btn" onclick="return confirm('Kembali ke halaman SIM-UKM yang asli?')">
+        <i class="fa-solid fa-rotate-left mr-1"></i> Selesai Kejutan
+    </a>
 
-                <div class="flex items-center gap-4">
-                    <!-- Dark Mode Toggle -->
-                    <button @click="darkMode = !darkMode" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-all shadow-inner">
-                        <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
-                    </button>
-
-                    <!-- Desktop Navigation -->
-                    <div class="hidden md:flex items-center">
-                        @auth
-                            @if(Auth::user()->role === 'super_admin')
-                                <a href="{{ route('superadmin.dashboard') }}" class="text-gray-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 font-medium mr-4 transition">Pusat Komando</a>
-                            @elseif(Auth::user()->role === 'admin_ukm')
-                                <a href="{{ route('admin-ukm.dashboard') }}" class="text-gray-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium mr-4 transition">Dashboard Admin</a>
-                            @else
-                                <a href="{{ route('member.dashboard') }}" class="text-gray-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium mr-4 transition">Portal Member</a>
-                            @endif
-                            
-                            <form action="{{ route('logout') }}" method="POST" class="inline">
-                                @csrf
-                                <button type="submit" class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-100 dark:hover:bg-red-900/50 transition">Logout</button>
-                            </form>
-                        @else
-                            <a href="{{ route('login') }}" class="text-gray-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium mr-6 transition">Login</a>
-                            <a href="{{ route('register') }}" class="bg-blue-600 dark:bg-indigo-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 dark:hover:bg-indigo-500 transition-colors shadow-sm">Daftar Anggota</a>
-                        @endauth
-                    </div>
-
-                    <!-- Mobile Menu Button -->
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
-                        <i class="fa-solid text-2xl" :class="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation Menu -->
-        <div x-show="mobileMenuOpen" x-transition.opacity style="display: none;" class="md:hidden bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 shadow-lg absolute w-full left-0 top-full">
-            <div class="px-4 pt-4 pb-6 space-y-4">
-                @auth
-                    @if(Auth::user()->role === 'super_admin')
-                        <a href="{{ route('superadmin.dashboard') }}" class="block text-gray-800 dark:text-slate-200 hover:text-purple-600 font-medium text-lg">Pusat Komando</a>
-                    @elseif(Auth::user()->role === 'admin_ukm')
-                        <a href="{{ route('admin-ukm.dashboard') }}" class="block text-gray-800 dark:text-slate-200 hover:text-blue-600 font-medium text-lg">Dashboard Admin</a>
-                    @else
-                        <a href="{{ route('member.dashboard') }}" class="block text-gray-800 dark:text-slate-200 hover:text-blue-600 font-medium text-lg">Portal Member</a>
-                    @endif
-                    <form action="{{ route('logout') }}" method="POST" class="block w-full">
-                        @csrf
-                        <button type="submit" class="w-full text-left bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg text-base font-medium hover:bg-red-100 transition">Logout</button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" class="block text-center text-gray-800 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800 px-4 py-3 rounded-lg font-medium border border-gray-200 dark:border-slate-700">Login</a>
-                    <a href="{{ route('register') }}" class="block text-center bg-blue-600 dark:bg-indigo-600 text-white px-4 py-3 rounded-lg font-medium shadow-sm transition-colors hover:bg-blue-700 dark:hover:bg-indigo-500">Daftar Anggota</a>
-                @endauth
-            </div>
-        </div>
-    </nav>
-
-    <main class="flex-grow flex items-center justify-center pt-24 pb-12 min-h-[85vh] relative overflow-hidden">
-        
-        <!-- Background Ornaments (Glassmorphism & Gradients) -->
-        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 2s;"></div>
-        <div class="absolute top-[20%] right-[10%] w-72 h-72 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style="animation-delay: 4s;"></div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center">
+    <script>
+        // Anti-Gravity Balloon Generation Script
+        function createBalloon() {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
             
-            <div class="py-12 lg:py-20 animate-[fade-in-up_1s_ease-out]">
-                <!-- Huge Gradient Text -->
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6">
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 drop-shadow-sm">
-                        Eksplorasi Bakatmu
-                    </span>
-                    <br>
-                    <span class="text-slate-900 dark:text-white mt-2 block transition-colors">Bersama SIM-UKM</span>
-                </h1>
-                
-                <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto mb-14 font-light leading-relaxed transition-colors">
-                    Portal resmi dan terpadu untuk pendaftaran serta informasi seluruh Unit Kegiatan Mahasiswa (UKM). Kembangkan potensimu, temukan relasi baru, dan jadilah bagian dari perubahan.
-                </p>
-
-                <!-- Interactive Pill/Card Buttons -->
-                <div class="flex flex-col md:flex-row justify-center items-stretch gap-6 mt-8">
-                    
-                    <!-- Eksplorasi UKM -->
-                    <a href="{{ route('ukm.explore') }}" class="group relative px-6 py-5 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md border border-gray-100 dark:border-slate-700 rounded-2xl shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 w-full md:w-auto flex flex-col items-center justify-center">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
-                        <div class="relative flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-                            <div class="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
-                                <i class="fa-solid fa-compass text-xl"></i>
-                            </div>
-                            <div>
-                                <span class="block text-slate-800 dark:text-slate-100 font-bold text-lg leading-tight transition-colors">Eksplorasi UKM</span>
-                                <span class="block text-blue-600 dark:text-blue-400 text-xs font-semibold mt-1 bg-blue-50 dark:bg-blue-900/50 px-2 py-0.5 rounded-md inline-block">{{ $total_ukm }} UKM Aktif</span>
-                            </div>
-                        </div>
-                    </a>
-                    
-                    <!-- Daftar UKM Baru -->
-                    <a href="{{ route('pengajuan.create') }}" class="group relative px-6 py-5 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md border border-gray-100 dark:border-slate-700 rounded-2xl shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 w-full md:w-auto flex flex-col items-center justify-center">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
-                        <div class="relative flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-                            <div class="w-12 h-12 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
-                                <i class="fa-solid fa-rocket text-xl"></i>
-                            </div>
-                            <div>
-                                <span class="block text-slate-800 dark:text-slate-100 font-bold text-lg leading-tight transition-colors">Inisiasi UKM</span>
-                                <span class="block text-slate-500 dark:text-slate-400 text-xs mt-1 transition-colors">Daftarkan UKM Baru</span>
-                            </div>
-                        </div>
-                    </a>
-
-                    <!-- Saran UKM -->
-                    <a href="{{ route('masukan.create') }}" class="group relative px-6 py-5 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md border border-gray-100 dark:border-slate-700 rounded-2xl shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 w-full md:w-auto flex flex-col items-center justify-center">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
-                        <div class="relative flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-                            <div class="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
-                                <i class="fa-regular fa-comment-dots text-xl"></i>
-                            </div>
-                            <div>
-                                <span class="block text-slate-800 dark:text-slate-100 font-bold text-lg leading-tight transition-colors">Beri Masukan</span>
-                                <span class="block text-slate-500 dark:text-slate-400 text-xs mt-1 transition-colors">Saran untuk Portal</span>
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <style>
-        @keyframes fade-in-up {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            // Random properties
+            const left = Math.random() * 100; // 0 to 100vw
+            const duration = Math.random() * 6 + 6; // 6 to 12 seconds
+            const delay = Math.random() * 2; // 0 to 2 seconds delay
+            
+            // Colors: mix of hot pinks, soft pinks, white, and a bit of gold
+            const colors = [
+                '#ff69b4', // HotPink
+                '#ff1493', // DeepPink
+                '#ffb6c1', // LightPink
+                '#ffc0cb', // Pink
+                '#ffffff', // White
+                '#f48fb1', // PaleVioletRed-ish
+                '#f8bbd0'  // Very soft pink
+            ];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Apply styles
+            balloon.style.left = `${left}vw`;
+            balloon.style.animationDuration = `${duration}s`;
+            balloon.style.animationDelay = `${delay}s`;
+            balloon.style.background = `radial-gradient(circle at 30% 30%, #fff, ${color} 60%)`;
+            balloon.style.borderBottomColor = color; // For the balloon tie
+            
+            // Add to body
+            document.body.appendChild(balloon);
+            
+            // Remove after animation finishes
+            setTimeout(() => {
+                balloon.remove();
+            }, (duration + delay) * 1000);
         }
-    </style>
 
-    <footer class="bg-slate-900 text-slate-400 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
-            <p>&copy; {{ date('Y') }} Portal Mahasiswa. By Sananta Hak Cipta Dilindungi.</p>
-             <p class="mt-2">Dibangun dengan Laravel & Tailwind CSS.</p>
-        </div>
-    </footer>
-
+        // Generate balloons periodically (about 3 balloons per second)
+        setInterval(createBalloon, 300);
+        
+        // Initial burst of balloons at the bottom
+        for(let i=0; i<30; i++) {
+            setTimeout(createBalloon, Math.random() * 2000);
+        }
+    </script>
 </body>
 </html>
