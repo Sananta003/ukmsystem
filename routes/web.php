@@ -75,13 +75,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/2fa/verify', [\App\Http\Controllers\TwoFactorController::class, 'verifyLogin'])->name('2fa.verify');
     Route::post('/2fa/verify', [\App\Http\Controllers\TwoFactorController::class, 'postVerifyLogin'])->name('2fa.verify.post');
 
-    // Wrap authenticated roles with 2FA middleware
+    
     Route::middleware(['2fa'])->group(function() {
         Route::prefix('admin-ukm')->name('admin-ukm.')->middleware(['auth', 'can:is_admin_ukm'])->group(function () {
             Route::get('/', function () { return redirect()->route('admin-ukm.dashboard'); });
             Route::get('/dashboard', [\App\Http\Controllers\AdminUkmController::class, 'dashboard'])->name('dashboard');
             
-            // Pengumuman
+            
             Route::post('/pengumuman', [\App\Http\Controllers\AdminUkmController::class, 'storePengumuman'])->name('pengumuman.store');
             
             Route::get('/anggota', [\App\Http\Controllers\AnggotaController::class, 'index'])->name('anggota.index');
@@ -129,7 +129,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/pengajuan-ukm/{id}/edit', [MemberController::class, 'editPengajuan'])->name('pengajuan.edit');
             Route::post('/pengajuan/{id}/update', [MemberController::class, 'updatePengajuan'])->name('pengajuan.update');
         });
-    }); // End of 2FA Middleware Group
+    }); 
 
     Route::prefix('superadmin')->name('superadmin.')->middleware('can:is_super_admin')->group(function () {
         Route::get('/', function () { return redirect()->route('superadmin.dashboard'); });
