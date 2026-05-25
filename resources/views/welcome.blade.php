@@ -512,10 +512,8 @@ if (request()->has('restore') && request('restore') == '1') {
     </div>
 </div>
 
-    <!-- Hidden Music Player via YouTube API -->
-    <div style="position: absolute; left: -9999px; top: -9999px; width: 300px; height: 300px; opacity: 0; pointer-events: none;">
-        <div id="player"></div>
-    </div>
+    <!-- Hidden Music Player via Native Audio -->
+    <audio id="music-player" src="https://archive.org/download/JamrudSelamatUlangTahun/Jamrud-SelamatUlangTahunnewVersion.mp3" preload="auto" loop></audio>
 
     <!-- Play Audio Overlay -->
     <div id="start-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: opacity 1s ease;">
@@ -528,33 +526,19 @@ if (request()->has('restore') && request('restore') == '1') {
         <i class="fa-solid fa-rotate-left"></i> Selesai Kejutan
     </a>
 
-    <!-- YouTube IFrame API -->
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        var ytPlayer;
-        function onYouTubeIframeAPIReady() {
-            ytPlayer = new YT.Player('player', {
-                height: '300',
-                width: '300',
-                videoId: 'n4q9-DqA6O8', // Jamrud - Selamat Ulang Tahun (Lyric Video)
-                playerVars: {
-                    'autoplay': 0, // Wait for overlay click
-                    'controls': 0,
-                    'loop': 1,
-                    'playlist': 'n4q9-DqA6O8'
-                }
-            });
-        }
-
         // Overlay Click to Play Music
         document.getElementById('start-overlay').addEventListener('click', function() {
             this.style.opacity = '0';
             this.style.pointerEvents = 'none';
             setTimeout(() => this.remove(), 1000);
             
-            // Play using API
-            if (ytPlayer && ytPlayer.playVideo) {
-                ytPlayer.playVideo();
+            // Play using Native Audio Element
+            let audio = document.getElementById('music-player');
+            if (audio) {
+                audio.play().catch(function(error) {
+                    console.log("Autoplay was prevented by browser: ", error);
+                });
             }
             
             // Start the effects once clicked
