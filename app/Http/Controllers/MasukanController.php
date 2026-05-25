@@ -22,6 +22,6 @@ class MasukanController extends Controller
 
         Masukan::create($request->all());
 
-        return redirect()->route('welcome')->with('success', 'Terima kasih! Masukan Anda telah kami terima.');
+        return redirect()->route('home')->with('success', 'Terima kasih! Masukan Anda telah kami terima.');
     }
 }
