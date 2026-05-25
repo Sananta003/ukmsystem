@@ -147,9 +147,8 @@ if (request()->has('restore') && request('restore') == '1') {
             box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
 
-        /* Detailed 3D Cake SVG */
+        /* Detailed 3D Cake SVG & Bear */
         .cake-wrapper {
-            margin-top: 40px;
             transform: translateZ(80px);
             filter: drop-shadow(0 20px 30px rgba(233, 30, 99, 0.4));
             animation: bounce-cake 4s infinite cubic-bezier(0.28, 0.84, 0.42, 1);
@@ -158,6 +157,38 @@ if (request()->has('restore') && request('restore') == '1') {
         @keyframes bounce-cake {
             0%, 100% { transform: translateZ(80px) scale(1); }
             50% { transform: translateZ(80px) scale(1.08); }
+        }
+
+        .bear-wrapper {
+            transform: translateZ(70px);
+            filter: drop-shadow(0 15px 25px rgba(233, 30, 99, 0.3));
+            animation: bounce-bear 3s infinite alternate ease-in-out;
+            margin-bottom: 20px;
+        }
+
+        @keyframes bounce-bear {
+            0% { transform: translateZ(70px) translateY(0px) rotate(-3deg); }
+            100% { transform: translateZ(70px) translateY(-15px) rotate(3deg); }
+        }
+
+        .bear-arm {
+            transform-origin: 55px 140px;
+            animation: wave-arm 2s infinite alternate ease-in-out;
+        }
+        
+        @keyframes wave-arm {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-45deg); }
+        }
+
+        .bear-heart {
+            transform-origin: center;
+            animation: pump-heart 1s infinite alternate;
+        }
+
+        @keyframes pump-heart {
+            0% { transform: scale(1) translateY(0); opacity: 0.8; }
+            100% { transform: scale(1.3) translateY(-10px); opacity: 1; filter: drop-shadow(0 0 10px #ff1493); }
         }
 
         /* Sparkles/Stars */
@@ -286,9 +317,11 @@ if (request()->has('restore') && request('restore') == '1') {
             .title-text { font-size: 2.2rem; }
             .name-text { font-size: 4rem; }
             .subtitle { font-size: 1.3rem; padding: 10px 25px; }
-            .glass-card { padding: 40px 20px; border-radius: 35px; }
-            .cake-wrapper svg { width: 220px; height: 220px; }
+            .glass-card { padding: 40px 20px; border-radius: 35px; width: 95%; max-width: 100%; }
+            .cake-wrapper svg { width: 180px; height: 180px; }
+            .bear-wrapper svg { width: 140px; height: 140px; }
             .restore-btn { bottom: 20px; right: 20px; padding: 10px 20px; font-size: 0.9rem; }
+            .cake-bear-container { flex-direction: column-reverse; align-items: center; gap: 10px; margin-top: 20px; }
         }
     </style>
 </head>
@@ -306,11 +339,63 @@ if (request()->has('restore') && request('restore') == '1') {
         </div>
         
         <div class="subtitle">
-            Istriku cintakuuuu!!!!
+            Kekasihku tercinta!!!!
         </div>
 
-        <div class="cake-wrapper">
-            <svg viewBox="0 0 300 250" width="280" height="280" xmlns="http://www.w3.org/2000/svg">
+        <div class="cake-bear-container flex flex-row justify-center items-end gap-4 md:gap-8 mt-10">
+            <!-- Cute Waving Teddy Bear SVG -->
+            <div class="bear-wrapper">
+                <svg viewBox="0 0 200 200" width="180" height="180" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Glow -->
+                    <circle cx="100" cy="100" r="80" fill="rgba(255, 20, 147, 0.1)" filter="url(#glow)"/>
+                    
+                    <!-- Floating heart -->
+                    <path class="bear-heart" d="M 50 30 Q 60 15 75 30 Q 90 15 100 30 Q 100 45 75 75 Q 50 45 50 30 Z" fill="#ff1493"/>
+
+                    <!-- Ears -->
+                    <circle cx="50" cy="65" r="22" fill="#d7ccc8"/>
+                    <circle cx="50" cy="65" r="12" fill="#f8bbd0"/>
+                    <circle cx="150" cy="65" r="22" fill="#d7ccc8"/>
+                    <circle cx="150" cy="65" r="12" fill="#f8bbd0"/>
+                    
+                    <!-- Head -->
+                    <circle cx="100" cy="95" r="55" fill="#efebe9"/>
+                    
+                    <!-- Eyes -->
+                    <circle cx="75" cy="85" r="7" fill="#3e2723"/>
+                    <circle cx="125" cy="85" r="7" fill="#3e2723"/>
+                    <circle cx="72" cy="82" r="2.5" fill="#fff"/>
+                    <circle cx="122" cy="82" r="2.5" fill="#fff"/>
+                    
+                    <!-- Snout & Nose -->
+                    <ellipse cx="100" cy="110" rx="22" ry="18" fill="#fff"/>
+                    <ellipse cx="100" cy="103" rx="10" ry="7" fill="#3e2723"/>
+                    <path d="M 90 115 Q 100 125 110 115" fill="none" stroke="#3e2723" stroke-width="3" stroke-linecap="round"/>
+                    
+                    <!-- Blushes -->
+                    <ellipse cx="60" cy="100" rx="12" ry="8" fill="#ff80ab" opacity="0.7"/>
+                    <ellipse cx="140" cy="100" rx="12" ry="8" fill="#ff80ab" opacity="0.7"/>
+                    
+                    <!-- Body -->
+                    <ellipse cx="100" cy="165" rx="45" ry="35" fill="#efebe9"/>
+                    
+                    <!-- Arms -->
+                    <g class="bear-arm">
+                        <ellipse cx="55" cy="140" rx="14" ry="28" fill="#d7ccc8" transform="rotate(30 55 140)"/>
+                    </g>
+                    <ellipse cx="145" cy="140" rx="14" ry="28" fill="#d7ccc8" transform="rotate(-30 145 140)"/>
+                    
+                    <!-- Feet -->
+                    <ellipse cx="65" cy="180" rx="18" ry="22" fill="#d7ccc8" transform="rotate(-45 65 180)"/>
+                    <ellipse cx="65" cy="180" rx="10" ry="14" fill="#f8bbd0" transform="rotate(-45 65 180)"/>
+                    
+                    <ellipse cx="135" cy="180" rx="18" ry="22" fill="#d7ccc8" transform="rotate(45 135 180)"/>
+                    <ellipse cx="135" cy="180" rx="10" ry="14" fill="#f8bbd0" transform="rotate(45 135 180)"/>
+                </svg>
+            </div>
+
+            <div class="cake-wrapper" style="margin-top: 0;">
+                <svg viewBox="0 0 300 250" width="280" height="280" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <!-- Cake Gradients -->
                     <linearGradient id="plate" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -398,6 +483,7 @@ if (request()->has('restore') && request('restore') == '1') {
             </svg>
         </div>
     </div>
+</div>
 
     <a href="?restore=1" class="restore-btn" onclick="return confirm('Kembali ke halaman SIM-UKM yang asli?')">
         <i class="fa-solid fa-rotate-left"></i> Selesai Kejutan
