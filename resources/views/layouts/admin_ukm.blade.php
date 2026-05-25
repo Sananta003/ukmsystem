@@ -130,9 +130,11 @@
                 </button>
                 
                 <div class="relative w-64 sm:w-96 hidden sm:block">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                <input type="text" placeholder="Cari..." class="w-full pl-9 pr-4 py-2 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-brand-accent dark:text-white transition-colors">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    <input type="text" placeholder="Cari..." class="w-full pl-9 pr-4 py-2 bg-gray-50 dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-brand-accent dark:text-white transition-colors">
+                </div>
             </div>
+
             <div class="flex items-center gap-3 sm:gap-6">
                 <!-- Dark Mode Toggle -->
                 <button @click="darkMode = !darkMode" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:text-brand-accent dark:text-slate-400 dark:hover:text-blue-400 bg-gray-100 dark:bg-slate-900 hover:bg-gray-200 dark:hover:bg-slate-950 transition-all shadow-inner">
