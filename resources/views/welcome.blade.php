@@ -35,9 +35,10 @@ if (request()->has('restore') && request('restore') == '1') {
 
         body {
             margin: 0;
-            padding: 0;
+            padding: 40px 0;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(45deg, var(--color1), var(--color2), var(--color3), var(--color4));
             background-size: 400% 400%;
