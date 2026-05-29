@@ -65,8 +65,8 @@
             <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/40 dark:from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
 
             <div class="text-center mb-10">
-                <a href="{{ url('/') }}" class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white dark:bg-white/10 border border-slate-200 dark:border-white/20 mb-6 shadow-sm dark:shadow-inner hover:scale-110 hover:rotate-3 transition-transform duration-300">
-                    <i class="fa-solid fa-layer-group text-3xl bg-clip-text text-transparent bg-gradient-to-br from-sky-500 to-amber-500 dark:from-sky-400 dark:to-amber-400"></i>
+                <a href="{{ url('/') }}" class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-white/5 border border-slate-200/50 dark:border-white/20 mb-6 shadow-sm dark:shadow-inner hover:scale-110 hover:rotate-3 transition-transform duration-300 overflow-hidden p-2">
+                    <img src="{{ asset('images/logopnc.png') }}" alt="Logo PNC" class="w-full h-full object-contain">
                 </a>
                 <h2 class="text-3xl font-black text-slate-800 dark:text-white tracking-wide mb-2">Selamat Datang</h2>
                 <p class="text-slate-500 dark:text-sky-200/80 text-sm font-medium">Masuk untuk melanjutkan ke Portal UKM</p>

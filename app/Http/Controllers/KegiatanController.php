@@ -66,4 +66,51 @@ class KegiatanController extends Controller
 
         return view('admin_ukm.kegiatan.show', compact('kegiatan', 'persenAnggaran', 'persenPeserta'));
     }
+
+    public function edit($id)
+    {
+        $kegiatan = Kegiatan::where('ukm_id', Auth::user()->ukm_id)->findOrFail($id);
+        return view('admin_ukm.kegiatan.edit', compact('kegiatan'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_kegiatan' => 'required|string|max:255',
+            'kategori' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'tanggal' => 'required|date',
+            'waktu' => 'required',
+            'lokasi' => 'required|string|max:255',
+            'anggaran' => 'required|numeric|min:0',
+            'target_peserta' => 'required|integer|min:1',
+            'pic_nama' => 'required|string|max:255',
+            'pic_kontak' => 'required|string|max:255',
+        ]);
+
+        $kegiatan = Kegiatan::where('ukm_id', Auth::user()->ukm_id)->findOrFail($id);
+        
+        $kegiatan->update([
+            'nama_kegiatan' => $request->nama_kegiatan,
+            'kategori' => $request->kategori,
+            'deskripsi' => $request->deskripsi,
+            'tanggal' => $request->tanggal,
+            'waktu' => $request->waktu,
+            'lokasi' => $request->lokasi,
+            'anggaran' => $request->anggaran,
+            'target_peserta' => $request->target_peserta,
+            'pic_nama' => $request->pic_nama,
+            'pic_kontak' => $request->pic_kontak,
+        ]);
+
+        return redirect()->route('admin-ukm.kegiatan.index')->with('success', 'Kegiatan berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        $kegiatan = Kegiatan::where('ukm_id', Auth::user()->ukm_id)->findOrFail($id);
+        $kegiatan->delete();
+
+        return redirect()->route('admin-ukm.kegiatan.index')->with('success', 'Kegiatan berhasil dihapus.');
+    }
 }

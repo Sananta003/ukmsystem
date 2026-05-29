@@ -55,8 +55,8 @@
 
     <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" class="fixed md:relative z-50 w-64 bg-brand-primary dark:bg-slate-950 text-white flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out">
         <div class="flex items-center gap-3 p-6 border-b border-white/10">
-            <div class="w-8 h-8 bg-brand-secondary rounded flex items-center justify-center shadow-lg shadow-brand-secondary/30">
-                <i class="fa-solid fa-building-columns text-white text-sm"></i>
+            <div class="w-10 h-10 bg-white rounded flex items-center justify-center shadow-lg p-1 overflow-hidden">
+                <img src="{{ asset('images/logopnc.png') }}" alt="Logo PNC" class="w-full h-full object-contain">
             </div>
             <div>
                 <h1 class="font-bold text-sm tracking-wide">Pusat Kampus</h1>
