@@ -10,9 +10,12 @@ use Illuminate\Support\Str;
 
 class SocialiteController extends Controller
 {
-    public function redirectToGoogle()
+    public function redirectToGoogle(Request $request)
     {
         try {
+            if ($request->has('ukm_id')) {
+                $request->session()->put('pending_ukm_id', $request->ukm_id);
+            }
             return Socialite::driver('google')->redirect();
         } catch (\Throwable $th) {
             return redirect()->route('login')->withErrors(['error' => 'Sistem SSO Google error: ' . $th->getMessage() . '. Pastikan GOOGLE_CLIENT_ID dan GOOGLE_CLIENT_SECRET sudah diisi di file .env']);
@@ -23,6 +26,7 @@ class SocialiteController extends Controller
     {
         try {
             $googleUser = Socialite::driver('google')->user();
+            $pendingUkmId = session()->pull('pending_ukm_id');
 
             $user = User::where('email', $googleUser->getEmail())->first();
 
@@ -31,6 +35,12 @@ class SocialiteController extends Controller
                 if (!$user->google_id) {
                     $user->update(['google_id' => $googleUser->getId()]);
                 }
+                
+                // If registering for a UKM via SSO but account already exists, attach ukm_id if they are a standard member without one
+                if ($pendingUkmId && is_null($user->ukm_id) && $user->role === 'member') {
+                    $user->update(['ukm_id' => $pendingUkmId]);
+                }
+                
                 Auth::login($user);
             } else {
                 // Register new user automatically as member
@@ -40,7 +50,7 @@ class SocialiteController extends Controller
                     'google_id' => $googleUser->getId(),
                     'password' => bcrypt(Str::random(16)), // Random password for SSO users
                     'role' => 'member',
-                    // ukm_id left null, they can explore UKM later
+                    'ukm_id' => $pendingUkmId,
                 ]);
                 Auth::login($user);
             }
