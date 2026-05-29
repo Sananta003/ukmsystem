@@ -6,8 +6,14 @@
     <title>Login - Portal UKM Kampus</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        // FOUC prevention for dark mode (Sync with main app)
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
         tailwind.config = {
-            darkMode: 'media', // Use system preference for dark mode automatically
+            darkMode: 'class',
         }
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -33,7 +39,16 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center relative overflow-hidden bg-slate-50 dark:bg-[#0f172a] text-slate-900 dark:text-slate-100 transition-colors duration-500" x-data="{ loaded: false }" x-init="setTimeout(() => loaded = true, 100)">
+<body class="min-h-screen flex items-center justify-center relative overflow-hidden bg-slate-50 dark:bg-[#0f172a] text-slate-900 dark:text-slate-100 transition-colors duration-500" 
+      x-data="{ loaded: false, darkMode: document.documentElement.classList.contains('dark') }" 
+      x-init="setTimeout(() => loaded = true, 100); $watch('darkMode', val => { if(val){ document.documentElement.classList.add('dark'); localStorage.theme = 'dark'; } else { document.documentElement.classList.remove('dark'); localStorage.theme = 'light'; } })">
+
+    <!-- Dark Mode Toggle Button -->
+    <div class="fixed top-6 right-6 z-50">
+        <button @click="darkMode = !darkMode" class="w-12 h-12 rounded-full flex items-center justify-center text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-yellow-400 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md hover:bg-white dark:hover:bg-slate-700 transition-all shadow-lg border border-slate-200 dark:border-slate-700">
+            <i class="fa-solid text-xl" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+        </button>
+    </div>
 
     <!-- Animated Mesh Gradient Background Elements -->
     <div class="fixed top-[-10%] left-[-10%] w-[800px] h-[800px] bg-blue-300 dark:bg-blue-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[150px] opacity-50 dark:opacity-40 animate-float"></div>
