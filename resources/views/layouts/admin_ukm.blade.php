@@ -65,7 +65,7 @@
                 @endif
             </div>
             <div>
-                <h1 class="font-bold text-sm tracking-wide">UKM System</h1>
+                <h1 class="font-bold text-sm tracking-wide">{{ $ukm ? $ukm->nama_ukm : 'UKM System' }}</h1>
                 <p class="text-[10px] text-slate-400">Pengurus Panel</p>
             </div>
         </div>
