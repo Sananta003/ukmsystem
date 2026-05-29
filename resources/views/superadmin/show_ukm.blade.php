@@ -74,7 +74,7 @@
                 @forelse($kegiatan as $keg)
                 <tr class="hover:bg-gray-50">
                     <td class="p-3">{{ \Carbon\Carbon::parse($keg->tanggal)->format('d M Y') }}</td>
-                    <td class="p-3 font-bold text-gray-800">{{ $keg->nama }}</td>
+                    <td class="p-3 font-bold text-gray-800">{{ $keg->nama_kegiatan }}</td>
                     <td class="p-3 text-blue-600">{{ number_format($keg->anggaran, 0, ',', '.') }}</td>
                     <td class="p-3 text-red-600">{{ number_format($keg->realisasi, 0, ',', '.') }}</td>
                     <td class="p-3">

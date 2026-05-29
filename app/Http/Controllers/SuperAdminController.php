@@ -98,7 +98,7 @@ class SuperAdminController extends Controller
             ->get()
             ->map(function($item) {
                 return [
-                    'nama_program' => $item->kegiatan ? $item->kegiatan->nama : 'Lainnya',
+                    'nama_program' => $item->kegiatan ? $item->kegiatan->nama_kegiatan : 'Lainnya',
                     'total' => $item->total
                 ];
             });
