@@ -115,6 +115,10 @@
                         </td>
                         
                         <td class="p-5 flex justify-end gap-2 items-center h-full mt-2">
+                            <a href="{{ route('admin-ukm.proposal.show', $item->id) }}" class="text-indigo-600 hover:text-indigo-800 bg-indigo-50 dark:bg-indigo-900/20 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 w-9 h-9 rounded-lg flex items-center justify-center transition-colors shadow-sm" title="Upload/Cek Proposal">
+                                <i class="fa-solid fa-file-arrow-up text-sm"></i>
+                            </a>
+
                             <a href="{{ route('admin-ukm.kegiatan.edit', $item->id) }}" class="text-amber-600 hover:text-amber-800 bg-amber-50 dark:bg-amber-900/20 dark:text-amber-500 hover:bg-amber-100 dark:hover:bg-amber-900/40 w-9 h-9 rounded-lg flex items-center justify-center transition-colors shadow-sm" title="Edit">
                                 <i class="fa-solid fa-pen text-sm"></i>
                             </a>
