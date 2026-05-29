@@ -24,7 +24,7 @@
                     <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
                         {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
                     </td>
-                    <td class="px-6 py-4 font-bold text-blue-600">{{ $item->nama }}</td>
+                    <td class="px-6 py-4 font-bold text-blue-600">{{ $item->nama_kegiatan }}</td>
                     <td class="px-6 py-4 text-sm text-gray-600">{{ $item->lokasi ?? '-' }}</td>
                     <td class="px-6 py-4">
                         <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide

@@ -43,7 +43,7 @@
                     <option value="">-- Tidak Terkait Kegiatan --</option>
                     @foreach($kegiatan as $item)
                         <option value="{{ $item->id }}" {{ $keuangan->kegiatan_id == $item->id ? 'selected' : '' }}>
-                            {{ $item->nama }} ({{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }})
+                            {{ $item->nama_kegiatan }} ({{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }})
                         </option>
                     @endforeach
                 </select>

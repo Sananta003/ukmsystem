@@ -40,7 +40,7 @@
                 <select name="kegiatan_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white">
                     <option value="">-- Tidak Terkait Kegiatan --</option>
                     @foreach($kegiatan as $item)
-                        <option value="{{ $item->id }}">{{ $item->nama }} ({{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }})</option>
+                        <option value="{{ $item->id }}">{{ $item->nama_kegiatan }} ({{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }})</option>
                     @endforeach
                 </select>
             </div>

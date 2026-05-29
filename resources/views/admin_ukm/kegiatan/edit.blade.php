@@ -12,8 +12,8 @@
         @csrf
         @method('PUT') <div class="space-y-5">
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kegiatan <span class="text-red-500">*</span></label>
-                <input type="text" name="nama" value="{{ $kegiatan->nama }}" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                <label class="block text-sm font-bold text-gray-700 mb-2">Nama Program Kerja / Kegiatan <span class="text-red-500">*</span></label>
+                <input type="text" name="nama_kegiatan" value="{{ $kegiatan->nama_kegiatan }}" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
             </div>
             
             <div class="grid grid-cols-2 gap-5">
