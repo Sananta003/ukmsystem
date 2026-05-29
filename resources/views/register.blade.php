@@ -10,6 +10,19 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        @keyframes float-reverse {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(20px) rotate(-5deg); }
+        }
+        
+        .animate-float { animation: float 15s ease-in-out infinite; }
+        .animate-float-reverse { animation: float-reverse 20s ease-in-out infinite; }
     </style>
     <script>
         // FOUC prevention for dark mode
@@ -21,50 +34,68 @@
         tailwind.config = { darkMode: 'class' };
     </script>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 min-h-screen flex items-center justify-center p-4 transition-colors duration-500" x-data="{ darkMode: document.documentElement.classList.contains('dark') }" x-init="$watch('darkMode', val => { if(val){ document.documentElement.classList.add('dark'); localStorage.theme = 'dark'; } else { document.documentElement.classList.remove('dark'); localStorage.theme = 'light'; } })">
+<body class="min-h-screen flex items-center justify-center relative overflow-hidden bg-slate-50 dark:bg-[#0f172a] text-slate-900 dark:text-slate-100 p-4 transition-colors duration-500" x-data="{ darkMode: document.documentElement.classList.contains('dark') }" x-init="$watch('darkMode', val => { if(val){ document.documentElement.classList.add('dark'); localStorage.theme = 'dark'; } else { document.documentElement.classList.remove('dark'); localStorage.theme = 'light'; } })">
 
     <!-- Dark Mode Toggle Absolute Top Right -->
-    <button @click="darkMode = !darkMode" class="absolute top-4 right-4 sm:top-8 sm:right-8 w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 bg-white dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all shadow-md">
-        <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
-    </button>
+    <div class="fixed top-6 right-6 z-50">
+        <button @click="darkMode = !darkMode" class="w-12 h-12 rounded-full flex items-center justify-center text-slate-500 hover:text-sky-500 dark:text-slate-400 dark:hover:text-amber-400 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md hover:bg-white dark:hover:bg-slate-700 transition-all shadow-lg border border-slate-200 dark:border-slate-700">
+            <i class="fa-solid text-xl" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+        </button>
+    </div>
 
-    <div class="max-w-md w-full bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-gray-100 dark:border-slate-700 overflow-hidden transition-colors duration-300 relative z-10">
-        <div class="bg-blue-600 dark:bg-indigo-950 p-6 text-center transition-colors duration-300">
-            <div class="w-12 h-12 bg-white dark:bg-indigo-900/50 rounded-full flex items-center justify-center text-blue-600 dark:text-indigo-400 text-xl mx-auto mb-3 shadow-sm transition-colors duration-300">
+    <!-- Animated Mesh Gradient Background Elements (PNC Logo Colors) -->
+    <div class="fixed top-[-10%] left-[-10%] w-[800px] h-[800px] bg-sky-300 dark:bg-blue-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[150px] opacity-50 dark:opacity-40 animate-float"></div>
+    <div class="fixed top-[20%] right-[-10%] w-[600px] h-[600px] bg-slate-300 dark:bg-purple-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[120px] opacity-50 dark:opacity-40 animate-float-reverse" style="animation-delay: -5s;"></div>
+    <div class="fixed bottom-[-10%] left-[20%] w-[700px] h-[700px] bg-amber-300 dark:bg-pink-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[150px] opacity-40 dark:opacity-30 animate-float" style="animation-delay: -10s;"></div>
+
+
+    <div class="max-w-md w-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-white/50 dark:border-slate-700/50 overflow-hidden transition-colors duration-300 relative z-10">
+        
+        <div class="bg-slate-800 dark:bg-slate-900 p-8 text-center transition-colors duration-300 relative overflow-hidden">
+            <!-- decorative gradient inside header -->
+            <div class="absolute inset-0 bg-gradient-to-r from-sky-500/20 to-amber-500/20 mix-blend-overlay pointer-events-none"></div>
+            
+            <a href="{{ url('/') }}" class="inline-flex w-14 h-14 bg-white/10 dark:bg-slate-800 rounded-full items-center justify-center text-sky-400 text-2xl mx-auto mb-4 shadow-sm border border-white/10 hover:scale-110 transition-transform duration-300">
                 <i class="fa-solid fa-user-plus"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-white">Bergabung dengan UKM</h2>
-            <p class="text-blue-100 dark:text-indigo-200 text-sm mt-1">Daftarkan diri Anda untuk mengembangkan minat dan bakat.</p>
+            </a>
+            <h2 class="text-2xl font-bold text-white relative z-10">Bergabung dengan UKM</h2>
+            <p class="text-slate-300 text-sm mt-1 relative z-10">Daftarkan diri Anda untuk mengembangkan minat dan bakat.</p>
         </div>
 
         <form action="{{ route('register') }}" method="POST" class="p-6 md:p-8 space-y-5">
             @csrf
             
             @if($errors->any())
-                <div class="bg-red-50 text-red-500 text-sm p-3 rounded-lg border border-red-100">
+                <div class="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 text-sm p-4 rounded-xl border border-red-200 dark:border-red-500/30">
                     <ul class="list-disc list-inside">
                         @foreach($errors->all() as $error) <li>{{ $error }}</li> @endforeach
                     </ul>
                 </div>
             @endif
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Nama Lengkap</label>
-                <input type="text" name="name" value="{{ old('name') }}" required placeholder="Masukkan nama Anda" class="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white dark:bg-slate-900/50 text-slate-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 transition-colors">
+            <div class="space-y-1.5">
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1 transition-colors">Nama Lengkap</label>
+                <div class="relative group">
+                    <i class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-sky-500 transition-colors"></i>
+                    <input type="text" name="name" value="{{ old('name') }}" required placeholder="Masukkan nama Anda" class="w-full border border-slate-200 dark:border-slate-600 rounded-2xl pl-11 pr-4 py-3 focus:ring-4 focus:ring-sky-500/20 focus:border-sky-500 outline-none bg-slate-50 dark:bg-slate-900/50 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-all duration-300">
+                </div>
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Alamat Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" required placeholder="email@kampus.com" class="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white dark:bg-slate-900/50 text-slate-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 transition-colors">
+            <div class="space-y-1.5">
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1 transition-colors">Alamat Email</label>
+                <div class="relative group">
+                    <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-sky-500 transition-colors"></i>
+                    <input type="email" name="email" value="{{ old('email') }}" required placeholder="email@kampus.com" class="w-full border border-slate-200 dark:border-slate-600 rounded-2xl pl-11 pr-4 py-3 focus:ring-4 focus:ring-sky-500/20 focus:border-sky-500 outline-none bg-slate-50 dark:bg-slate-900/50 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-all duration-300">
+                </div>
             </div>
 
             <!-- Alert Info UKM -->
-            <div class="bg-blue-50 dark:bg-indigo-900/20 border border-blue-200 dark:border-indigo-800 rounded-xl p-4 flex items-center gap-3 transition-colors">
-                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-indigo-900/50 text-blue-600 dark:text-indigo-400 flex items-center justify-center shrink-0 transition-colors">
-                    <i class="fa-solid fa-users text-lg"></i>
+            <div class="bg-sky-50 dark:bg-slate-800/50 border border-sky-100 dark:border-slate-700 rounded-2xl p-4 flex items-center gap-4 transition-colors">
+                <div class="w-12 h-12 rounded-full bg-sky-100 dark:bg-slate-700 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0 transition-colors">
+                    <i class="fa-solid fa-users text-xl"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-blue-600 dark:text-indigo-400 font-semibold uppercase tracking-wider mb-0.5 transition-colors">Mendaftar untuk bergabung dengan</p>
+                    <p class="text-[11px] text-sky-600 dark:text-sky-400 font-bold uppercase tracking-wider mb-0.5 transition-colors">Mendaftar untuk UKM</p>
                     <h3 class="text-base font-bold text-slate-800 dark:text-slate-100 transition-colors">{{ $targetUkm->nama_ukm }}</h3>
                 </div>
             </div>
@@ -72,17 +103,20 @@
             <!-- Hidden input untuk ukm_id -->
             <input type="hidden" name="ukm_id" value="{{ request('ukm_id') }}">
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1 transition-colors">Buat Password</label>
-                <input type="password" name="password" required minlength="6" placeholder="Minimal 6 karakter" class="w-full border border-gray-300 dark:border-slate-600 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white dark:bg-slate-900/50 text-slate-800 dark:text-slate-100 placeholder-gray-400 dark:placeholder-slate-500 transition-colors">
+            <div class="space-y-1.5">
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 ml-1 transition-colors">Buat Password</label>
+                <div class="relative group">
+                    <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-sky-500 transition-colors"></i>
+                    <input type="password" name="password" required minlength="6" placeholder="Minimal 6 karakter" class="w-full border border-slate-200 dark:border-slate-600 rounded-2xl pl-11 pr-4 py-3 focus:ring-4 focus:ring-sky-500/20 focus:border-sky-500 outline-none bg-slate-50 dark:bg-slate-900/50 text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-all duration-300">
+                </div>
             </div>
 
-            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white font-bold py-3 rounded-lg transition-colors shadow-md shadow-blue-200 dark:shadow-none mt-2">
+            <button type="submit" class="w-full bg-gradient-to-r from-sky-500 to-amber-500 hover:from-sky-400 hover:to-amber-400 text-white font-bold py-3.5 rounded-2xl transition-all duration-300 shadow-lg shadow-sky-500/30 hover:shadow-sky-500/50 hover:-translate-y-1 mt-4">
                 Daftar & Masuk
             </button>
             
-            <p class="text-center text-sm text-gray-500 dark:text-slate-400 mt-4 transition-colors">
-                Sudah punya akun? <a href="{{ route('login') }}" class="text-blue-600 dark:text-indigo-400 font-semibold hover:underline transition-colors">Login disini</a>
+            <p class="text-center text-sm text-slate-500 dark:text-slate-400 mt-6 font-medium transition-colors">
+                Sudah punya akun? <a href="{{ route('login') }}" class="text-sky-600 dark:text-sky-400 font-bold hover:text-sky-700 hover:underline transition-colors">Login disini</a>
             </p>
         </form>
     </div>

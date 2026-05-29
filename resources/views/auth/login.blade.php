@@ -45,15 +45,15 @@
 
     <!-- Dark Mode Toggle Button -->
     <div class="fixed top-6 right-6 z-50">
-        <button @click="darkMode = !darkMode" class="w-12 h-12 rounded-full flex items-center justify-center text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-yellow-400 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md hover:bg-white dark:hover:bg-slate-700 transition-all shadow-lg border border-slate-200 dark:border-slate-700">
+        <button @click="darkMode = !darkMode" class="w-12 h-12 rounded-full flex items-center justify-center text-slate-500 hover:text-sky-500 dark:text-slate-400 dark:hover:text-amber-400 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md hover:bg-white dark:hover:bg-slate-700 transition-all shadow-lg border border-slate-200 dark:border-slate-700">
             <i class="fa-solid text-xl" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
         </button>
     </div>
 
-    <!-- Animated Mesh Gradient Background Elements -->
-    <div class="fixed top-[-10%] left-[-10%] w-[800px] h-[800px] bg-blue-300 dark:bg-blue-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[150px] opacity-50 dark:opacity-40 animate-float"></div>
-    <div class="fixed top-[20%] right-[-10%] w-[600px] h-[600px] bg-purple-300 dark:bg-purple-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[120px] opacity-50 dark:opacity-40 animate-float-reverse" style="animation-delay: -5s;"></div>
-    <div class="fixed bottom-[-10%] left-[20%] w-[700px] h-[700px] bg-pink-300 dark:bg-pink-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[150px] opacity-40 dark:opacity-30 animate-float" style="animation-delay: -10s;"></div>
+    <!-- Animated Mesh Gradient Background Elements (PNC Logo Colors) -->
+    <div class="fixed top-[-10%] left-[-10%] w-[800px] h-[800px] bg-sky-300 dark:bg-blue-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[150px] opacity-50 dark:opacity-40 animate-float"></div>
+    <div class="fixed top-[20%] right-[-10%] w-[600px] h-[600px] bg-slate-300 dark:bg-purple-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[120px] opacity-50 dark:opacity-40 animate-float-reverse" style="animation-delay: -5s;"></div>
+    <div class="fixed bottom-[-10%] left-[20%] w-[700px] h-[700px] bg-amber-300 dark:bg-pink-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[150px] opacity-40 dark:opacity-30 animate-float" style="animation-delay: -10s;"></div>
 
     <!-- Login Container -->
     <div :class="loaded ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'" class="w-full max-w-[90%] sm:max-w-md md:max-w-lg p-4 transition-all duration-1000 ease-out z-10 relative mx-auto">
@@ -65,10 +65,10 @@
 
             <div class="text-center mb-10">
                 <a href="{{ url('/') }}" class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white dark:bg-white/10 border border-slate-200 dark:border-white/20 mb-6 shadow-sm dark:shadow-inner hover:scale-110 hover:rotate-3 transition-transform duration-300">
-                    <i class="fa-solid fa-layer-group text-3xl bg-clip-text text-transparent bg-gradient-to-br from-blue-500 to-pink-500 dark:from-blue-400 dark:to-pink-400"></i>
+                    <i class="fa-solid fa-layer-group text-3xl bg-clip-text text-transparent bg-gradient-to-br from-sky-500 to-amber-500 dark:from-sky-400 dark:to-amber-400"></i>
                 </a>
                 <h2 class="text-3xl font-black text-slate-800 dark:text-white tracking-wide mb-2">Selamat Datang</h2>
-                <p class="text-slate-500 dark:text-blue-200/80 text-sm font-medium">Masuk untuk melanjutkan ke Portal UKM</p>
+                <p class="text-slate-500 dark:text-sky-200/80 text-sm font-medium">Masuk untuk melanjutkan ke Portal UKM</p>
             </div>
 
             <form action="{{ route('login') }}" method="POST" class="space-y-6 relative z-10">
@@ -86,25 +86,25 @@
                 <div class="space-y-1.5">
                     <label class="block text-sm font-bold text-slate-700 dark:text-white/90 ml-1">Alamat Email</label>
                     <div class="relative">
-                        <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-white/50 transition-colors group-focus-within:text-pink-500"></i>
+                        <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-white/50 transition-colors group-focus-within:text-sky-500"></i>
                         <input type="email" name="email" value="{{ old('email') }}" required placeholder="email@kampus.com" 
-                            class="w-full bg-slate-50 dark:bg-white/10 border border-slate-200 dark:border-white/20 rounded-2xl pl-11 pr-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-white/40 focus:outline-none focus:ring-4 focus:ring-pink-500/20 dark:focus:ring-pink-500/40 focus:border-pink-500 dark:focus:border-pink-500/60 transition-all duration-300">
+                            class="w-full bg-slate-50 dark:bg-white/10 border border-slate-200 dark:border-white/20 rounded-2xl pl-11 pr-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-white/40 focus:outline-none focus:ring-4 focus:ring-sky-500/20 dark:focus:ring-sky-500/40 focus:border-sky-500 dark:focus:border-sky-500/60 transition-all duration-300">
                     </div>
                 </div>
 
                 <div class="space-y-1.5">
                     <div class="flex justify-between items-center ml-1">
                         <label class="block text-sm font-bold text-slate-700 dark:text-white/90">Kata Sandi</label>
-                        <a href="{{ route('password.request') }}" class="text-xs font-semibold text-pink-500 dark:text-pink-300 hover:text-pink-600 dark:hover:text-pink-200 transition-colors">Lupa sandi?</a>
+                        <a href="{{ route('password.request') }}" class="text-xs font-semibold text-amber-500 dark:text-amber-300 hover:text-amber-600 dark:hover:text-amber-200 transition-colors">Lupa sandi?</a>
                     </div>
                     <div class="relative">
-                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-white/50 transition-colors group-focus-within:text-pink-500"></i>
+                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-white/50 transition-colors group-focus-within:text-sky-500"></i>
                         <input type="password" name="password" required placeholder="••••••••" 
-                            class="w-full bg-slate-50 dark:bg-white/10 border border-slate-200 dark:border-white/20 rounded-2xl pl-11 pr-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-white/40 focus:outline-none focus:ring-4 focus:ring-pink-500/20 dark:focus:ring-pink-500/40 focus:border-pink-500 dark:focus:border-pink-500/60 transition-all duration-300">
+                            class="w-full bg-slate-50 dark:bg-white/10 border border-slate-200 dark:border-white/20 rounded-2xl pl-11 pr-4 py-3.5 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-white/40 focus:outline-none focus:ring-4 focus:ring-sky-500/20 dark:focus:ring-sky-500/40 focus:border-sky-500 dark:focus:border-sky-500/60 transition-all duration-300">
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-500 hover:via-purple-500 hover:to-pink-500 text-white font-black py-4 rounded-2xl transition-all duration-300 shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-[1.02] hover:-translate-y-1 mt-4 relative overflow-hidden group/btn">
+                <button type="submit" class="w-full bg-gradient-to-r from-sky-500 to-amber-500 hover:from-sky-400 hover:to-amber-400 text-white font-black py-4 rounded-2xl transition-all duration-300 shadow-lg shadow-sky-500/30 hover:shadow-sky-500/50 hover:scale-[1.02] hover:-translate-y-1 mt-4 relative overflow-hidden group/btn">
                     <span class="relative z-10 flex items-center justify-center gap-2">Masuk Sekarang <i class="fa-solid fa-arrow-right text-sm"></i></span>
                     <div class="absolute inset-0 h-full w-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover/btn:animate-[shimmer_1s_infinite]"></div>
                 </button>
@@ -127,7 +127,7 @@
                 
                 <p class="text-center text-sm text-slate-500 dark:text-white/60 mt-6 font-medium">
                     Belum bergabung dengan UKM? <br>
-                    <a href="{{ route('ukm.explore') }}" class="text-pink-600 dark:text-pink-300 font-bold hover:text-pink-700 dark:hover:text-pink-200 hover:underline transition-colors mt-1 inline-block">Eksplorasi & Daftar Disini</a>
+                    <a href="{{ route('ukm.explore') }}" class="text-sky-600 dark:text-sky-300 font-bold hover:text-sky-700 dark:hover:text-sky-200 hover:underline transition-colors mt-1 inline-block">Eksplorasi & Daftar Disini</a>
                 </p>
             </form>
         </div>

@@ -24,8 +24,8 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 flex flex-col min-h-screen transition-colors duration-500" x-data="{ mobileMenuOpen: false, darkMode: document.documentElement.classList.contains('dark') }" x-init="$watch('darkMode', val => { if(val){ document.documentElement.classList.add('dark'); localStorage.theme = 'dark'; } else { document.documentElement.classList.remove('dark'); localStorage.theme = 'light'; } })">
 
-    <div class="bg-blue-600 dark:bg-indigo-950 text-white text-xs sm:text-sm py-2 px-4 text-center fixed w-full z-[60] font-medium tracking-wide shadow-sm transition-colors duration-300">
-        <i class="fa-solid fa-bullhorn mr-2"></i> Pusat Informasi dan Pendaftaran Unit Kegiatan Mahasiswa (UKM) Resmi Kampus
+    <div class="bg-slate-800 dark:bg-indigo-950 text-white text-xs sm:text-sm py-2 px-4 text-center fixed w-full z-[60] font-medium tracking-wide shadow-sm transition-colors duration-300">
+        <i class="fa-solid fa-bullhorn mr-2 text-amber-400"></i> Pusat Informasi dan Pendaftaran Unit Kegiatan Mahasiswa (UKM) Resmi Kampus
     </div>
 
     <nav class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-100 dark:border-slate-800 fixed w-full z-50 top-8 sm:top-9 transition-colors duration-300">
@@ -42,7 +42,7 @@
 
                 <div class="flex items-center gap-4">
                     <!-- Dark Mode Toggle -->
-                    <button @click="darkMode = !darkMode" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-all shadow-inner">
+                    <button @click="darkMode = !darkMode" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:text-sky-500 dark:text-slate-400 dark:hover:text-sky-400 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-all shadow-inner">
                         <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
                     </button>
 
@@ -50,11 +50,11 @@
                     <div class="hidden md:flex items-center">
                         @auth
                             @if(Auth::user()->role === 'super_admin')
-                                <a href="{{ route('superadmin.dashboard') }}" class="text-gray-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 font-medium mr-4 transition">Pusat Komando</a>
+                                <a href="{{ route('superadmin.dashboard') }}" class="text-gray-600 dark:text-slate-300 hover:text-amber-500 dark:hover:text-amber-400 font-medium mr-4 transition">Pusat Komando</a>
                             @elseif(Auth::user()->role === 'admin_ukm')
-                                <a href="{{ route('admin-ukm.dashboard') }}" class="text-gray-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium mr-4 transition">Dashboard Admin</a>
+                                <a href="{{ route('admin-ukm.dashboard') }}" class="text-gray-600 dark:text-slate-300 hover:text-sky-500 dark:hover:text-sky-400 font-medium mr-4 transition">Dashboard Admin</a>
                             @else
-                                <a href="{{ route('member.dashboard') }}" class="text-gray-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium mr-4 transition">Portal Member</a>
+                                <a href="{{ route('member.dashboard') }}" class="text-gray-600 dark:text-slate-300 hover:text-sky-500 dark:hover:text-sky-400 font-medium mr-4 transition">Portal Member</a>
                             @endif
                             
                             <form action="{{ route('logout') }}" method="POST" class="inline">
@@ -62,13 +62,13 @@
                                 <button type="submit" class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-100 dark:hover:bg-red-900/50 transition">Logout</button>
                             </form>
                         @else
-                            <a href="{{ route('login') }}" class="text-gray-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium mr-6 transition">Login</a>
-                            <a href="{{ route('register') }}" class="bg-blue-600 dark:bg-indigo-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 dark:hover:bg-indigo-500 transition-colors shadow-sm">Daftar Anggota</a>
+                            <a href="{{ route('login') }}" class="text-gray-600 dark:text-slate-300 hover:text-sky-500 dark:hover:text-sky-400 font-medium mr-6 transition">Login</a>
+                            <a href="{{ route('register') }}" class="bg-sky-500 dark:bg-sky-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-sky-600 dark:hover:bg-sky-500 transition-colors shadow-sm">Daftar Anggota</a>
                         @endauth
                     </div>
 
                     <!-- Mobile Menu Button -->
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-500 dark:text-slate-400 hover:text-sky-500 dark:hover:text-sky-400 focus:outline-none">
                         <i class="fa-solid text-2xl" :class="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
                     </button>
                 </div>
@@ -80,11 +80,11 @@
             <div class="px-4 pt-4 pb-6 space-y-4">
                 @auth
                     @if(Auth::user()->role === 'super_admin')
-                        <a href="{{ route('superadmin.dashboard') }}" class="block text-gray-800 dark:text-slate-200 hover:text-purple-600 font-medium text-lg">Pusat Komando</a>
+                        <a href="{{ route('superadmin.dashboard') }}" class="block text-gray-800 dark:text-slate-200 hover:text-amber-500 font-medium text-lg">Pusat Komando</a>
                     @elseif(Auth::user()->role === 'admin_ukm')
-                        <a href="{{ route('admin-ukm.dashboard') }}" class="block text-gray-800 dark:text-slate-200 hover:text-blue-600 font-medium text-lg">Dashboard Admin</a>
+                        <a href="{{ route('admin-ukm.dashboard') }}" class="block text-gray-800 dark:text-slate-200 hover:text-sky-500 font-medium text-lg">Dashboard Admin</a>
                     @else
-                        <a href="{{ route('member.dashboard') }}" class="block text-gray-800 dark:text-slate-200 hover:text-blue-600 font-medium text-lg">Portal Member</a>
+                        <a href="{{ route('member.dashboard') }}" class="block text-gray-800 dark:text-slate-200 hover:text-sky-500 font-medium text-lg">Portal Member</a>
                     @endif
                     <form action="{{ route('logout') }}" method="POST" class="block w-full">
                         @csrf
@@ -92,7 +92,7 @@
                     </form>
                 @else
                     <a href="{{ route('login') }}" class="block text-center text-gray-800 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800 px-4 py-3 rounded-lg font-medium border border-gray-200 dark:border-slate-700">Login</a>
-                    <a href="{{ route('register') }}" class="block text-center bg-blue-600 dark:bg-indigo-600 text-white px-4 py-3 rounded-lg font-medium shadow-sm transition-colors hover:bg-blue-700 dark:hover:bg-indigo-500">Daftar Anggota</a>
+                    <a href="{{ route('register') }}" class="block text-center bg-sky-500 dark:bg-sky-600 text-white px-4 py-3 rounded-lg font-medium shadow-sm transition-colors hover:bg-sky-600 dark:hover:bg-sky-500">Daftar Anggota</a>
                 @endauth
             </div>
         </div>
@@ -100,21 +100,21 @@
 
     <main class="flex-grow flex items-center justify-center pt-24 pb-12 min-h-[85vh] relative overflow-hidden">
         
-        <!-- Background Ornaments (Glassmorphism & Gradients) -->
-        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 2s;"></div>
-        <div class="absolute top-[20%] right-[10%] w-72 h-72 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style="animation-delay: 4s;"></div>
+        <!-- Background Ornaments (Glassmorphism & Gradients) matched to Logo PNC -->
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-sky-300 dark:bg-blue-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-40 animate-pulse"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-slate-300 dark:bg-purple-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-40 animate-pulse" style="animation-delay: 2s;"></div>
+        <div class="absolute top-[20%] right-[10%] w-72 h-72 bg-amber-300 dark:bg-pink-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 4s;"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center">
             
             <div class="py-12 lg:py-20 animate-[fade-in-up_1s_ease-out]">
                 <!-- Huge Gradient Text -->
                 <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6">
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 drop-shadow-sm">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-amber-500 drop-shadow-sm">
                         Eksplorasi Bakatmu
                     </span>
                     <br>
-                    <span class="text-slate-900 dark:text-white mt-2 block transition-colors">Bersama SIM-UKM</span>
+                    <span class="text-slate-800 dark:text-white mt-2 block transition-colors">Bersama SIM-UKM</span>
                 </h1>
                 
                 <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto mb-14 font-light leading-relaxed transition-colors">
@@ -126,23 +126,23 @@
                     
                     <!-- Eksplorasi UKM -->
                     <a href="{{ route('ukm.explore') }}" class="group relative px-6 py-5 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md border border-gray-100 dark:border-slate-700 rounded-2xl shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 w-full md:w-auto flex flex-col items-center justify-center">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
+                        <div class="absolute -inset-1 bg-gradient-to-r from-sky-400 to-sky-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
                         <div class="relative flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-                            <div class="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                            <div class="w-12 h-12 rounded-full bg-sky-50 dark:bg-sky-900/30 text-sky-500 dark:text-sky-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
                                 <i class="fa-solid fa-compass text-xl"></i>
                             </div>
                             <div>
                                 <span class="block text-slate-800 dark:text-slate-100 font-bold text-lg leading-tight transition-colors">Eksplorasi UKM</span>
-                                <span class="block text-blue-600 dark:text-blue-400 text-xs font-semibold mt-1 bg-blue-50 dark:bg-blue-900/50 px-2 py-0.5 rounded-md inline-block">{{ $total_ukm }} UKM Aktif</span>
+                                <span class="block text-sky-600 dark:text-sky-400 text-xs font-semibold mt-1 bg-sky-50 dark:bg-sky-900/50 px-2 py-0.5 rounded-md inline-block">{{ $total_ukm }} UKM Aktif</span>
                             </div>
                         </div>
                     </a>
                     
                     <!-- Daftar UKM Baru -->
                     <a href="{{ route('pengajuan.create') }}" class="group relative px-6 py-5 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md border border-gray-100 dark:border-slate-700 rounded-2xl shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 w-full md:w-auto flex flex-col items-center justify-center">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
+                        <div class="absolute -inset-1 bg-gradient-to-r from-amber-400 to-amber-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
                         <div class="relative flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-                            <div class="w-12 h-12 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                            <div class="w-12 h-12 rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-500 dark:text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
                                 <i class="fa-solid fa-rocket text-xl"></i>
                             </div>
                             <div>
@@ -154,9 +154,9 @@
 
                     <!-- Saran UKM -->
                     <a href="{{ route('masukan.create') }}" class="group relative px-6 py-5 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md border border-gray-100 dark:border-slate-700 rounded-2xl shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 w-full md:w-auto flex flex-col items-center justify-center">
-                        <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
+                        <div class="absolute -inset-1 bg-gradient-to-r from-slate-400 to-slate-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
                         <div class="relative flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-                            <div class="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                            <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-900/30 text-slate-600 dark:text-slate-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
                                 <i class="fa-regular fa-comment-dots text-xl"></i>
                             </div>
                             <div>
