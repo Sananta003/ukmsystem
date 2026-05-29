@@ -15,7 +15,7 @@ class SocialiteController extends Controller
         try {
             return Socialite::driver('google')->redirect();
         } catch (\Throwable $th) {
-            return redirect()->route('login')->withErrors(['error' => 'Sistem SSO Google sedang offline. Harap install package laravel/socialite terlebih dahulu di server.']);
+            return redirect()->route('login')->withErrors(['error' => 'Sistem SSO Google error: ' . $th->getMessage() . '. Pastikan GOOGLE_CLIENT_ID dan GOOGLE_CLIENT_SECRET sudah diisi di file .env']);
         }
     }
 
@@ -48,7 +48,7 @@ class SocialiteController extends Controller
             return redirect()->intended('/member/dashboard');
 
         } catch (\Exception $e) {
-            return redirect()->route('login')->withErrors(['error' => 'Gagal login dengan Google. Silakan coba lagi.']);
+            return redirect()->route('login')->withErrors(['error' => 'Gagal login dengan Google: ' . $e->getMessage()]);
         }
     }
 }
