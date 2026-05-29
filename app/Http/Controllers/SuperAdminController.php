@@ -27,8 +27,14 @@ class SuperAdminController extends Controller
 
         $kodeTersedia = KodePengajuan::where('status', 'tersedia')->latest()->get();
         $pengajuans = PengajuanUkm::where('status', 'pending_superadmin')->with('user')->latest()->get();
+        
+        $proposals = \App\Models\ProposalApproval::with(['proposal.kegiatan.ukm'])
+            ->where('role_approval', 'super_admin')
+            ->where('status', 'Menunggu')
+            ->orderBy('id', 'desc')
+            ->get();
 
-        return view('superadmin.dashboard', compact('ukms', 'totalUkm', 'totalMahasiswa', 'kodeTersedia', 'pengajuans'));
+        return view('superadmin.dashboard', compact('ukms', 'totalUkm', 'totalMahasiswa', 'kodeTersedia', 'pengajuans', 'proposals'));
     }
 
     public function create()

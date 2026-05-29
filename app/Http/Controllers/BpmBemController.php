@@ -19,7 +19,13 @@ class BpmBemController extends Controller
             ->latest()
             ->get();
             
-        return view('bpm_bem.dashboard', compact('pengajuans'));
+        $proposals = \App\Models\ProposalApproval::with(['proposal.kegiatan.ukm'])
+            ->where('role_approval', $role)
+            ->where('status', 'Menunggu')
+            ->orderBy('id', 'desc')
+            ->get();
+            
+        return view('bpm_bem.dashboard', compact('pengajuans', 'proposals'));
     }
 
     public function show($id)

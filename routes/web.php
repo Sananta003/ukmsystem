@@ -141,6 +141,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/ukm/tambah', [SuperAdminController::class, 'create'])->name('ukm.create');
         Route::post('/ukm', [SuperAdminController::class, 'store'])->name('ukm.store');
         Route::delete('/ukm/{id}', [SuperAdminController::class, 'destroy'])->name('ukm.destroy');
+
+        Route::get('/proposal-kegiatan/{id}', [\App\Http\Controllers\ReviewProposalController::class, 'show'])->name('proposal.show');
+        Route::post('/proposal-kegiatan/{id}/approve', [\App\Http\Controllers\ReviewProposalController::class, 'approve'])->name('proposal.approve');
     });
 
     Route::prefix('birokrasi')->name('birokrasi.')->middleware(['auth', 'can:is_bem_or_bpm'])->group(function () {
@@ -149,5 +152,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pengajuan/{id}', [\App\Http\Controllers\BpmBemController::class, 'show'])->name('pengajuan.show');
         Route::post('/pengajuan/{id}/acc', [\App\Http\Controllers\BpmBemController::class, 'acc'])->name('pengajuan.acc');
         Route::post('/pengajuan/{id}/revisi', [\App\Http\Controllers\BpmBemController::class, 'storeRevisi'])->name('pengajuan.revisi');
+
+        Route::get('/proposal-kegiatan/{id}', [\App\Http\Controllers\ReviewProposalController::class, 'show'])->name('proposal.show');
+        Route::post('/proposal-kegiatan/{id}/approve', [\App\Http\Controllers\ReviewProposalController::class, 'approve'])->name('proposal.approve');
     });
 });

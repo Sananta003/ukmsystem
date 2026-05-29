@@ -59,7 +59,7 @@ class ProposalController extends Controller
 
         // Jika belum ada riwayat sama sekali, kita buat riwayat pertama:
         if ($proposal->approvals()->count() === 0) {
-            // Asumsi urutan standar: BEM -> Kampus
+            // Asumsi urutan standar: BEM -> BPM -> Kampus
             ProposalApproval::create([
                 'proposal_id' => $proposal->id,
                 'role_approval' => 'admin_ukm',
@@ -76,8 +76,14 @@ class ProposalController extends Controller
             
             ProposalApproval::create([
                 'proposal_id' => $proposal->id,
+                'role_approval' => 'bpm',
+                'status' => 'Antrian',
+            ]);
+
+            ProposalApproval::create([
+                'proposal_id' => $proposal->id,
                 'role_approval' => 'super_admin',
-                'status' => 'Menunggu',
+                'status' => 'Antrian',
             ]);
         }
 
