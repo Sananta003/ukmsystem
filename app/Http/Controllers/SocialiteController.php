@@ -45,7 +45,20 @@ class SocialiteController extends Controller
                 Auth::login($user);
             }
 
-            return redirect()->intended('/member/dashboard');
+            $role = $user->role;
+            if ($role === 'super_admin') {
+                return redirect()->intended(route('superadmin.dashboard')); 
+            } elseif ($role === 'admin_ukm') {
+                return redirect()->intended(route('admin-ukm.dashboard'));
+            } elseif ($role === 'inisiator') {
+                return redirect()->intended(route('inisiator.dashboard'));
+            } elseif ($role === 'member') {
+                return redirect()->intended(route('member.dashboard'));
+            } elseif (in_array($role, ['bem', 'bpm'])) {
+                return redirect()->intended(route('birokrasi.dashboard'));
+            }
+
+            return redirect()->intended('/');
 
         } catch (\Exception $e) {
             return redirect()->route('login')->withErrors(['error' => 'Gagal login dengan Google: ' . $e->getMessage()]);

@@ -30,10 +30,9 @@ class AuthController extends Controller
                 return redirect()->route('superadmin.dashboard'); 
             } elseif ($role === 'admin_ukm') {
                 return redirect()->route('admin-ukm.dashboard');
+            } elseif ($role === 'inisiator') {
+                return redirect()->route('inisiator.dashboard');
             } elseif ($role === 'member') {
-                if (is_null(Auth::user()->ukm_id)) {
-                    return redirect()->route('inisiator.dashboard');
-                }
                 return redirect()->route('member.dashboard');
             } elseif (in_array($role, ['bem', 'bpm'])) {
                 return redirect()->route('birokrasi.dashboard');
@@ -81,11 +80,12 @@ class AuthController extends Controller
             'ukm_id' => 'nullable|exists:ukms,id', 
         ]);
 
+        $role = is_null($request->ukm_id) ? 'inisiator' : 'member';
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'member',
+            'role' => $role,
             'ukm_id' => $request->ukm_id,
         ]);
 

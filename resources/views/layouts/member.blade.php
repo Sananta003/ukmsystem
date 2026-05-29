@@ -145,9 +145,10 @@
         </div>
     </main>
 
-    <footer class="bg-white/50 dark:bg-slate-900/50 backdrop-blur-md border-t border-white/60 dark:border-slate-800 mt-auto transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 text-center text-sm text-slate-500 dark:text-slate-400 font-medium">
-            &copy; {{ date('Y') }} Sistem Manajemen UKM. Didesain dengan <i class="fa-solid fa-heart text-rose-500 mx-1 animate-pulse"></i>
+    <footer class="bg-slate-900 text-slate-400 py-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>&copy; {{ date('Y') }} Portal Mahasiswa. By Sananta Hak Cipta Dilindungi.</p>
+             <p class="mt-2">Dibangun dengan Laravel & Tailwind CSS.</p>
         </div>
     </footer>
 
