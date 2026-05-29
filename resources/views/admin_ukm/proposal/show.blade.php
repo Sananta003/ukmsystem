@@ -48,11 +48,11 @@
         </div>
     </div>
 
-    @if(!$proposal)
+    @if(!$proposal || $proposal->status_akhir == 'Revisi' || $proposal->status_akhir == 'Ditolak')
     <!-- Area Upload Proposal -->
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
         <h3 class="text-base font-bold text-gray-800 mb-4 flex items-center">
-            <i class="fa-regular fa-file-pdf text-indigo-500 mr-2"></i> Upload Proposal
+            <i class="fa-regular fa-file-pdf text-indigo-500 mr-2"></i> {{ !$proposal ? 'Upload Proposal' : 'Upload Ulang / Revisi Proposal' }}
         </h3>
         
         <form action="{{ route('admin-ukm.proposal.upload', $kegiatan->id) }}" method="POST" enctype="multipart/form-data">

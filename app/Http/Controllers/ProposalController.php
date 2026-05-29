@@ -85,6 +85,12 @@ class ProposalController extends Controller
                 'role_approval' => 'super_admin',
                 'status' => 'Antrian',
             ]);
+        } else {
+            // Jika sudah ada riwayat (misalnya revisi diajukan ulang), maka ulangi statusnya
+            $proposal->approvals()->where('role_approval', 'admin_ukm')->update(['status' => 'Disetujui', 'catatan' => 'Proposal hasil revisi diajukan ulang', 'updated_at' => now()]);
+            $proposal->approvals()->where('role_approval', 'bem')->update(['status' => 'Menunggu', 'catatan' => null, 'updated_at' => now()]);
+            $proposal->approvals()->where('role_approval', 'bpm')->update(['status' => 'Antrian', 'catatan' => null, 'updated_at' => now()]);
+            $proposal->approvals()->where('role_approval', 'super_admin')->update(['status' => 'Antrian', 'catatan' => null, 'updated_at' => now()]);
         }
 
         return back()->with('success', 'File proposal berhasil diupload dan diajukan!');
