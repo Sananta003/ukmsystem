@@ -34,7 +34,7 @@
         tailwind.config = { darkMode: 'class' };
     </script>
 </head>
-<body class="min-h-screen flex items-center justify-center relative overflow-hidden bg-slate-50 dark:bg-[#0f172a] text-slate-900 dark:text-slate-100 p-4 transition-colors duration-500" x-data="{ darkMode: document.documentElement.classList.contains('dark') }" x-init="$watch('darkMode', val => { if(val){ document.documentElement.classList.add('dark'); localStorage.theme = 'dark'; } else { document.documentElement.classList.remove('dark'); localStorage.theme = 'light'; } })">
+<body class="min-h-screen flex flex-col relative overflow-x-hidden bg-slate-50 dark:bg-[#0f172a] text-slate-900 dark:text-slate-100 p-4 py-10 transition-colors duration-500" x-data="{ darkMode: document.documentElement.classList.contains('dark') }" x-init="$watch('darkMode', val => { if(val){ document.documentElement.classList.add('dark'); localStorage.theme = 'dark'; } else { document.documentElement.classList.remove('dark'); localStorage.theme = 'light'; } })">
 
     <!-- Dark Mode Toggle Absolute Top Right -->
     <div class="fixed top-6 right-6 z-50">
@@ -49,7 +49,7 @@
     <div class="fixed bottom-[-10%] left-[20%] w-[700px] h-[700px] bg-amber-300 dark:bg-pink-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[150px] opacity-40 dark:opacity-30 animate-float" style="animation-delay: -10s;"></div>
 
 
-    <div class="max-w-md w-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-white/50 dark:border-slate-700/50 overflow-hidden transition-colors duration-300 relative z-10">
+    <div class="m-auto max-w-md w-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-white/50 dark:border-slate-700/50 overflow-hidden transition-colors duration-300 relative z-10">
         
         <div class="bg-slate-800 dark:bg-slate-900 p-8 text-center transition-colors duration-300 relative overflow-hidden">
             <!-- decorative gradient inside header -->

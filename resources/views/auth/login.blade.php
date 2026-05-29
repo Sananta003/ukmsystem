@@ -39,7 +39,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center relative overflow-hidden bg-slate-50 dark:bg-[#0f172a] text-slate-900 dark:text-slate-100 transition-colors duration-500" 
+<body class="min-h-screen flex flex-col relative overflow-x-hidden bg-slate-50 dark:bg-[#0f172a] text-slate-900 dark:text-slate-100 p-4 py-10 transition-colors duration-500" 
       x-data="{ loaded: false, darkMode: document.documentElement.classList.contains('dark') }" 
       x-init="setTimeout(() => loaded = true, 100); $watch('darkMode', val => { if(val){ document.documentElement.classList.add('dark'); localStorage.theme = 'dark'; } else { document.documentElement.classList.remove('dark'); localStorage.theme = 'light'; } })">
 
@@ -56,9 +56,10 @@
     <div class="fixed bottom-[-10%] left-[20%] w-[700px] h-[700px] bg-amber-300 dark:bg-pink-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[150px] opacity-40 dark:opacity-30 animate-float" style="animation-delay: -10s;"></div>
 
     <!-- Login Container -->
-    <div :class="loaded ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'" class="w-full max-w-[90%] sm:max-w-md md:max-w-lg p-4 transition-all duration-1000 ease-out z-10 relative mx-auto">
+    <div :class="loaded ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-95'" class="w-full max-w-[90%] sm:max-w-md md:max-w-lg p-4 transition-all duration-1000 ease-out z-10 relative m-auto">
         
-        <div class="bg-white/80 dark:bg-white/10 backdrop-blur-2xl border border-white/50 dark:border-white/20 rounded-[2.5rem] shadow-2xl shadow-slate-300/50 dark:shadow-black/50 p-8 sm:p-12 relative overflow-hidden group">
+        <div class="m-auto max-w-md w-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-white/50 dark:border-slate-700/50 p-8 sm:p-12 relative overflow-hidden group transition-colors duration-300"
+         :class="loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
             
             <!-- Subtle inner glow -->
             <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/40 dark:from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
