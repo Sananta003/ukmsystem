@@ -80,12 +80,11 @@ class AuthController extends Controller
             'ukm_id' => 'nullable|exists:ukms,id', 
         ]);
 
-        $role = is_null($request->ukm_id) ? 'inisiator' : 'member';
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $role,
+            'role' => 'member',
             'ukm_id' => $request->ukm_id,
         ]);
 

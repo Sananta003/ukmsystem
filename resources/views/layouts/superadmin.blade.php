@@ -66,20 +66,8 @@
 
         <nav class="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
             <a href="{{ route('superadmin.dashboard') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-all {{ request()->routeIs('superadmin.dashboard') ? 'bg-gradient-to-r from-violet-700 to-indigo-600 text-white shadow-md shadow-violet-600/40 hover:-translate-y-1 hover:brightness-110' : 'text-gray-600 dark:text-slate-400 hover:text-violet-700 dark:hover:text-white hover:bg-violet-50 dark:hover:bg-white/5' }}">
-                <i class="fa-solid fa-border-all w-5"></i>
-                <span class="text-sm font-medium">Dashboard</span>
-            </a>
-            <a href="{{ route('superadmin.ukm') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-all {{ request()->routeIs('superadmin.ukm*') ? 'bg-gradient-to-r from-violet-700 to-indigo-600 text-white shadow-md shadow-violet-600/40 hover:-translate-y-1 hover:brightness-110' : 'text-gray-600 dark:text-slate-400 hover:text-violet-700 dark:hover:text-white hover:bg-violet-50 dark:hover:bg-white/5' }}">
                 <i class="fa-solid fa-sitemap w-5"></i>
                 <span class="text-sm font-medium">Manajemen UKM</span>
-            </a>
-            <a href="{{ route('superadmin.kategori') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-all {{ request()->routeIs('superadmin.kategori*') ? 'bg-gradient-to-r from-violet-700 to-indigo-600 text-white shadow-md shadow-violet-600/40 hover:-translate-y-1 hover:brightness-110' : 'text-gray-600 dark:text-slate-400 hover:text-violet-700 dark:hover:text-white hover:bg-violet-50 dark:hover:bg-white/5' }}">
-                <i class="fa-solid fa-tags w-5"></i>
-                <span class="text-sm font-medium">Kategori UKM</span>
-            </a>
-            <a href="{{ route('superadmin.users') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-all {{ request()->routeIs('superadmin.users*') ? 'bg-gradient-to-r from-violet-700 to-indigo-600 text-white shadow-md shadow-violet-600/40 hover:-translate-y-1 hover:brightness-110' : 'text-gray-600 dark:text-slate-400 hover:text-violet-700 dark:hover:text-white hover:bg-violet-50 dark:hover:bg-white/5' }}">
-                <i class="fa-solid fa-users w-5"></i>
-                <span class="text-sm font-medium">Pengguna</span>
             </a>
         </nav>
 
