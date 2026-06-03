@@ -26,7 +26,7 @@
             theme: {
                 extend: {
                     colors: {
-                        'brand-primary': '#1e293b',
+                        'brand-primary': '#1d4ed8',
                         'brand-secondary': '#8b5cf6',
                         'brand-accent': '#2563eb'
                     },
@@ -57,7 +57,7 @@
     <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" class="fixed md:relative z-50 w-64 bg-brand-primary dark:bg-slate-950 text-white flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out">
         <div class="flex items-center gap-3 p-6 border-b border-white/10">
             @php $ukm = \App\Models\Ukm::find(Auth::user()->ukm_id); @endphp
-            <div class="w-8 h-8 bg-brand-accent rounded flex items-center justify-center overflow-hidden shadow-lg shadow-brand-accent/30">
+            <div class="w-8 h-8 bg-gradient-to-r from-blue-700 to-blue-500 rounded flex items-center justify-center overflow-hidden shadow-lg shadow-blue-600/40">
                 @if($ukm && $ukm->logo)
                     <img src="{{ asset('storage/' . $ukm->logo) }}" alt="Logo" class="w-full h-full object-cover">
                 @else
@@ -71,24 +71,24 @@
         </div>
 
         <nav class="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
-            <a href="{{ route('admin-ukm.dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.dashboard') ? 'bg-brand-accent text-white shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+            <a href="{{ route('admin-ukm.dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.dashboard') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                 <i class="fa-solid fa-border-all w-5"></i>
                 <span class="text-sm font-medium">Dashboard</span>
             </a>
-            <a href="{{ route('admin-ukm.kegiatan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.kegiatan.*') ? 'bg-brand-accent text-white shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+            <a href="{{ route('admin-ukm.kegiatan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.kegiatan.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                 <i class="fa-solid fa-calendar-days w-5"></i>
                 <span class="text-sm font-medium">Kegiatan</span>
             </a>
-            <a href="{{ route('admin-ukm.keuangan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.keuangan.*') ? 'bg-brand-accent text-white shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+            <a href="{{ route('admin-ukm.keuangan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.keuangan.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                 <i class="fa-solid fa-money-bill-wave w-5"></i>
                 <span class="text-sm font-medium">Keuangan</span>
             </a>
-            <a href="{{ route('admin-ukm.anggota.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.anggota.*') ? 'bg-brand-accent text-white shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+            <a href="{{ route('admin-ukm.anggota.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.anggota.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                 <i class="fa-solid fa-users w-5"></i>
                 <span class="text-sm font-medium">Anggota</span>
             </a>
             <div x-data="{ open: {{ request()->routeIs('admin-ukm.laporan.*') || request()->routeIs('admin-ukm.proposal.*') ? 'true' : 'false' }} }">
-                <button @click="open = !open" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.laporan.*') || request()->routeIs('admin-ukm.proposal.*') ? 'bg-brand-accent text-white shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                <button @click="open = !open" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.laporan.*') || request()->routeIs('admin-ukm.proposal.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                     <div class="flex items-center gap-3">
                         <i class="fa-solid fa-file-lines w-5"></i>
                         <span class="text-sm font-medium">Laporan</span>
@@ -104,7 +104,7 @@
                     </a>
                 </div>
             </div>
-            <a href="{{ route('admin-ukm.pengaturan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.pengaturan.*') ? 'bg-brand-accent text-white shadow-sm' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+            <a href="{{ route('admin-ukm.pengaturan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.pengaturan.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                 <i class="fa-solid fa-gear w-5"></i>
                 <span class="text-sm font-medium">Pengaturan</span>
             </a>

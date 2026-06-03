@@ -55,7 +55,7 @@
 
     <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" class="fixed md:relative z-50 w-64 bg-brand-primary dark:bg-slate-950 text-white flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out">
         <div class="flex items-center gap-3 p-6 border-b border-white/10">
-            <div class="w-10 h-10 bg-white rounded flex items-center justify-center shadow-lg p-1 overflow-hidden">
+            <div class="w-10 h-10 bg-gradient-to-r from-violet-700 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-600/40">
                 <img src="{{ asset('images/logopnc.png') }}" alt="Logo PNC" class="w-full h-full object-contain">
             </div>
             <div>
@@ -65,7 +65,7 @@
         </div>
 
         <nav class="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
-            <a href="{{ route('superadmin.dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors bg-brand-secondary text-white shadow-sm hover:shadow-md">
+            <a href="{{ route('superadmin.dashboard') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-all {{ request()->routeIs('superadmin.dashboard') ? 'bg-gradient-to-r from-violet-700 to-indigo-600 text-white shadow-md shadow-violet-600/40' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">
                 <i class="fa-solid fa-sitemap w-5"></i>
                 <span class="text-sm font-medium">Manajemen UKM</span>
             </a>
@@ -91,13 +91,13 @@
             
             <div class="flex items-center gap-3 sm:gap-6">
                 <!-- Dark Mode Toggle -->
-                <button @click="darkMode = !darkMode" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:text-brand-accent dark:text-slate-400 dark:hover:text-blue-400 bg-gray-100 dark:bg-slate-900 hover:bg-gray-200 dark:hover:bg-slate-950 transition-all shadow-inner">
+                <button @click="darkMode = !darkMode" class="w-10 h-10 rounded-full flex items-center justify-center bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-violet-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
                     <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
                 </button>
 
                 <div class="flex items-center gap-3 pl-3 sm:pl-6 border-l border-gray-200 dark:border-slate-700">
+                    <span class="text-xs font-bold text-violet-700 dark:text-violet-400 bg-violet-50 dark:bg-violet-900/30 px-2 py-0.5 rounded">SA</span>
                     <span class="text-sm font-medium text-gray-600 dark:text-slate-300 hidden sm:block">{{ Auth::user()->name ?? 'Admin' }}</span>
-                    <div class="w-9 h-9 rounded-full bg-brand-secondary/10 text-brand-secondary flex items-center justify-center font-bold">SA</div>
                 </div>
             </div>
         </header>

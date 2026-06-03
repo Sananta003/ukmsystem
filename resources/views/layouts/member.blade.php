@@ -30,6 +30,26 @@
 
     @php
         $userUkm = Auth::user()->ukm_id ? \App\Models\Ukm::find(Auth::user()->ukm_id) : null;
+        $role = Auth::user()->role;
+        $gradient = 'from-blue-400 to-sky-300';
+        $text = 'text-blue-500';
+        $shadow = 'shadow-blue-400/40';
+        $hoverText = 'hover:text-blue-500';
+        $hoverBg = 'hover:bg-blue-50/80';
+        
+        if ($role === 'bem') {
+            $gradient = 'from-emerald-600 to-teal-500';
+            $text = 'text-emerald-600';
+            $shadow = 'shadow-emerald-500/40';
+            $hoverText = 'hover:text-emerald-600';
+            $hoverBg = 'hover:bg-emerald-50/80';
+        } elseif ($role === 'bpm') {
+            $gradient = 'from-orange-600 to-amber-500';
+            $text = 'text-orange-600';
+            $shadow = 'shadow-orange-500/40';
+            $hoverText = 'hover:text-orange-600';
+            $hoverBg = 'hover:bg-orange-50/80';
+        }
     @endphp
 
     <header class="bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border-b border-white/60 dark:border-slate-700 sticky top-0 z-50 shadow-sm transition-all duration-300">
@@ -46,31 +66,31 @@
                                 <img src="{{ asset('storage/' . $userUkm->logo) }}" alt="{{ $userUkm->nama_ukm }}" class="w-full h-full object-cover">
                             </div>
                         @else
-                            <div class="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md shadow-indigo-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                            <div class="w-9 h-9 bg-gradient-to-br {{ $gradient }} rounded-xl flex items-center justify-center shadow-md {{ $shadow }} group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                                 <i class="fa-solid fa-graduation-cap text-white text-sm"></i>
                             </div>
                         @endif
-                        <h1 class="font-extrabold text-lg bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-violet-700 tracking-wide">
+                        <h1 class="font-extrabold text-lg bg-clip-text text-transparent bg-gradient-to-r {{ $gradient }} tracking-wide">
                             {{ $userUkm ? $userUkm->nama_ukm : (in_array(Auth::user()->role, ['bem', 'bpm']) ? strtoupper(Auth::user()->role) : 'Inisiator UKM') }}
                         </h1>
                     </a>
                     
                     <nav class="hidden md:flex space-x-2">
-                        <a href="{{ $dashboardRoute }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('*.dashboard') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 hover:text-blue-700 dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Beranda</a>
+                        <a href="{{ $dashboardRoute }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('*.dashboard') ? 'bg-gradient-to-r ' . $gradient . ' text-white shadow-lg ' . $shadow . ' hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 ' . $hoverText . ' dark:hover:text-blue-400 ' . $hoverBg . ' dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Beranda</a>
                         
                         @if(Auth::user()->role === 'admin_ukm')
-                            <a href="{{ route('admin-ukm.anggota.index') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('admin-ukm.anggota.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 hover:text-blue-700 dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Anggota</a>
-                            <a href="{{ route('admin-ukm.kegiatan.index') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('admin-ukm.kegiatan.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 hover:text-blue-700 dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Kegiatan</a>
-                            <a href="{{ route('admin-ukm.keuangan.index') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('admin-ukm.keuangan.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 hover:text-blue-700 dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Keuangan</a>
+                            <a href="{{ route('admin-ukm.anggota.index') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('admin-ukm.anggota.*') ? 'bg-gradient-to-r ' . $gradient . ' text-white shadow-lg ' . $shadow . ' hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 ' . $hoverText . ' dark:hover:text-blue-400 ' . $hoverBg . ' dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Anggota</a>
+                            <a href="{{ route('admin-ukm.kegiatan.index') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('admin-ukm.kegiatan.*') ? 'bg-gradient-to-r ' . $gradient . ' text-white shadow-lg ' . $shadow . ' hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 ' . $hoverText . ' dark:hover:text-blue-400 ' . $hoverBg . ' dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Kegiatan</a>
+                            <a href="{{ route('admin-ukm.keuangan.index') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('admin-ukm.keuangan.*') ? 'bg-gradient-to-r ' . $gradient . ' text-white shadow-lg ' . $shadow . ' hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 ' . $hoverText . ' dark:hover:text-blue-400 ' . $hoverBg . ' dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Keuangan</a>
                         @elseif(!in_array(Auth::user()->role, ['bem', 'bpm']) && !is_null(Auth::user()->ukm_id))
-                            <a href="{{ route('member.kegiatan') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('member.kegiatan') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/30 hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 hover:text-blue-700 dark:hover:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Agenda Kegiatan</a>
+                            <a href="{{ route('member.kegiatan') }}" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 {{ request()->routeIs('member.kegiatan') ? 'bg-gradient-to-r ' . $gradient . ' text-white shadow-lg ' . $shadow . ' hover:-translate-y-0.5' : 'text-gray-600 dark:text-slate-300 ' . $hoverText . ' dark:hover:text-blue-400 ' . $hoverBg . ' dark:hover:bg-slate-800 hover:-translate-y-0.5' }}">Agenda Kegiatan</a>
                         @endif
                     </nav>
                 </div>
 
                 <div class="flex items-center gap-2 sm:gap-4">
                     <!-- Dark Mode Toggle -->
-                    <button @click="darkMode = !darkMode" class="w-10 h-10 rounded-xl flex items-center justify-center bg-white dark:bg-slate-800 border border-indigo-100 dark:border-slate-700 text-indigo-500 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
+                    <button @click="darkMode = !darkMode" class="w-10 h-10 rounded-xl flex items-center justify-center bg-white dark:bg-slate-800 border border-indigo-100 dark:border-slate-700 {{ $text }} dark:text-slate-300 {{ $hoverBg }} dark:hover:bg-slate-700 transition-colors shadow-sm">
                         <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
                     </button>
 
@@ -86,7 +106,7 @@
                     </form>
                     
                     <!-- Mobile Menu Button -->
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden w-10 h-10 rounded-xl flex items-center justify-center bg-white dark:bg-slate-800 border border-indigo-100 dark:border-slate-700 text-indigo-500 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden w-10 h-10 rounded-xl flex items-center justify-center bg-white dark:bg-slate-800 border border-indigo-100 dark:border-slate-700 {{ $text }} dark:text-slate-300 {{ $hoverBg }} dark:hover:bg-slate-700 transition-colors shadow-sm">
                         <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
                     </button>
                 </div>
@@ -96,14 +116,14 @@
         <!-- Mobile Menu Dropdown -->
         <div x-show="mobileMenuOpen" x-transition.opacity style="display: none;" class="md:hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-b border-gray-200 dark:border-slate-800 shadow-lg">
             <nav class="px-4 pt-2 pb-4 space-y-1">
-                <a href="{{ $dashboardRoute }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('*.dashboard') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800' }}">Beranda</a>
+                <a href="{{ $dashboardRoute }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('*.dashboard') ? 'bg-gradient-to-r ' . $gradient . ' text-white' : 'text-gray-600 dark:text-slate-300 ' . $hoverBg . ' dark:hover:bg-slate-800' }}">Beranda</a>
                 
                 @if(Auth::user()->role === 'admin_ukm')
-                    <a href="{{ route('admin-ukm.anggota.index') }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin-ukm.anggota.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800' }}">Anggota</a>
-                    <a href="{{ route('admin-ukm.kegiatan.index') }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin-ukm.kegiatan.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800' }}">Kegiatan</a>
-                    <a href="{{ route('admin-ukm.keuangan.index') }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin-ukm.keuangan.*') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800' }}">Keuangan</a>
+                    <a href="{{ route('admin-ukm.anggota.index') }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin-ukm.anggota.*') ? 'bg-gradient-to-r ' . $gradient . ' text-white' : 'text-gray-600 dark:text-slate-300 ' . $hoverBg . ' dark:hover:bg-slate-800' }}">Anggota</a>
+                    <a href="{{ route('admin-ukm.kegiatan.index') }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin-ukm.kegiatan.*') ? 'bg-gradient-to-r ' . $gradient . ' text-white' : 'text-gray-600 dark:text-slate-300 ' . $hoverBg . ' dark:hover:bg-slate-800' }}">Kegiatan</a>
+                    <a href="{{ route('admin-ukm.keuangan.index') }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('admin-ukm.keuangan.*') ? 'bg-gradient-to-r ' . $gradient . ' text-white' : 'text-gray-600 dark:text-slate-300 ' . $hoverBg . ' dark:hover:bg-slate-800' }}">Keuangan</a>
                 @elseif(!in_array(Auth::user()->role, ['bem', 'bpm']) && !is_null(Auth::user()->ukm_id))
-                    <a href="{{ route('member.kegiatan') }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('member.kegiatan') ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800' }}">Agenda Kegiatan</a>
+                    <a href="{{ route('member.kegiatan') }}" class="block px-4 py-3 rounded-lg text-base font-medium transition-all {{ request()->routeIs('member.kegiatan') ? 'bg-gradient-to-r ' . $gradient . ' text-white' : 'text-gray-600 dark:text-slate-300 ' . $hoverBg . ' dark:hover:bg-slate-800' }}">Agenda Kegiatan</a>
                 @endif
             </nav>
         </div>
