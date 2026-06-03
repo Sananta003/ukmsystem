@@ -5,13 +5,13 @@
     
     @if(Auth::user()->ukm_id && $ukm)
         <!-- Header Card (Glassmorphism) -->
-        <div class="bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl shadow-xl shadow-sky-900/5 border border-white/80 dark:border-slate-700/80 p-8 sm:p-10 mb-8 relative overflow-hidden group hover:shadow-2xl hover:shadow-sky-900/10 transition-all duration-500 hover:-translate-y-1">
+        <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl shadow-lg border border-white/60 dark:border-slate-700/80 p-8 sm:p-10 mb-8 relative overflow-hidden group transition-all duration-300 hover:-translate-y-1 hover:brightness-110">
             <!-- Decorative Glow -->
             <div class="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-sky-400 to-amber-400 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[80px] opacity-40 -mr-20 -mt-20 group-hover:scale-110 transition-transform duration-700"></div>
 
             <div class="relative flex flex-col md:flex-row items-center md:items-start gap-8">
                 <!-- UKM Logo -->
-                <div class="w-28 h-28 rounded-[2rem] bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-2 border-white dark:border-slate-700 flex items-center justify-center overflow-hidden shadow-lg shadow-sky-200 dark:shadow-none flex-shrink-0 group-hover:scale-105 group-hover:rotate-3 transition-all duration-500">
+                <div class="w-28 h-28 rounded-[2rem] bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/60 dark:border-slate-700 flex items-center justify-center overflow-hidden shadow-lg flex-shrink-0 group-hover:scale-105 group-hover:rotate-3 transition-all duration-500">
                     @if($ukm->logo)
                         <img src="{{ asset('storage/'.$ukm->logo) }}" alt="{{ $ukm->nama_ukm }}" class="w-full h-full object-cover">
                     @else
@@ -20,10 +20,10 @@
                 </div>
 
                 <div class="text-center md:text-left flex-1">
-                    <span class="bg-gradient-to-r from-sky-100 to-sky-200 dark:from-sky-900/50 dark:to-sky-800/50 text-sky-800 dark:text-sky-300 border border-sky-300/60 dark:border-sky-700/60 text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-widest mb-3 inline-block shadow-sm">
+                    <span class="bg-gradient-to-r from-blue-400 to-sky-300 dark:from-blue-600 dark:to-sky-500 text-white border border-white/60 text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-widest mb-3 inline-block shadow-lg transition-all duration-300 hover:-translate-y-1 hover:brightness-110">
                         <i class="fa-solid fa-star text-amber-500 mr-1"></i> Member Aktif
                     </span>
-                    <h1 class="text-4xl sm:text-5xl font-black mb-3 bg-clip-text text-transparent bg-gradient-to-r from-sky-600 to-amber-500 dark:from-sky-400 dark:to-amber-400 drop-shadow-sm">
+                    <h1 class="text-4xl sm:text-5xl font-black mb-3 text-blue-500 drop-shadow-sm">
                         Dashboard {{ $ukm->nama_ukm }}
                     </h1>
                     <p class="text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl text-lg font-medium">{{ $ukm->deskripsi }}</p>
@@ -34,20 +34,20 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
             <!-- Welcome Area -->
-            <div class="lg:col-span-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-xl rounded-3xl shadow-xl shadow-sky-900/5 border border-white/80 dark:border-slate-700/80 p-8 hover:shadow-2xl hover:shadow-sky-900/10 transition-all duration-500 hover:-translate-y-1 relative overflow-hidden">
+            <div class="lg:col-span-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl shadow-lg border border-white/60 dark:border-slate-700/80 p-8 transition-all duration-300 hover:-translate-y-1 hover:brightness-110 relative overflow-hidden">
                 <!-- Subtle background accent -->
                 <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-amber-300 dark:bg-amber-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[60px] opacity-20"></div>
                 
                 <h2 class="text-2xl font-extrabold text-slate-800 dark:text-slate-100 mb-4 relative z-10 flex items-center gap-3">
-                    Halo, <span class="bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-amber-500">{{ Auth::user()->name }}</span>! <span class="animate-bounce inline-block origin-bottom">👋</span>
+                    Halo, <span class="text-blue-500">{{ Auth::user()->name }}</span>! <span class="animate-bounce inline-block origin-bottom">👋</span>
                 </h2>
                 <p class="text-slate-600 dark:text-slate-300 text-lg mb-8 relative z-10 leading-relaxed">
-                    Ini adalah ruang kreatif khusus untuk anggota <strong class="text-sky-600 dark:text-sky-400">{{ $ukm->nama_ukm }}</strong>. Jelajahi kegiatan mendatang dan terus asah potensi Anda bersama kami.
+                    Ini adalah ruang kreatif khusus untuk anggota <strong class="text-blue-500">{{ $ukm->nama_ukm }}</strong>. Jelajahi kegiatan mendatang dan terus asah potensi Anda bersama kami.
                 </p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10">
-                    <a href="{{ route('member.kegiatan') }}" class="group bg-gradient-to-br from-white to-sky-50 dark:from-slate-800 dark:to-slate-700/50 border border-sky-100 dark:border-slate-600 rounded-2xl p-5 flex items-center gap-4 hover:shadow-lg hover:shadow-sky-500/10 transition-all duration-300 hover:-translate-y-1">
-                        <div class="w-12 h-12 rounded-xl bg-sky-100 dark:bg-slate-700 text-sky-600 dark:text-sky-400 flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-inner">
+                    <a href="{{ route('member.kegiatan') }}" class="group bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/60 dark:border-slate-600 rounded-2xl p-5 flex items-center gap-4 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:brightness-110">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-400 to-sky-300 text-white flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 shadow-md">
                             <i class="fa-solid fa-calendar-days text-xl"></i>
                         </div>
                         <div>
@@ -57,8 +57,8 @@
                     </a>
                     
                     <!-- Link Pengumuman -->
-                    <a href="{{ route('member.pengumuman') }}" class="group bg-gradient-to-br from-white to-amber-50 dark:from-slate-800 dark:to-slate-700/50 border border-amber-100 dark:border-slate-600 rounded-2xl p-5 flex items-center gap-4 hover:shadow-lg hover:shadow-amber-500/10 transition-all duration-300 hover:-translate-y-1">
-                        <div class="w-12 h-12 rounded-xl bg-amber-100 dark:bg-slate-700 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300 shadow-inner">
+                    <a href="{{ route('member.pengumuman') }}" class="group bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/60 dark:border-slate-600 rounded-2xl p-5 flex items-center gap-4 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:brightness-110">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-400 to-sky-300 text-white flex items-center justify-center group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300 shadow-md">
                             <i class="fa-solid fa-bullhorn text-xl"></i>
                         </div>
                         <div>
@@ -69,35 +69,32 @@
                 </div>
             </div>
             
-            <!-- Jadwal Terdekat (Gradient Card) -->
-            <div class="bg-gradient-to-br from-sky-500 to-amber-500 dark:from-sky-600 dark:to-amber-600 rounded-3xl shadow-2xl shadow-sky-500/30 p-8 text-white text-center flex flex-col justify-center h-full relative overflow-hidden group hover:-translate-y-2 transition-all duration-500 border border-white/20">
-                <!-- Glossy overlay -->
-                <div class="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-50"></div>
-                <div class="absolute top-0 right-0 w-40 h-40 bg-white rounded-full filter blur-[50px] opacity-10 group-hover:opacity-20 transition-opacity"></div>
+            <!-- Jadwal Terdekat -->
+            <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl shadow-lg border border-white/60 dark:border-slate-700/80 p-8 text-slate-800 dark:text-slate-100 flex flex-col justify-center h-full relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:brightness-110">
 
                 <div class="relative z-10 flex flex-col items-center">
-                    <div class="w-20 h-20 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-inner">
-                        <i class="fa-regular fa-calendar-check text-4xl text-white"></i>
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-50 to-sky-50 dark:bg-slate-800 rounded-2xl border border-blue-100 dark:border-slate-600 flex items-center justify-center mb-6 shadow-inner">
+                        <i class="fa-regular fa-calendar-check text-4xl text-blue-500"></i>
                     </div>
                     
                     <h3 class="text-xl font-extrabold mb-3 tracking-wide">Jadwal Terdekat</h3>
                     
                     @if($kegiatanTerdekat)
-                        <div class="bg-black/10 backdrop-blur-sm rounded-2xl p-5 w-full border border-white/10 shadow-inner mb-6">
-                            <p class="text-white font-bold text-lg mb-2 leading-tight">{{ $kegiatanTerdekat->nama_kegiatan }}</p>
-                            <div class="flex flex-col gap-2 text-sky-50 text-sm font-medium">
+                        <div class="bg-blue-50 dark:bg-slate-800 rounded-2xl p-5 w-full border border-blue-100 dark:border-slate-700 mb-6">
+                            <p class="font-bold text-lg mb-2 leading-tight text-blue-600 dark:text-blue-400">{{ $kegiatanTerdekat->nama_kegiatan }}</p>
+                            <div class="flex flex-col gap-2 text-slate-600 dark:text-slate-400 text-sm font-medium">
                                 <span class="flex items-center justify-center gap-2"><i class="fa-regular fa-clock opacity-70"></i> {{ \Carbon\Carbon::parse($kegiatanTerdekat->tanggal)->format('d M Y') }}</span>
                                 @if($kegiatanTerdekat->lokasi) 
                                     <span class="flex items-center justify-center gap-2"><i class="fa-solid fa-location-dot opacity-70"></i> {{ $kegiatanTerdekat->lokasi }}</span>
                                 @endif
                             </div>
                         </div>
-                        <a href="{{ route('member.kegiatan') }}" class="w-full py-3.5 bg-white text-sky-700 font-extrabold text-sm rounded-xl hover:bg-sky-50 hover:shadow-lg hover:shadow-white/20 transition-all duration-300 hover:scale-[1.02]">
+                        <a href="{{ route('member.kegiatan') }}" class="w-full py-3.5 bg-gradient-to-r from-blue-500 to-sky-400 text-white font-extrabold text-sm rounded-xl hover:shadow-lg transition-all duration-300 hover:brightness-110">
                             Lihat Semua Agenda
                         </a>
                     @else
-                        <div class="bg-black/10 backdrop-blur-sm rounded-2xl p-6 w-full border border-white/10">
-                            <p class="text-sky-50 text-sm font-medium">Wah, sedang tidak ada agenda dalam waktu dekat. Mari buat inovasi baru!</p>
+                        <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 w-full border border-slate-100 dark:border-slate-700">
+                            <p class="text-slate-500 dark:text-slate-400 text-sm font-medium text-center">Wah, sedang tidak ada agenda dalam waktu dekat. Mari buat inovasi baru!</p>
                         </div>
                     @endif
                 </div>

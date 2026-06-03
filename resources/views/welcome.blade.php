@@ -63,7 +63,7 @@
                             </form>
                         @else
                             <a href="{{ route('login') }}" class="text-gray-600 dark:text-slate-300 hover:text-sky-500 dark:hover:text-sky-400 font-medium mr-6 transition">Login</a>
-                            <a href="{{ route('register') }}" class="bg-sky-500 dark:bg-sky-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-sky-600 dark:hover:bg-sky-500 transition-colors shadow-sm">Daftar Anggota</a>
+                            <a href="{{ route('register') }}" class="hidden md:inline-flex items-center px-6 py-2.5 border border-transparent text-sm font-bold rounded-xl text-white bg-gradient-to-r from-blue-400 to-sky-300 transition-all duration-300 shadow-lg shadow-blue-400/40 hover:-translate-y-1 hover:brightness-110">Daftar Anggota</a>
                         @endauth
                     </div>
 
