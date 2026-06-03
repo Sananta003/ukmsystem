@@ -53,27 +53,39 @@
     <!-- Mobile Sidebar Overlay -->
     <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm" style="display: none;"></div>
 
-    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" class="fixed md:relative z-50 w-64 bg-brand-primary dark:bg-slate-950 text-white flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out">
-        <div class="flex items-center gap-3 p-6 border-b border-white/10">
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" class="fixed md:relative z-50 w-64 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-white/60 dark:border-slate-700 shadow-xl flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out">
+        <div class="flex items-center gap-3 p-6 border-b border-gray-200 dark:border-slate-700">
             <div class="w-10 h-10 bg-gradient-to-r from-violet-700 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-600/40">
                 <img src="{{ asset('images/logopnc.png') }}" alt="Logo PNC" class="w-full h-full object-contain">
             </div>
             <div>
-                <h1 class="font-bold text-sm tracking-wide">Pusat Kampus</h1>
-                <p class="text-[10px] text-slate-400">Super Admin Panel</p>
+                <h1 class="font-bold text-sm tracking-wide text-gray-800 dark:text-white">Pusat Kampus</h1>
+                <p class="text-[10px] text-gray-500 dark:text-slate-400">Super Admin Panel</p>
             </div>
         </div>
 
         <nav class="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
-            <a href="{{ route('superadmin.dashboard') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-all {{ request()->routeIs('superadmin.dashboard') ? 'bg-gradient-to-r from-violet-700 to-indigo-600 text-white shadow-md shadow-violet-600/40' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">
+            <a href="{{ route('superadmin.dashboard') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-all {{ request()->routeIs('superadmin.dashboard') ? 'bg-gradient-to-r from-violet-700 to-indigo-600 text-white shadow-md shadow-violet-600/40 hover:-translate-y-1 hover:brightness-110' : 'text-gray-600 dark:text-slate-400 hover:text-violet-700 dark:hover:text-white hover:bg-violet-50 dark:hover:bg-white/5' }}">
+                <i class="fa-solid fa-border-all w-5"></i>
+                <span class="text-sm font-medium">Dashboard</span>
+            </a>
+            <a href="{{ route('superadmin.ukm') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-all {{ request()->routeIs('superadmin.ukm*') ? 'bg-gradient-to-r from-violet-700 to-indigo-600 text-white shadow-md shadow-violet-600/40 hover:-translate-y-1 hover:brightness-110' : 'text-gray-600 dark:text-slate-400 hover:text-violet-700 dark:hover:text-white hover:bg-violet-50 dark:hover:bg-white/5' }}">
                 <i class="fa-solid fa-sitemap w-5"></i>
                 <span class="text-sm font-medium">Manajemen UKM</span>
             </a>
+            <a href="{{ route('superadmin.kategori') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-all {{ request()->routeIs('superadmin.kategori*') ? 'bg-gradient-to-r from-violet-700 to-indigo-600 text-white shadow-md shadow-violet-600/40 hover:-translate-y-1 hover:brightness-110' : 'text-gray-600 dark:text-slate-400 hover:text-violet-700 dark:hover:text-white hover:bg-violet-50 dark:hover:bg-white/5' }}">
+                <i class="fa-solid fa-tags w-5"></i>
+                <span class="text-sm font-medium">Kategori UKM</span>
+            </a>
+            <a href="{{ route('superadmin.users') }}" class="flex items-center gap-3 px-3 py-3 rounded-xl transition-all {{ request()->routeIs('superadmin.users*') ? 'bg-gradient-to-r from-violet-700 to-indigo-600 text-white shadow-md shadow-violet-600/40 hover:-translate-y-1 hover:brightness-110' : 'text-gray-600 dark:text-slate-400 hover:text-violet-700 dark:hover:text-white hover:bg-violet-50 dark:hover:bg-white/5' }}">
+                <i class="fa-solid fa-users w-5"></i>
+                <span class="text-sm font-medium">Pengguna</span>
+            </a>
         </nav>
 
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
-        <div class="p-4 m-4 bg-white/5 rounded-xl cursor-pointer hover:bg-red-500/20 hover:text-red-400 transition-colors border border-white/5" onclick="document.getElementById('logout-form').submit();">
-            <div class="flex items-center gap-3 text-red-400">
+        <form id="logout-form-sa" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
+        <div class="p-4 m-4 bg-red-50 dark:bg-red-500/10 rounded-xl cursor-pointer hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-600 dark:hover:text-red-400 border border-red-100 dark:border-red-500/20 transition-all hover:-translate-y-1" onclick="document.getElementById('logout-form-sa').submit();">
+            <div class="flex items-center gap-3 text-red-600 dark:text-red-400">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 <span class="text-sm font-medium">Keluar Aplikasi</span>
             </div>

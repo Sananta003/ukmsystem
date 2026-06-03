@@ -54,8 +54,8 @@
     <!-- Mobile Sidebar Overlay -->
     <div x-show="sidebarOpen" @click="sidebarOpen = false" x-transition.opacity class="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm" style="display: none;"></div>
 
-    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" class="fixed md:relative z-50 w-64 bg-brand-primary dark:bg-slate-950 text-white flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out">
-        <div class="flex items-center gap-3 p-6 border-b border-white/10">
+    <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" class="fixed md:relative z-50 w-64 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-white/60 dark:border-slate-700 shadow-xl flex flex-col h-full shrink-0 transition-transform duration-300 ease-in-out">
+        <div class="flex items-center gap-3 p-6 border-b border-gray-200 dark:border-slate-700">
             @php $ukm = \App\Models\Ukm::find(Auth::user()->ukm_id); @endphp
             <div class="w-8 h-8 bg-gradient-to-r from-blue-700 to-blue-500 rounded flex items-center justify-center overflow-hidden shadow-lg shadow-blue-600/40">
                 @if($ukm && $ukm->logo)
@@ -65,30 +65,30 @@
                 @endif
             </div>
             <div>
-                <h1 class="font-bold text-sm tracking-wide">{{ $ukm ? $ukm->nama_ukm : 'UKM System' }}</h1>
+                <h1 class="font-bold text-sm tracking-wide text-gray-800 dark:text-white">{{ $ukm ? $ukm->nama_ukm : 'UKM System' }}</h1>
                 <p class="text-[10px] text-slate-400">Pengurus Panel</p>
             </div>
         </div>
 
         <nav class="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
-            <a href="{{ route('admin-ukm.dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.dashboard') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+            <a href="{{ route('admin-ukm.dashboard') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.dashboard') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-700 dark:hover:text-white' }}">
                 <i class="fa-solid fa-border-all w-5"></i>
                 <span class="text-sm font-medium">Dashboard</span>
             </a>
-            <a href="{{ route('admin-ukm.kegiatan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.kegiatan.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+            <a href="{{ route('admin-ukm.kegiatan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.kegiatan.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-700 dark:hover:text-white' }}">
                 <i class="fa-solid fa-calendar-days w-5"></i>
                 <span class="text-sm font-medium">Kegiatan</span>
             </a>
-            <a href="{{ route('admin-ukm.keuangan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.keuangan.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+            <a href="{{ route('admin-ukm.keuangan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.keuangan.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-700 dark:hover:text-white' }}">
                 <i class="fa-solid fa-money-bill-wave w-5"></i>
                 <span class="text-sm font-medium">Keuangan</span>
             </a>
-            <a href="{{ route('admin-ukm.anggota.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.anggota.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+            <a href="{{ route('admin-ukm.anggota.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.anggota.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-700 dark:hover:text-white' }}">
                 <i class="fa-solid fa-users w-5"></i>
                 <span class="text-sm font-medium">Anggota</span>
             </a>
             <div x-data="{ open: {{ request()->routeIs('admin-ukm.laporan.*') || request()->routeIs('admin-ukm.proposal.*') ? 'true' : 'false' }} }">
-                <button @click="open = !open" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.laporan.*') || request()->routeIs('admin-ukm.proposal.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                <button @click="open = !open" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.laporan.*') || request()->routeIs('admin-ukm.proposal.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-700 dark:hover:text-white' }}">
                     <div class="flex items-center gap-3">
                         <i class="fa-solid fa-file-lines w-5"></i>
                         <span class="text-sm font-medium">Laporan</span>
@@ -96,15 +96,15 @@
                     <i class="fa-solid fa-chevron-down text-xs transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
                 </button>
                 <div x-show="open" style="display: none;" class="pl-11 pr-3 pt-2 pb-1 space-y-1">
-                    <a href="{{ route('admin-ukm.laporan.index') }}" class="block px-3 py-2 rounded-lg text-sm transition-colors {{ request()->routeIs('admin-ukm.laporan.index') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">
+                    <a href="{{ route('admin-ukm.laporan.index') }}" class="block px-3 py-2 rounded-lg text-sm transition-colors {{ request()->routeIs('admin-ukm.laporan.index') ? 'text-blue-700 dark:text-white bg-blue-50 dark:bg-slate-800' : 'text-gray-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-white hover:bg-blue-50 dark:hover:bg-slate-800' }}">
                         Keuangan
                     </a>
-                    <a href="{{ route('admin-ukm.proposal.index') }}" class="block px-3 py-2 rounded-lg text-sm transition-colors {{ request()->routeIs('admin-ukm.proposal.*') ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5' }}">
+                    <a href="{{ route('admin-ukm.proposal.index') }}" class="block px-3 py-2 rounded-lg text-sm transition-colors {{ request()->routeIs('admin-ukm.proposal.*') ? 'text-blue-700 dark:text-white bg-blue-50 dark:bg-slate-800' : 'text-gray-500 dark:text-slate-400 hover:text-blue-700 dark:hover:text-white hover:bg-blue-50 dark:hover:bg-slate-800' }}">
                         Cek Proposal
                     </a>
                 </div>
             </div>
-            <a href="{{ route('admin-ukm.pengaturan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.pengaturan.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+            <a href="{{ route('admin-ukm.pengaturan.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('admin-ukm.pengaturan.*') ? 'bg-gradient-to-r from-blue-700 to-blue-500 text-white shadow-md shadow-blue-600/40' : 'text-gray-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-800 hover:text-blue-700 dark:hover:text-white' }}">
                 <i class="fa-solid fa-gear w-5"></i>
                 <span class="text-sm font-medium">Pengaturan</span>
             </a>
@@ -113,7 +113,7 @@
         <form id="logout-form-ukm" action="{{ route('logout') }}" method="POST" class="hidden">
             @csrf
         </form>
-        <div class="p-4 m-4 bg-white/5 rounded-xl cursor-pointer hover:bg-red-500/20 hover:text-red-400 border border-white/5 transition-colors" onclick="document.getElementById('logout-form-ukm').submit();">
+        <div class="p-4 m-4 bg-red-50 dark:bg-red-500/10 rounded-xl cursor-pointer hover:bg-red-100 dark:hover:bg-red-500/20 hover:text-red-600 dark:hover:text-red-400 border border-red-100 dark:border-red-500/20 transition-colors" onclick="document.getElementById('logout-form-ukm').submit();">
             <div class="flex items-center gap-3 text-red-400">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 <span class="text-sm font-medium">Keluar Aplikasi</span>

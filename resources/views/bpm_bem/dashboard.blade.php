@@ -9,11 +9,11 @@
         </div>
     </div>
 
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl shadow-xl border border-white/60 dark:border-slate-700 overflow-hidden transition-all duration-300">
         <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
+            <table class="w-full text-left border-collapse backdrop-blur-sm">
                 <thead>
-                    <tr class="bg-gray-50 text-gray-700 uppercase text-xs font-bold tracking-wider border-b border-gray-200">
+                    <tr class="bg-white/40 dark:bg-slate-800/40 text-gray-700 dark:text-slate-300 uppercase text-xs font-bold tracking-wider border-b border-gray-200 dark:border-slate-700">
                         <th class="p-4">Tgl Pengajuan</th>
                         <th class="p-4">Pengaju</th>
                         <th class="p-4">Jenis Pengajuan</th>
@@ -36,9 +36,9 @@
                             <td class="p-4 text-sm font-bold text-indigo-600">{{ $item->nama_ukm }}</td>
                             <td class="p-4">
                                 @if($item->status == 'pending_bem' || $item->status == 'pending_bpm')
-                                    <span class="bg-amber-100 text-amber-700 text-xs px-2.5 py-1 rounded-md font-semibold border border-amber-200">Menunggu Tinjauan</span>
+                                    <x-role-badge role="{{ Auth::user()->role === 'bem' ? 'bem' : 'bpm' }}">Menunggu Tinjauan</x-role-badge>
                                 @else
-                                    <span class="bg-blue-100 text-blue-700 text-xs px-2.5 py-1 rounded-md font-semibold border border-blue-200">Sedang Direvisi</span>
+                                    <x-role-badge role="inisiator">Sedang Direvisi</x-role-badge>
                                 @endif
                             </td>
                             <td class="p-4 text-center">
@@ -61,7 +61,13 @@
                             </td>
                             <td class="p-4 text-sm font-bold text-gray-800">{{ $approval->proposal->kegiatan->nama_kegiatan }}</td>
                             <td class="p-4">
-                                <span class="bg-amber-100 text-amber-700 text-xs px-2.5 py-1 rounded-md font-semibold border border-amber-200">Menunggu Tinjauan</span>
+                                @if($approval->status == 'pending')
+                                    <x-role-badge role="{{ Auth::user()->role === 'bem' ? 'bem' : 'bpm' }}">Menunggu Persetujuan</x-role-badge>
+                                @elseif($approval->status == 'approved')
+                                    <x-role-badge role="{{ Auth::user()->role === 'bem' ? 'bem' : 'bpm' }}">Telah Disetujui</x-role-badge>
+                                @else
+                                    <x-role-badge role="admin_ukm">Sedang Direvisi</x-role-badge>
+                                @endif
                             </td>
                             <td class="p-4 text-center">
                                 <a href="{{ route('birokrasi.proposal.show', $approval->proposal->id) }}" class="inline-flex items-center text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg px-4 py-2 transition-colors">
