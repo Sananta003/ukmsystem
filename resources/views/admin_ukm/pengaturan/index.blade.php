@@ -1,4 +1,4 @@
-@extends('layouts.admin_ukm')
+@extends('layouts.app')
 @section('title', 'Pengaturan UKM')
 
 @section('content')

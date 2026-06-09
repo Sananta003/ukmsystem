@@ -1,4 +1,4 @@
-@extends('layouts.member')
+@extends('layouts.app')
 @section('title', 'Agenda Kegiatan')
 
 @section('content')

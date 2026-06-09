@@ -1,5 +1,5 @@
 
-@extends('layouts.superadmin')
+@extends('layouts.app')
 @section('title', 'Daftarkan UKM Baru')
 
 @section('content')
