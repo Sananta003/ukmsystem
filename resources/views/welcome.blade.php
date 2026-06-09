@@ -3,171 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal SIM-UKM</title>
+    <title>Portal UKM Kampus</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
         html { scroll-behavior: smooth; } 
     </style>
+    <script>
+        // FOUC prevention for dark mode
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+        tailwind.config = { darkMode: 'class' };
+    </script>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen text-slate-900" x-data="{ mobileMenuOpen: false }">
+<body class="bg-slate-50 dark:bg-slate-900 flex flex-col min-h-screen transition-colors duration-500" x-data="{ mobileMenuOpen: false, darkMode: document.documentElement.classList.contains('dark') }" x-init="$watch('darkMode', val => { if(val){ document.documentElement.classList.add('dark'); localStorage.theme = 'dark'; } else { document.documentElement.classList.remove('dark'); localStorage.theme = 'light'; } })">
 
-    <!-- Top Alert Bar -->
-    <div class="bg-slate-900 text-white text-xs sm:text-sm py-2 px-4 text-center font-medium tracking-wide relative z-50">
-        Pusat Informasi dan Pendaftaran Unit Kegiatan Mahasiswa (UKM) Resmi Kampus
+    <div class="bg-slate-800 dark:bg-indigo-950 text-white text-xs sm:text-sm py-2 px-4 text-center fixed w-full z-[60] font-medium tracking-wide shadow-sm transition-colors duration-300">
+        <i class="fa-solid fa-bullhorn mr-2 text-amber-400"></i> Pusat Informasi dan Pendaftaran Unit Kegiatan Mahasiswa (UKM) Resmi Kampus
     </div>
 
-    <!-- Navigation -->
-    <nav class="bg-white border-b border-gray-200 sticky top-0 z-40">
+    <nav class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-100 dark:border-slate-800 fixed w-full z-50 top-8 sm:top-9 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 
-                <!-- Logo & Brand -->
-                <a href="{{ url('/') }}" class="flex items-center gap-3 group">
-                    <img src="{{ asset('images/logopnc.png') }}" alt="Logo Kampus" class="h-9 w-auto object-contain transition-transform group-hover:opacity-90">
-                    <div class="hidden sm:flex flex-col border-l border-gray-300 pl-3">
-                        <span class="font-bold text-lg leading-none tracking-tight text-slate-900">Portal SIM-UKM</span>
-                        <span class="text-xs text-slate-500 mt-1 font-medium">Wadah Pengembangan Minat & Bakat</span>
+                <a href="{{ url('/') }}" class="flex items-center gap-3">
+                    <img src="{{ asset('images/logopnc.png') }}" alt="Logo Kampus" class="h-10 w-auto object-contain">
+                    <div class="hidden sm:flex flex-col border-l-2 border-gray-100 dark:border-slate-700 pl-3">
+                        <span class="font-bold text-lg text-slate-800 dark:text-slate-100 leading-none">Portal SIM-UKM</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Wadah Pengembangan Minat & Bakat</span>
                     </div>
                 </a>
 
-                <div class="flex items-center gap-6">
+                <div class="flex items-center gap-4">
+                    <!-- Dark Mode Toggle -->
+                    <button @click="darkMode = !darkMode" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:text-sky-500 dark:text-slate-400 dark:hover:text-sky-400 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-all shadow-inner">
+                        <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+                    </button>
+
                     <!-- Desktop Navigation -->
-                    <div class="hidden md:flex items-center gap-6">
+                    <div class="hidden md:flex items-center">
                         @auth
                             @if(Auth::user()->role === 'super_admin')
-                                <a href="{{ route('superadmin.dashboard') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Pusat Komando</a>
+                                <a href="{{ route('superadmin.dashboard') }}" class="text-gray-600 dark:text-slate-300 hover:text-amber-500 dark:hover:text-amber-400 font-medium mr-4 transition">Pusat Komando</a>
                             @elseif(Auth::user()->role === 'admin_ukm')
-                                <a href="{{ route('admin-ukm.dashboard') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Dashboard Admin</a>
+                                <a href="{{ route('admin-ukm.dashboard') }}" class="text-gray-600 dark:text-slate-300 hover:text-sky-500 dark:hover:text-sky-400 font-medium mr-4 transition">Dashboard Admin</a>
                             @else
-                                <a href="{{ route('member.dashboard') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Portal Member</a>
+                                <a href="{{ route('member.dashboard') }}" class="text-gray-600 dark:text-slate-300 hover:text-sky-500 dark:hover:text-sky-400 font-medium mr-4 transition">Portal Member</a>
                             @endif
                             
                             <form action="{{ route('logout') }}" method="POST" class="inline">
                                 @csrf
-                                <button type="submit" class="text-sm font-medium text-red-600 hover:text-red-700 transition-colors">Sign Out</button>
+                                <button type="submit" class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-100 dark:hover:bg-red-900/50 transition">Logout</button>
                             </form>
                         @else
-                            <a href="{{ route('login') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">Sign In</a>
-                            <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-slate-900 hover:bg-slate-800 shadow-sm transition-colors">
-                                Daftar Anggota
-                            </a>
+                            <a href="{{ route('login') }}" class="text-gray-600 dark:text-slate-300 hover:text-sky-500 dark:hover:text-sky-400 font-medium mr-6 transition">Login</a>
+                            <a href="{{ route('register') }}" class="hidden md:inline-flex items-center px-6 py-2.5 border border-transparent text-sm font-bold rounded-xl text-white bg-gradient-to-r from-blue-400 to-sky-300 transition-all duration-300 shadow-lg shadow-blue-400/40 hover:-translate-y-1 hover:brightness-110">Daftar Anggota</a>
                         @endauth
                     </div>
 
                     <!-- Mobile Menu Button -->
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-slate-500 hover:text-slate-900 focus:outline-none p-1">
-                        <i class="fa-solid text-xl" :class="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-500 dark:text-slate-400 hover:text-sky-500 dark:hover:text-sky-400 focus:outline-none">
+                        <i class="fa-solid text-2xl" :class="mobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- Mobile Navigation Menu -->
-        <div x-show="mobileMenuOpen" x-transition.opacity style="display: none;" class="md:hidden bg-white border-b border-gray-200 absolute w-full left-0 top-full shadow-lg z-50">
-            <div class="px-4 pt-4 pb-6 space-y-3">
+        <div x-show="mobileMenuOpen" x-transition.opacity style="display: none;" class="md:hidden bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 shadow-lg absolute w-full left-0 top-full">
+            <div class="px-4 pt-4 pb-6 space-y-4">
                 @auth
                     @if(Auth::user()->role === 'super_admin')
-                        <a href="{{ route('superadmin.dashboard') }}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-900 hover:bg-gray-50">Pusat Komando</a>
+                        <a href="{{ route('superadmin.dashboard') }}" class="block text-gray-800 dark:text-slate-200 hover:text-amber-500 font-medium text-lg">Pusat Komando</a>
                     @elseif(Auth::user()->role === 'admin_ukm')
-                        <a href="{{ route('admin-ukm.dashboard') }}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-900 hover:bg-gray-50">Dashboard Admin</a>
+                        <a href="{{ route('admin-ukm.dashboard') }}" class="block text-gray-800 dark:text-slate-200 hover:text-sky-500 font-medium text-lg">Dashboard Admin</a>
                     @else
-                        <a href="{{ route('member.dashboard') }}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-900 hover:bg-gray-50">Portal Member</a>
+                        <a href="{{ route('member.dashboard') }}" class="block text-gray-800 dark:text-slate-200 hover:text-sky-500 font-medium text-lg">Portal Member</a>
                     @endif
                     <form action="{{ route('logout') }}" method="POST" class="block w-full">
                         @csrf
-                        <button type="submit" class="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-600 hover:bg-red-50">Sign Out</button>
+                        <button type="submit" class="w-full text-left bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg text-base font-medium hover:bg-red-100 transition">Logout</button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-900 hover:bg-gray-50">Sign In</a>
-                    <a href="{{ route('register') }}" class="block w-full text-center px-4 py-2 mt-2 border border-transparent text-base font-medium rounded-md text-white bg-slate-900 hover:bg-slate-800">Daftar Anggota</a>
+                    <a href="{{ route('login') }}" class="block text-center text-gray-800 dark:text-slate-200 hover:bg-gray-50 dark:hover:bg-slate-800 px-4 py-3 rounded-lg font-medium border border-gray-200 dark:border-slate-700">Login</a>
+                    <a href="{{ route('register') }}" class="block text-center bg-sky-500 dark:bg-sky-600 text-white px-4 py-3 rounded-lg font-medium shadow-sm transition-colors hover:bg-sky-600 dark:hover:bg-sky-500">Daftar Anggota</a>
                 @endauth
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="flex-grow flex flex-col items-center justify-center pt-24 pb-20 relative overflow-hidden">
+    <main class="flex-grow flex items-center justify-center pt-24 pb-12 min-h-[85vh] relative overflow-hidden">
         
-        <!-- Subtle Background Pattern (Dot Grid) -->
-        <div class="absolute inset-0 z-0 pointer-events-none opacity-[0.03]" style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 24px 24px;"></div>
+        <!-- Background Ornaments (Glassmorphism & Gradients) matched to Logo PNC -->
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-sky-300 dark:bg-blue-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-40 animate-pulse"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-slate-300 dark:bg-purple-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-40 animate-pulse" style="animation-delay: 2s;"></div>
+        <div class="absolute top-[20%] right-[10%] w-72 h-72 bg-amber-300 dark:bg-pink-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 4s;"></div>
 
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center">
             
-            <div class="py-12 lg:py-16 animate-[fade-in-up_1s_ease-out]">
-                <!-- Clean Enterprise Typography -->
-                <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.1]">
-                    Eksplorasi Bakatmu <br class="hidden sm:block">
-                    <span class="text-blue-600">Bersama SIM-UKM</span>
+            <div class="py-12 lg:py-20 animate-[fade-in-up_1s_ease-out]">
+                <!-- Huge Gradient Text -->
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight mb-6">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-amber-500 drop-shadow-sm">
+                        Eksplorasi Bakatmu
+                    </span>
+                    <br>
+                    <span class="text-slate-800 dark:text-white mt-2 block transition-colors">Bersama SIM-UKM</span>
                 </h1>
                 
-                <p class="text-lg md:text-xl text-slate-500 max-w-3xl mx-auto mb-16 font-normal leading-relaxed">
-                    Portal resmi dan terpadu untuk pendaftaran serta informasi seluruh Unit Kegiatan Mahasiswa (UKM). Kembangkan potensimu, temukan relasi baru, dan jadilah bagian dari inovasi kampus.
+                <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto mb-14 font-light leading-relaxed transition-colors">
+                    Portal resmi dan terpadu untuk pendaftaran serta informasi seluruh Unit Kegiatan Mahasiswa (UKM). Kembangkan potensimu, temukan relasi baru, dan jadilah bagian dari perubahan.
                 </p>
 
-                <!-- Enterprise Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto text-left">
+                <!-- Interactive Pill/Card Buttons -->
+                <div class="flex flex-col md:flex-row justify-center items-stretch gap-6 mt-8">
                     
                     <!-- Eksplorasi UKM -->
-                    <a href="{{ route('ukm.explore') }}" class="group block bg-white border border-slate-200 rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/50 hover:border-slate-300">
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-compass text-lg"></i>
+                    <a href="{{ route('ukm.explore') }}" class="group relative px-6 py-5 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md border border-gray-100 dark:border-slate-700 rounded-2xl shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 w-full md:w-auto flex flex-col items-center justify-center">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-sky-400 to-sky-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
+                        <div class="relative flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                            <div class="w-12 h-12 rounded-full bg-sky-50 dark:bg-sky-900/30 text-sky-500 dark:text-sky-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                                <i class="fa-solid fa-compass text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="font-bold text-slate-900 text-lg mb-1 group-hover:text-blue-600 transition-colors">Eksplorasi UKM</h3>
-                                <p class="text-sm text-slate-500 leading-snug mb-3">Temukan UKM yang sesuai dengan minat dan bakatmu.</p>
-                                <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-semibold text-slate-700 bg-slate-100 rounded">
-                                    {{ $total_ukm }} UKM Aktif
-                                </span>
+                                <span class="block text-slate-800 dark:text-slate-100 font-bold text-lg leading-tight transition-colors">Eksplorasi UKM</span>
+                                <span class="block text-sky-600 dark:text-sky-400 text-xs font-semibold mt-1 bg-sky-50 dark:bg-sky-900/50 px-2 py-0.5 rounded-md inline-block">{{ $total_ukm }} UKM Aktif</span>
                             </div>
                         </div>
                     </a>
                     
                     <!-- Daftar UKM Baru -->
-                    <a href="{{ route('pengajuan.create') }}" class="group block bg-white border border-slate-200 rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/50 hover:border-slate-300">
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded bg-slate-100 text-slate-700 flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-rocket text-lg"></i>
+                    <a href="{{ route('pengajuan.create') }}" class="group relative px-6 py-5 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md border border-gray-100 dark:border-slate-700 rounded-2xl shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 w-full md:w-auto flex flex-col items-center justify-center">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-amber-400 to-amber-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
+                        <div class="relative flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                            <div class="w-12 h-12 rounded-full bg-amber-50 dark:bg-amber-900/30 text-amber-500 dark:text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                                <i class="fa-solid fa-rocket text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="font-bold text-slate-900 text-lg mb-1 group-hover:text-slate-700 transition-colors">Inisiasi UKM</h3>
-                                <p class="text-sm text-slate-500 leading-snug">Ajukan proposal pembentukan UKM baru di kampus.</p>
+                                <span class="block text-slate-800 dark:text-slate-100 font-bold text-lg leading-tight transition-colors">Inisiasi UKM</span>
+                                <span class="block text-slate-500 dark:text-slate-400 text-xs mt-1 transition-colors">Daftarkan UKM Baru</span>
                             </div>
                         </div>
                     </a>
 
                     <!-- Saran UKM -->
-                    <a href="{{ route('masukan.create') }}" class="group block bg-white border border-slate-200 rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-200/50 hover:border-slate-300">
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded bg-slate-100 text-slate-700 flex items-center justify-center shrink-0">
-                                <i class="fa-regular fa-comment-dots text-lg"></i>
+                    <a href="{{ route('masukan.create') }}" class="group relative px-6 py-5 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md border border-gray-100 dark:border-slate-700 rounded-2xl shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 w-full md:w-auto flex flex-col items-center justify-center">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-slate-400 to-slate-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
+                        <div class="relative flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                            <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-900/30 text-slate-600 dark:text-slate-400 flex items-center justify-center group-hover:scale-110 transition-transform shrink-0">
+                                <i class="fa-regular fa-comment-dots text-xl"></i>
                             </div>
                             <div>
-                                <h3 class="font-bold text-slate-900 text-lg mb-1 group-hover:text-slate-700 transition-colors">Beri Masukan</h3>
-                                <p class="text-sm text-slate-500 leading-snug">Kirimkan saran atau kritik untuk pengembangan layanan.</p>
+                                <span class="block text-slate-800 dark:text-slate-100 font-bold text-lg leading-tight transition-colors">Beri Masukan</span>
+                                <span class="block text-slate-500 dark:text-slate-400 text-xs mt-1 transition-colors">Saran untuk Portal</span>
                             </div>
                         </div>
                     </a>
 
                 </div>
             </div>
+
         </div>
     </main>
 
     <style>
         @keyframes fade-in-up {
-            0% { opacity: 0; transform: translateY(15px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 
-    <footer class="bg-white border-t border-gray-200 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-slate-500">
-            <p>&copy; {{ date('Y') }} SIM-UKM. All rights reserved.</p>
+    <footer class="bg-slate-900 text-slate-400 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>&copy; {{ date('Y') }} Portal Mahasiswa. By Sananta Hak Cipta Dilindungi.</p>
+             <p class="mt-2">Dibangun dengan Laravel & Tailwind CSS.</p>
         </div>
     </footer>
 
