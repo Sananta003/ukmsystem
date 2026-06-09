@@ -1,9 +1,9 @@
 @props(['role' => 'member', 'icon' => null])
 
 @php
-    $bg = 'bg-gray-100';
-    $text = 'text-gray-600';
-    $border = 'border-gray-200';
+    $bg = 'bg-sky-100';
+    $text = 'text-sky-700';
+    $border = 'border-sky-200';
     $defaultIcon = 'fa-user';
 
     switch (strtolower($role)) {
@@ -15,28 +15,28 @@
             $defaultIcon = 'fa-shield-halved';
             break;
         case 'bpm':
-            $bg = 'bg-orange-50';
-            $text = 'text-orange-700';
-            $border = 'border-orange-200';
+            $bg = 'bg-amber-100';
+            $text = 'text-amber-700';
+            $border = 'border-amber-200';
             $defaultIcon = 'fa-clipboard-check';
             break;
         case 'bem':
-            $bg = 'bg-green-50';
-            $text = 'text-green-700';
-            $border = 'border-green-200';
+            $bg = 'bg-emerald-100';
+            $text = 'text-emerald-700';
+            $border = 'border-emerald-200';
             $defaultIcon = 'fa-check-double';
             break;
         case 'admin_ukm':
-            $bg = 'bg-blue-50';
+            $bg = 'bg-blue-100';
             $text = 'text-blue-700';
             $border = 'border-blue-200';
             $defaultIcon = 'fa-user-tie';
             break;
         case 'member':
         case 'inisiator':
-            $bg = 'bg-gray-100';
-            $text = 'text-gray-600';
-            $border = 'border-gray-200';
+            $bg = 'bg-sky-100';
+            $text = 'text-sky-700';
+            $border = 'border-sky-200';
             $defaultIcon = 'fa-user';
             break;
     }
@@ -44,7 +44,7 @@
     $finalIcon = $icon ?? $defaultIcon;
 @endphp
 
-<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-medium tracking-wide {{ $bg }} {{ $text }} border {{ $border }}">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold {{ $bg }} {{ $text }} border {{ $border }}">
     @if($finalIcon)
         <i class="fa-solid {{ $finalIcon }}"></i>
     @endif
